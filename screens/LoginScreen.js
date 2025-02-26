@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import Svg, { Line } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
 import { isValidEmail, isValidPassword } from "../utils/validation";
