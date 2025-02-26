@@ -3,6 +3,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import SplashScreen from "./screens/SplashScreen";
 import SingUpScreen from "./screens/SingUpScreen";
+import TermsScreen from "./screens/TermsScreen";
+import PrivacyScreen from "./screens/PrivacyScreen";
+import LoginScreen from "./screens/LoginScreen";
 import * as Font from "expo-font";
 import { StatusBar } from "expo-status-bar";
 
@@ -37,10 +40,25 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SingUpScreen">
+      <Stack.Navigator initialRouteName="LoginScreen">
         <Stack.Screen
           name="SingUpScreen"
           component={SingUpScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="TermsScreen"
+          component={TermsScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PrivacyScreen"
+          component={PrivacyScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="LoginScreen"
+          component={LoginScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

@@ -7,7 +7,7 @@ const carIcon = require("../assets/img/Logo.jpg");
 const SplashScreen = () => {
   return (
     <View style={styles.container}>
-        <Image source={carIcon} style={{ width: 300, height: 300 }} />
+      <Image source={carIcon} style={{ width: 300, height: 300 }} />
       <Text style={styles.title}>Carpooling</Text>
       <Text style={styles.title}>UCO</Text>
       <ActivityIndicator size="large" color="#00473B" />

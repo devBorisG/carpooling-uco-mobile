@@ -10,13 +10,17 @@ const singUpIcon = require("../assets/img/SingUp.jpg");
 const SingUpScreen = () => {
   const navigation = useNavigation();
   const [correo, setCorreo] = useState("");
-  const [nombre, setNombre] = useState("");
   const [celular, setCelular] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   // Estados para manejar los errores de validación
   const [correoErrorMsg, setCorreoErrorMsg] = useState(false);
-  const [nombreErrorMsg, setNombreErrorMsg] = useState(false);
   const [celularErrorMsg, setCelularErrorMsg] = useState(false);
+  const [passwordErrorMsg, setPasswordErrorMsg] = useState(false);
+  const [confirmPasswordErrorMsg, setConfirmPasswordErrorMsg] = useState(false);
+
 
   // Validación al perder el foco de cada campo
   const validateEmail = () => {
@@ -28,14 +32,6 @@ const SingUpScreen = () => {
     }
   };
 
-  const validateNombre = () => {
-    if (nombre.trim() === "") {
-      setNombreErrorMsg("El nombre es obligatorio");
-    } else {
-      setNombreErrorMsg("");
-    }
-  };
-
   const validateCelular = () => {
     if (celular.trim().length < 10) {
       setCelularErrorMsg("El número de celular debe tener al menos 10 dígitos");
@@ -44,19 +40,38 @@ const SingUpScreen = () => {
     }
   };
 
+  const validatePassword = () => {
+    if (password.trim().length < 6) {
+      setPasswordErrorMsg("La contraseña debe tener al menos 6 caracteres");
+    } else {
+      setPasswordErrorMsg("");
+    }
+  };
+
+  const validateConfirmPassword = () => {
+    if (confirmPassword !== password) {
+      setConfirmPasswordErrorMsg("Las contraseñas no coinciden");
+    } else {
+      setConfirmPasswordErrorMsg("");
+    }
+  };
+
   // Validación global del formulario al presionar el botón
   const validateForm = () => {
     validateEmail();
-    validateNombre();
     validateCelular();
+    validatePassword();
+    validateConfirmPassword();
     // Verificamos que no existan mensajes de error
     return (
       correoErrorMsg === "" &&
-      nombreErrorMsg === "" &&
       celularErrorMsg === "" &&
+      passwordErrorMsg === "" &&
+      confirmPasswordErrorMsg === "" &&
       correo &&
-      nombre &&
-      celular
+      celular &&
+      password &&
+      confirmPassword
     );
   };
 
@@ -65,7 +80,7 @@ const SingUpScreen = () => {
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.backButton}
-          onPress={() => navigation.navigate("SingUpScreen")}
+          onPress={() => navigation.goBack()}
         >
           <Feather name="arrow-left" size={45} color="#042940" />
         </TouchableOpacity>
@@ -91,62 +106,95 @@ const SingUpScreen = () => {
         {/* Formulario */}
         <View style={styles.formContainer}>
           {/* Campo Correo */}
-          <View style={styles.inputContainer}>
-            <Feather
-              name="mail"
-              size={20}
-              color="#BEBEBE"
-              style={styles.inputIcon}
-            />
-            <TextInput
-              style={[styles.input, correoErrorMsg && { borderColor: "red" }]}
-              placeholder="Ingresar correo*"
-              keyboardType="email-address"
-              value={correo}
-              onChangeText={(text) => {
-                setCorreo(text);
-                if (correoErrorMsg) setCorreoErrorMsg("");
-              }}
-              onBlur={validateEmail}
-              placeholderTextColor="#999"
-            />
+          <View style={styles.inputContainerMargin}>
+            <View style={styles.inputContainer}>
+              <Feather
+                name="mail"
+                size={20}
+                color="#BEBEBE"
+                style={styles.inputIcon}
+              />
+              <TextInput
+                style={[styles.input, correoErrorMsg && { borderColor: "red" }]}
+                placeholder="Ingresar correo*"
+                keyboardType="email-address"
+                value={correo}
+                onChangeText={(text) => {
+                  setCorreo(text);
+                  if (correoErrorMsg) setCorreoErrorMsg("");
+                }}
+                onBlur={validateEmail}
+                placeholderTextColor="#999"
+              />
+            </View>
+            {correoErrorMsg ? <Text style={styles.errorText}>{correoErrorMsg}</Text> : null}
           </View>
-          {correoErrorMsg ? <Text style={styles.errorText}>{correoErrorMsg}</Text> : null}
-
-          {/* Campo Nombre */}
-          <View style={styles.inputContainer}>
-            <Feather name="user" size={20} color="#BEBEBE" style={styles.inputIcon} />
-            <TextInput
-              style={[styles.input, nombreErrorMsg && { borderColor: "red" }]}
-              placeholder="Ingresar nombre*"
-              value={nombre}
-              onChangeText={(text) => {
-                setNombre(text);
-                if (nombreErrorMsg) setNombreErrorMsg("");
-              }}
-              onBlur={validateNombre}
-              placeholderTextColor="#999"
-            />
-          </View>
-          {nombreErrorMsg ? <Text style={styles.errorText}>{nombreErrorMsg}</Text> : null}
 
           {/* Campo Celular */}
-          <View style={styles.inputContainer}>
-            <Feather name="phone" size={20} color="#BEBEBE" style={styles.inputIcon} />
-            <TextInput
-              style={[styles.input, celularErrorMsg && { borderColor: "red" }]}
-              placeholder="Ingresar número celular*"
-              keyboardType="phone-pad"
-              value={celular}
-              onChangeText={(text) => {
-                setCelular(text);
-                if (celularErrorMsg) setCelularErrorMsg("");
-              }}
-              onBlur={validateCelular}
-              placeholderTextColor="#999"
-            />
+          <View style={styles.inputContainerMargin}>
+            <View style={styles.inputContainer}>
+              <Feather name="phone" size={20} color="#BEBEBE" style={styles.inputIcon} />
+              <TextInput
+                style={[styles.input, celularErrorMsg && { borderColor: "red" }]}
+                placeholder="Ingresar número celular*"
+                keyboardType="phone-pad"
+                value={celular}
+                onChangeText={(text) => {
+                  setCelular(text);
+                  if (celularErrorMsg) setCelularErrorMsg("");
+                }}
+                onBlur={validateCelular}
+                placeholderTextColor="#999"
+              />
+            </View>
+            {celularErrorMsg ? <Text style={styles.errorText}>{celularErrorMsg}</Text> : null}
           </View>
-          {celularErrorMsg ? <Text style={styles.errorText}>{celularErrorMsg}</Text> : null}
+
+          {/* Campo Contraseña */}
+          <View style={styles.inputContainerMargin}>
+            <View style={styles.inputContainer}>
+              <Feather name="lock" size={20} color="#BEBEBE" style={styles.inputIcon} />
+              <TextInput
+                style={[styles.input, passwordErrorMsg && { borderColor: "red" }]}
+                placeholder="Ingresar contraseña*"
+                secureTextEntry={!showPassword}
+                value={password}
+                onChangeText={(text) => {
+                  setPassword(text);
+                  if (passwordErrorMsg) setPasswordErrorMsg("");
+                }}
+                onBlur={validatePassword}
+                placeholderTextColor="#999"
+              />
+                            <TouchableOpacity
+                style={styles.eyeButton}
+                onPress={() => setShowPassword(!showPassword)}
+              >
+                <Feather name={showPassword ? "eye" : "eye-off"} size={15} color="#BEBEBE" />
+              </TouchableOpacity>
+            </View>
+            {passwordErrorMsg ? <Text style={styles.errorText}>{passwordErrorMsg}</Text> : null}
+          </View>
+
+          {/* Campo Confirmar Contraseña */}
+          <View style={styles.inputContainerMargin}>
+            <View style={styles.inputContainer}>
+              <Feather name="lock" size={20} color="#BEBEBE" style={styles.inputIcon} />
+              <TextInput
+                style={[styles.input, confirmPasswordErrorMsg && { borderColor: "red" }]}
+                placeholder="Repetir contraseña*"
+                secureTextEntry
+                value={confirmPassword}
+                onChangeText={(text) => {
+                  setConfirmPassword(text);
+                  if (confirmPasswordErrorMsg) setConfirmPasswordErrorMsg("");
+                }}
+                onBlur={validateConfirmPassword}
+                placeholderTextColor="#999"
+              />
+            </View>
+            {confirmPasswordErrorMsg ? <Text style={styles.errorText}>{confirmPasswordErrorMsg}</Text> : null}
+          </View>
 
         </View>
 
@@ -173,7 +221,7 @@ const SingUpScreen = () => {
           style={styles.button}
           onPress={() => {
             if (validateForm()) {
-              navigation.navigate("LoginScreen");
+              console.log("Formulario válido");
             }
           }}
         >
@@ -201,17 +249,24 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  inputContainerMargin: {
+    marginBottom: 10,
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     paddingHorizontal: 20,
     paddingTop: 50,
+    width: "100%",
   },
   backButton: {
     position: "absolute",
     top: 30,
     left: 10,
+  },
+  eyeButton: {
+    paddingTop: 10
   },
   image: {
     width: 280,
@@ -233,6 +288,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   inputContainer: {
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 5,
@@ -240,6 +296,7 @@ const styles = StyleSheet.create({
   },
   inputIcon: {
     marginRight: 10,
+    marginTop: 10
   },
   input: {
     flex: 1,
@@ -248,6 +305,7 @@ const styles = StyleSheet.create({
     color: "#000",
     borderBottomWidth: 1,
     borderColor: "#BEBEBE",
+    paddingBottom: 0
   },
   termsText: {
     fontSize: 14,
@@ -267,6 +325,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginBottom: 20,
     width: "100%",
+    alignSelf: "stretch",
     alignItems: "center",
   },
   buttonText: {
@@ -281,7 +340,6 @@ const styles = StyleSheet.create({
     color: "red",
     fontSize: 12,
     marginLeft: 45,
-    marginBottom: 5,
   },
 });
 
