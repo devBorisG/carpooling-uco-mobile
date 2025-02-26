@@ -1,18 +1,51 @@
 /* eslint-disable */
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Button from "../components/Button";
 import BackButton from "../components/BackButton";
+import * as Location from "expo-location";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 const AllowLocationScreen = () => {
     const navigation = useNavigation();
 
-    const handleAllowLocation = () => {
-        // Aquí debes implementar la solicitud real de permisos de ubicación
-        console.log("Permiso de ubicación solicitado");
-        navigation.navigate("LoginScreen");
+    const defaultLocation = {
+        latitude: 6.17807,
+        longitude: -75.6193,
+    };
+
+    const handleAllowLocation = async () => {
+        try {
+            // Solicita permisos de ubicación en primer plano
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== "granted") {
+                // Si no se concede el permiso, mostramos un aviso y usamos ubicación por defecto
+                Alert.alert(
+                    "Permiso denegado",
+                    "No se pudo acceder a tu ubicación. Se usará una ubicación por defecto.",
+                    [{ text: "OK" }]
+                );
+                await AsyncStorage.setItem("userLocation", JSON.stringify(defaultLocation));
+                navigation.navigate("HomeScreen");
+                return;
+            }
+            // Obtener la ubicación actual
+            let location = await Location.getCurrentPositionAsync({});
+            console.log("Ubicación obtenida:", location.coords);
+            await AsyncStorage.setItem("userLocation", JSON.stringify(location.coords));
+            navigation.navigate("HomeScreen");
+        } catch (error) {
+            console.error("Error al obtener la ubicación:", error);
+            Alert.alert(
+                "Error",
+                "Ocurrió un error al obtener tu ubicación. Se usará una ubicación por defecto.",
+                [{ text: "OK" }]
+            );
+            await AsyncStorage.setItem("userLocation", JSON.stringify(defaultLocation));
+            navigation.navigate("HomeScreen");
+        }
     };
 
     return (
@@ -47,11 +80,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         justifyContent: "center",
     },
-    backButton: {
-        position: "absolute",
-        top: 30,
-        left: 10,
-    },
     image: {
         width: 280,
         height: 280,
@@ -71,12 +99,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
         paddingHorizontal: 20,
         marginBottom: 30,
-    },
-    locationButton: {
-        marginBottom: 20,
-    },
-    locationButtonText: {
-        fontSize: 22,
     },
     skipText: {
         fontSize: 22,
