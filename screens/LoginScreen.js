@@ -4,6 +4,9 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Image 
 import Svg, { Line } from "react-native-svg";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { isValidEmail, isValidPassword } from "../utils/validation";
+import BackButton from "../components/BackButton";
+import ValidatedInput from "../components/ValidatedInput";
 
 const loginIcon = require("../assets/img/Login.jpg");
 
@@ -12,14 +15,11 @@ const LoginScreen = () => {
     const [correo, setCorreo] = useState("");
     const [password, setPassword] = useState("");
 
-    // Estados para manejar los errores de validación
     const [correoErrorMsg, setCorreoErrorMsg] = useState("");
     const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
 
-    // Validación al perder el foco de cada campo
     const validateEmail = () => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(correo)) {
+        if (!isValidEmail(correo)) {
             setCorreoErrorMsg("Ingresa un correo válido");
         } else {
             setCorreoErrorMsg("");
@@ -27,7 +27,7 @@ const LoginScreen = () => {
     };
 
     const validatePassword = () => {
-        if (password.trim().length < 6) {
+        if (!isValidPassword(password)) {
             setPasswordErrorMsg("La contraseña debe tener al menos 6 caracteres");
         } else {
             setPasswordErrorMsg("");
@@ -49,12 +49,7 @@ const LoginScreen = () => {
     return (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
             <View style={styles.container}>
-                <TouchableOpacity
-                    style={styles.backButton}
-                    onPress={() => navigation.goBack()}
-                >
-                    <Feather name="arrow-left" size={45} color="#042940" />
-                </TouchableOpacity>
+                <BackButton />
                 <Image source={loginIcon} style={styles.image} />
                 <Text style={styles.title}>Ingresar</Text>
 
@@ -76,41 +71,29 @@ const LoginScreen = () => {
 
                 {/* Formulario */}
                 <View style={styles.formContainer}>
-                    {/* Campo Correo */}
-                    <View style={styles.inputContainer}>
-                        <Feather name="mail" size={20} color="#BEBEBE" style={styles.inputIcon} />
-                        <TextInput
-                            style={[styles.input, correoErrorMsg && { borderColor: "red" }]}
-                            placeholder="Ingresar correo*"
-                            keyboardType="email-address"
-                            value={correo}
-                            onChangeText={(text) => {
-                                setCorreo(text);
-                                if (correoErrorMsg) setCorreoErrorMsg("");
-                            }}
-                            onBlur={validateEmail}
-                            placeholderTextColor="#999"
-                        />
-                    </View>
-                    {correoErrorMsg ? <Text style={styles.errorText}>{correoErrorMsg}</Text> : null}
-
-                    {/* Campo Contraseña */}
-                    <View style={styles.inputContainer}>
-                        <Feather name="lock" size={10} color="#BEBEBE" style={styles.inputIcon} />
-                        <TextInput
-                            style={[styles.input, passwordErrorMsg && { borderColor: "red" }]}
-                            placeholder="Ingresar contraseña*"
-                            secureTextEntry
-                            value={password}
-                            onChangeText={(text) => {
-                                setPassword(text);
-                                if (passwordErrorMsg) setPasswordErrorMsg("");
-                            }}
-                            onBlur={validatePassword}
-                            placeholderTextColor="#999"
-                        />
-                    </View>
-                    {passwordErrorMsg ? <Text style={styles.errorText}>{passwordErrorMsg}</Text> : null}
+                    <ValidatedInput
+                        icon="mail"
+                        placeholder="Ingresar correo*"
+                        value={correo}
+                        onChangeText={(text) => {
+                            setCorreo(text);
+                            if (correoErrorMsg) setCorreoErrorMsg("");
+                        }}
+                        onBlur={validateEmail}
+                        errorMsg={correoErrorMsg}
+                    />
+                    <ValidatedInput
+                        icon="lock"
+                        placeholder="Ingresar contraseña*"
+                        secureTextEntry
+                        value={password}
+                        onChangeText={(text) => {
+                            setPassword(text);
+                            if (passwordErrorMsg) setPasswordErrorMsg("");
+                        }}
+                        onBlur={validatePassword}
+                        errorMsg={passwordErrorMsg}
+                    />
                 </View>
 
                 {/* Botón Ingresar */}
@@ -154,11 +137,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 50,
     },
-    backButton: {
-        position: "absolute",
-        top: 30,
-        left: 10,
-    },
     image: {
         width: 280,
         height: 280,
@@ -175,30 +153,6 @@ const styles = StyleSheet.create({
     formContainer: {
         width: "100%",
         marginBottom: 20,
-    },
-    inputContainer: {
-        width: "100%",
-        flexDirection: "row",
-        alignItems: "center",
-        marginBottom: 5,
-        paddingHorizontal: 10,
-    },
-    inputIcon: {
-        marginRight: 10,
-    },
-    input: {
-        flex: 1,
-        height: 45,
-        fontFamily: "montserrat-regular",
-        color: "#000",
-        borderBottomWidth: 1,
-        borderColor: "#BEBEBE",
-    },
-    errorText: {
-        color: "red",
-        fontSize: 12,
-        marginLeft: 45,
-        marginBottom: 5,
     },
     button: {
         backgroundColor: "#00473B",
