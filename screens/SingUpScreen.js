@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: "center",
     marginBottom: 20,
-    fontFamily: "montserrat-regular",
+    fontFamily: "montserrat-semibold",
   },
   link: {
     textDecorationLine: "underline",

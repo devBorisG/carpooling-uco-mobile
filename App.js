@@ -18,6 +18,7 @@ const fetchFonts = () => {
   return Font.loadAsync({
     "montserrat-regular": require("./assets/fonts/Montserrat-Regular.ttf"),
     "montserrat-bold": require("./assets/fonts/Montserrat-Bold.ttf"),
+    "montserrat-semibold": require("./assets/fonts/Montserrat-SemiBold.ttf"),
   });
 };
 
