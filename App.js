@@ -1,20 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect } from "react";
+import SplashScreen from "./screens/SplashScreen";
+import MainScreen from "./screens/MainScreen";
+import * as Font from "expo-font";
+import { StatusBar } from "expo-status-bar";
+
+// Función para cargar las fuentes
+const fetchFonts = () => {
+  return Font.loadAsync({
+    "montserrat-regular": require("./assets/fonts/Montserrat-Regular.ttf"),
+    "montserrat-bold": require("./assets/fonts/Montserrat-Bold.ttf"),
+  });
+};
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [fontLoaded, setFontLoaded] = useState(false);
+
+  useEffect(() => {
+    // Simula la carga de datos o la inicialización de la app
+    const loadResources = async () => {
+      // Aquí podrías realizar peticiones a APIs, cargar fuentes, etc.
+      await fetchFonts();
+      setFontLoaded(true);
+      // eslint-disable-next-line no-undef
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      setIsLoading(false);
+    };
+
+    loadResources();
+  }, []);
+
+  if (!fontLoaded || isLoading) {
+    return <SplashScreen />;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <>
+      <MainScreen />
       <StatusBar style="auto" />
-    </View>
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
