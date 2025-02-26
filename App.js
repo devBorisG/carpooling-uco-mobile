@@ -1,3 +1,4 @@
+import "react-native-get-random-values";
 import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -6,6 +7,7 @@ import SingUpScreen from "./screens/SingUpScreen";
 import TermsScreen from "./screens/TermsScreen";
 import PrivacyScreen from "./screens/PrivacyScreen";
 import LoginScreen from "./screens/LoginScreen";
+import VerificationScreen from "./screens/VerificationScreen";
 import * as Font from "expo-font";
 import { StatusBar } from "expo-status-bar";
 
@@ -59,6 +61,11 @@ export default function App() {
         <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="VerificationScreen"
+          component={VerificationScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

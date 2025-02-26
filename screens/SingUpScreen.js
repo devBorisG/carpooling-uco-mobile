@@ -221,7 +221,7 @@ const SingUpScreen = () => {
           style={styles.button}
           onPress={() => {
             if (validateForm()) {
-              console.log("Formulario válido");
+              navigation.navigate("VerificationScreen");
             }
           }}
         >
