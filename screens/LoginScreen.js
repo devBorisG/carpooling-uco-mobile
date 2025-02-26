@@ -1,12 +1,12 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from "react-native";
 import Svg, { Line } from "react-native-svg";
-import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { isValidEmail, isValidPassword } from "../utils/validation";
 import BackButton from "../components/BackButton";
 import ValidatedInput from "../components/ValidatedInput";
+import Button from "../components/Button";
 
 const loginIcon = require("../assets/img/Login.jpg");
 
@@ -97,16 +97,15 @@ const LoginScreen = () => {
                 </View>
 
                 {/* Botón Ingresar */}
-                <TouchableOpacity
-                    style={styles.button}
+                <Button
+                    title="Ingresar"
                     onPress={() => {
                         if (validateForm()) {
                             navigation.navigate("HomeScreen");
                         }
                     }}
-                >
-                    <Text style={styles.buttonText}>Ingresar</Text>
-                </TouchableOpacity>
+                    buttonStyle={{ width: "100%" }}
+                />
 
                 {/* Redirección a Registro */}
                 <Text style={styles.termsText}>
