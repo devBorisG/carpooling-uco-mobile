@@ -9,6 +9,8 @@ import TermsScreen from "./screens/TermsScreen";
 import PrivacyScreen from "./screens/PrivacyScreen";
 import LoginScreen from "./screens/LoginScreen";
 import VerificationScreen from "./screens/VerificationScreen";
+import OnboardingScreen from "./screens/OnboardingScreen";
+import AllowLocationScreen from "./screens/AllowLocationScreen";
 import * as Font from "expo-font";
 import { StatusBar } from "expo-status-bar";
 
@@ -44,7 +46,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="LoginScreen">
+      <Stack.Navigator initialRouteName="OnboardingScreen">
         <Stack.Screen
           name="SingUpScreen"
           component={SingUpScreen}
@@ -68,6 +70,16 @@ export default function App() {
         <Stack.Screen
           name="VerificationScreen"
           component={VerificationScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="OnboardingScreen"
+          component={OnboardingScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="AllowLocationScreen"
+          component={AllowLocationScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

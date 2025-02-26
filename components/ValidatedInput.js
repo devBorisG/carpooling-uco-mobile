@@ -57,10 +57,11 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: "#BEBEBE",
         paddingBottom: 0,
+        fontSize: 16,
     },
     errorText: {
         color: "red",
-        fontSize: 12,
+        fontSize: 13,
         marginLeft: 45,
     },
 });
