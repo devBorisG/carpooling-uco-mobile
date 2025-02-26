@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import SplashScreen from "./screens/SplashScreen";
-import MainScreen from "./screens/MainScreen";
+import SingUpScreen from "./screens/SingUpScreen";
 import * as Font from "expo-font";
 import { StatusBar } from "expo-status-bar";
 
-// Función para cargar las fuentes
+const Stack = createStackNavigator();
+
 const fetchFonts = () => {
   return Font.loadAsync({
     "montserrat-regular": require("./assets/fonts/Montserrat-Regular.ttf"),
@@ -17,9 +20,7 @@ export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
 
   useEffect(() => {
-    // Simula la carga de datos o la inicialización de la app
     const loadResources = async () => {
-      // Aquí podrías realizar peticiones a APIs, cargar fuentes, etc.
       await fetchFonts();
       setFontLoaded(true);
       // eslint-disable-next-line no-undef
@@ -35,9 +36,15 @@ export default function App() {
   }
 
   return (
-    <>
-      <MainScreen />
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="SingUpScreen">
+        <Stack.Screen
+          name="SingUpScreen"
+          component={SingUpScreen}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
       <StatusBar style="auto" />
-    </>
+    </NavigationContainer>
   );
 }
