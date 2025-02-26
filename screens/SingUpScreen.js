@@ -262,7 +262,8 @@ const styles = StyleSheet.create({
     color: "#000",
     borderBottomWidth: 1,
     borderColor: "#BEBEBE",
-    paddingBottom: 0
+    paddingBottom: 0,
+    fontSize: 16,
   },
   termsText: {
     fontSize: 14,
