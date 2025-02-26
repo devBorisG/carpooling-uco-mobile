@@ -48,7 +48,7 @@ const LoginScreen = () => {
     };
 
     return (
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
             <View style={styles.container}>
                 <BackButton />
                 <Image source={loginIcon} style={styles.image} />
