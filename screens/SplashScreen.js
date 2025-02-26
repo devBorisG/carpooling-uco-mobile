@@ -7,10 +7,9 @@ const carIcon = require("../assets/img/Logo.jpg");
 const SplashScreen = () => {
   return (
     <View style={styles.container}>
-      <Image source={carIcon} style={{ width: 300, height: 300 }} />
+      <Image source={carIcon} style={{ width: 300, height: 190 }} />
       <Text style={styles.title}>Carpooling</Text>
-      <Text style={styles.title}>UCO</Text>
-      <ActivityIndicator size="large" color="#00473B" />
+      <ActivityIndicator size="large" color="#00473B" style={{paddingTop:40}} />
     </View>
   );
 };
@@ -23,7 +22,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: 50,
+    fontSize: 70,
     color: "#00473B",
     fontFamily: "montserrat-bold",
   },

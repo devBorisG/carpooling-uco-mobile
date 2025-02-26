@@ -32,6 +32,7 @@ export default function App() {
     const loadResources = async () => {
       await fetchFonts();
       setFontLoaded(true);
+      // Una vez que las fuentes están cargadas, se espera el tiempo de splash
       // eslint-disable-next-line no-undef
       await new Promise((resolve) => setTimeout(resolve, 3000));
       setIsLoading(false);
@@ -40,7 +41,13 @@ export default function App() {
     loadResources();
   }, []);
 
-  if (!fontLoaded || isLoading) {
+  // Mientras las fuentes no se hayan cargado, no renderizamos nada (o podemos renderizar un indicador básico)
+  if (!fontLoaded) {
+    return null;
+  }
+
+  // Una vez cargadas las fuentes, mostramos la SplashScreen durante el tiempo definido
+  if (isLoading) {
     return <SplashScreen />;
   }
 
