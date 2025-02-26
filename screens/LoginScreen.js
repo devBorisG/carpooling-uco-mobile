@@ -7,6 +7,7 @@ import { isValidEmail, isValidPassword } from "../utils/validation";
 import BackButton from "../components/BackButton";
 import ValidatedInput from "../components/ValidatedInput";
 import Button from "../components/Button";
+import Entypo from "@expo/vector-icons/Entypo";
 
 const loginIcon = require("../assets/img/Login.jpg");
 
@@ -105,6 +106,7 @@ const LoginScreen = () => {
                         }
                     }}
                     buttonStyle={{ width: "100%" }}
+                    icon={<Entypo name="login" size={20} color="#fff" />}
                 />
 
                 {/* Redirección a Registro */}

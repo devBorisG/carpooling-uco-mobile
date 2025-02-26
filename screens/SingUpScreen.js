@@ -187,6 +187,7 @@ const SingUpScreen = () => {
             }
           }}
           buttonStyle={{ width: "100%" }}
+          icon={<Feather name="send" size={20} color="#fff" />}
         />
 
         {/* Ya esta registrado */}

@@ -6,6 +6,8 @@ import Svg, { Line } from "react-native-svg";
 import BackButton from "../components/BackButton";
 import OTPInput from "../components/OTPInput";
 import Button from "../components/Button";
+import Entypo from "@expo/vector-icons/Entypo";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 const optIcon = require("../assets/img/VerificationCode.jpg");
 
@@ -56,13 +58,15 @@ const VerificationScreen = () => {
                 <Button
                     title="Verificar"
                     onPress={handleVerify}
+                    icon={<Entypo name="check" size={24} color="#fff" />}
                 />
 
                 {/* Botón Reenviar código */}
                 <Button
                     title="Reenviar código"
                     onPress={handleResend}
-                    variant="resend"
+                    variant="secondary"
+                    icon={<MaterialCommunityIcons name="reload" size={24} color="#B0A9A9" />}
                 />
             </View>
         </ScrollView>
