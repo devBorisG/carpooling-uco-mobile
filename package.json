@@ -16,6 +16,7 @@
     "@react-navigation/stack": "^7.1.1",
     "carpooling-uco-mobile": "file:",
     "expo": "~52.0.37",
+    "expo-blur": "^14.0.3",
     "expo-font": "^13.0.4",
     "expo-location": "^18.0.7",
     "expo-status-bar": "~2.0.1",

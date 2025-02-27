@@ -35,7 +35,7 @@ const AllowLocationScreen = () => {
             let location = await Location.getCurrentPositionAsync({});
             console.log("Ubicación obtenida:", location.coords);
             await AsyncStorage.setItem("userLocation", JSON.stringify(location.coords));
-            navigation.navigate("HomeScreen");
+            navigation.navigate("SingUpScreen");
         } catch (error) {
             console.error("Error al obtener la ubicación:", error);
             Alert.alert(

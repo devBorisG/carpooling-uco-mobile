@@ -3,13 +3,29 @@ import React, { useState } from "react";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import { Ionicons, MaterialIcons, Feather } from "@expo/vector-icons";
 
-const Footer = () => {
+const Footer = ({ onMenuPress, onHomePress }) => {
     // Controla el índice del icono activo
     const [activeIndex, setActiveIndex] = useState(0);
 
     const handlePress = (index) => {
         setActiveIndex(index);
         // Aquí podrías agregar navegación o cualquier otra acción
+        switch (index) {
+            case 0:
+                console.log("Home");
+                onHomePress();
+                break;
+            case 1:
+                console.log("Viaje");
+                break;
+            case 2:
+                console.log("Chat");
+                break;
+            case 3:
+                console.log("Menú");
+                onMenuPress();
+                break;
+        };
     };
 
     // Color inactivo: negro con opacidad 80% (rgba(0, 0, 0, 0.8))
