@@ -4,6 +4,7 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 const ValidatedInput = ({
+    label,
     icon,
     placeholder,
     value,
@@ -17,25 +18,28 @@ const ValidatedInput = ({
 }) => {
     return (
         <View style={styles.inputContainerMargin}>
-            <View style={styles.inputContainer}>
-                <Feather
-                    name={icon}
-                    size={25}
-                    color="#BEBEBE"
-                    style={[styles.inputIcon, inputIconStyle]}
-                />
-                <TextInput
-                    style={[styles.input, errorMsg && { borderColor: "red" }, additionalStyle]}
-                    placeholder={placeholder}
-                    keyboardType={keyboardType}
-                    secureTextEntry={secureTextEntry}
-                    value={value}
-                    onChangeText={onChangeText}
-                    onBlur={onBlur}
-                    placeholderTextColor="#999"
-                />
+            <View style={styles.inputContainerFather}>
+                <Text style={{ marginLeft: 45, marginBottom: 3, fontSize: 16 }}>{label}</Text>
+                <View style={styles.inputContainer}>
+                    <Feather
+                        name={icon}
+                        size={25}
+                        color="#BEBEBE"
+                        style={[styles.inputIcon, inputIconStyle]}
+                    />
+                    <TextInput
+                        style={[styles.input, errorMsg && { borderColor: "red" }, additionalStyle]}
+                        placeholder={placeholder}
+                        keyboardType={keyboardType}
+                        secureTextEntry={secureTextEntry}
+                        value={value}
+                        onChangeText={onChangeText}
+                        onBlur={onBlur}
+                        placeholderTextColor="#999"
+                    />
+                </View>
+                {errorMsg ? <Text style={styles.errorText}>{errorMsg}</Text> : null}
             </View>
-            {errorMsg ? <Text style={styles.errorText}>{errorMsg}</Text> : null}
         </View>
     );
 };
@@ -68,6 +72,9 @@ const styles = StyleSheet.create({
         color: "red",
         fontSize: 13,
         marginLeft: 45,
+    },
+    inputContainerFather: {
+        marginBottom: 10,
     },
 });
 

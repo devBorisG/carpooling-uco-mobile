@@ -102,9 +102,9 @@ const SingUpScreen = () => {
         {/* Formulario */}
         <View style={styles.formContainer}>
           <ValidatedInput
-            label={"Correo"}
+            label={"Correo*"}
             icon="mail"
-            placeholder="Ingresar correo*"
+            placeholder="Ingresar correo"
             keyboardType="email-address"
             value={correo}
             onChangeText={(text) => {
@@ -115,9 +115,9 @@ const SingUpScreen = () => {
             errorMsg={correoErrorMsg}
           />
           <ValidatedInput
-            label={"Celular"}
+            label={"Celular*"}
             icon="phone"
-            placeholder="Ingresar número celular*"
+            placeholder="Ingresar número celular"
             keyboardType="phone-pad"
             value={celular}
             onChangeText={(text) => {
@@ -129,32 +129,35 @@ const SingUpScreen = () => {
           />
           {/* Campo Contraseña con botón para mostrar/ocultar */}
           <View style={styles.inputContainerMargin}>
-            <View style={styles.inputContainer}>
-              <Feather name="lock" size={25} color="#BEBEBE" style={styles.inputIcon} />
-              <View style={[styles.inputWrapper, passwordErrorMsg && { borderColor: "red" }]}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Ingresar contraseña*"
-                  secureTextEntry={!showPassword}
-                  value={password}
-                  onChangeText={(text) => {
-                    setPassword(text);
-                    if (passwordErrorMsg) setPasswordErrorMsg("");
-                  }}
-                  onBlur={validatePassword}
-                  placeholderTextColor="#999"
-                />
-                <TouchableOpacity style={styles.eyeButton} onPress={() => setShowPassword(!showPassword)}>
-                  <Feather name={showPassword ? "eye" : "eye-off"} size={18} color="#BEBEBE" />
-                </TouchableOpacity>
+            <View style={styles.inputContainerFather}>
+              <Text style={{ marginLeft: 45, marginBottom: 3, fontSize: 16 }}>Contraseña*</Text>
+              <View style={styles.inputContainer}>
+                <Feather name="lock" size={25} color="#BEBEBE" style={styles.inputIcon} />
+                <View style={[styles.inputWrapper, passwordErrorMsg && { borderColor: "red" }]}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Ingresar contraseña"
+                    secureTextEntry={!showPassword}
+                    value={password}
+                    onChangeText={(text) => {
+                      setPassword(text);
+                      if (passwordErrorMsg) setPasswordErrorMsg("");
+                    }}
+                    onBlur={validatePassword}
+                    placeholderTextColor="#999"
+                  />
+                  <TouchableOpacity style={styles.eyeButton} onPress={() => setShowPassword(!showPassword)}>
+                    <Feather name={showPassword ? "eye" : "eye-off"} size={18} color="#BEBEBE" />
+                  </TouchableOpacity>
+                </View>
               </View>
+              {passwordErrorMsg ? <Text style={styles.errorText}>{passwordErrorMsg}</Text> : null}
             </View>
-            {passwordErrorMsg ? <Text style={styles.errorText}>{passwordErrorMsg}</Text> : null}
           </View>
           <ValidatedInput
-            label={"Confirmar Contraseña"}
+            label={"Confirmar Contraseña*"}
             icon="lock"
-            placeholder="Repetir contraseña*"
+            placeholder="Repetir contraseña"
             secureTextEntry
             value={confirmPassword}
             onChangeText={(text) => {
@@ -293,6 +296,9 @@ const styles = StyleSheet.create({
     fontFamily: "montserrat-regular",
     color: "#000",
     fontSize: 16,
+  },
+  inputContainerFather: {
+    marginBottom: 10,
   },
 });
 
