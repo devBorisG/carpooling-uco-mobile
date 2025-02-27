@@ -97,6 +97,10 @@ const LoginScreen = () => {
                     <FontAwesome name="google" size={24} color="#EA4335" style={styles.googleIcon} /> 
                     <Text style={styles.googleButtonText}>Continuar con Google</Text> 
                 </TouchableOpacity>
+
+                <Text style={styles.registerText}>
+                    ¿No tienes cuenta? <Text style={styles.link} onPress={() => navigation.navigate("SingUpScreen")}>Registrarse</Text>
+                </Text>
             </View>
         </ScrollView>
     );
@@ -169,6 +173,17 @@ const styles = StyleSheet.create({
         color: "#333",
         fontFamily: "montserrat-bold",
     },
+    registerText: {
+        fontSize: 14,
+        textAlign: "center",
+        marginTop: 15,
+        fontFamily: "montserrat-semibold",
+    },
+    link: {
+        textDecorationLine: "underline",
+        color: "#4A73DA",
+        fontFamily: "montserrat-bold",
+    }
 });
 
 export default LoginScreen;
