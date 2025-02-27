@@ -19,7 +19,7 @@ const ValidatedInput = ({
     return (
         <View style={styles.inputContainerMargin}>
             <View style={styles.inputContainerFather}>
-                <Text style={{ marginLeft: 45, marginBottom: 3, fontSize: 16 }}>{label}</Text>
+                <Text style={[{ marginLeft: 45, marginBottom: 3, fontSize: 16}, errorMsg && { color: "red" } ]}>{label}</Text>
                 <View style={styles.inputContainer}>
                     <Feather
                         name={icon}

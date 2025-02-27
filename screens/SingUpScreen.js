@@ -130,7 +130,7 @@ const SingUpScreen = () => {
           {/* Campo Contraseña con botón para mostrar/ocultar */}
           <View style={styles.inputContainerMargin}>
             <View style={styles.inputContainerFather}>
-              <Text style={{ marginLeft: 45, marginBottom: 3, fontSize: 16 }}>Contraseña*</Text>
+              <Text style={[{ marginLeft: 45, marginBottom: 3, fontSize: 16 }, passwordErrorMsg && { color: "red" }]}>Contraseña*</Text>
               <View style={styles.inputContainer}>
                 <Feather name="lock" size={25} color="#BEBEBE" style={styles.inputIcon} />
                 <View style={[styles.inputWrapper, passwordErrorMsg && { borderColor: "red" }]}>

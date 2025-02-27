@@ -73,8 +73,9 @@ const LoginScreen = () => {
                 {/* Formulario */}
                 <View style={styles.formContainer}>
                     <ValidatedInput
+                        label={"Correo*"}
                         icon="mail"
-                        placeholder="Ingresar correo*"
+                        placeholder="Ingresar correo"
                         value={correo}
                         onChangeText={(text) => {
                             setCorreo(text);
@@ -84,6 +85,7 @@ const LoginScreen = () => {
                         errorMsg={correoErrorMsg}
                     />
                     <ValidatedInput
+                        label={"Contraseña*"}
                         icon="lock"
                         placeholder="Ingresar contraseña*"
                         secureTextEntry
