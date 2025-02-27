@@ -6,7 +6,7 @@ import BackButton from "../components/BackButton";
 import ValidatedInput from "../components/ValidatedInput";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { isValidEmail,isValidPhone, isValidPassword } from "../utils/validation";
+import { isValidEmail, isValidPhone, isValidPassword } from "../utils/validation";
 import Button from "../components/Button";
 
 const singUpIcon = require("../assets/img/SingUp.jpg");
@@ -102,6 +102,7 @@ const SingUpScreen = () => {
         {/* Formulario */}
         <View style={styles.formContainer}>
           <ValidatedInput
+            label={"Correo"}
             icon="mail"
             placeholder="Ingresar correo*"
             keyboardType="email-address"
@@ -114,6 +115,7 @@ const SingUpScreen = () => {
             errorMsg={correoErrorMsg}
           />
           <ValidatedInput
+            label={"Celular"}
             icon="phone"
             placeholder="Ingresar número celular*"
             keyboardType="phone-pad"
@@ -128,26 +130,29 @@ const SingUpScreen = () => {
           {/* Campo Contraseña con botón para mostrar/ocultar */}
           <View style={styles.inputContainerMargin}>
             <View style={styles.inputContainer}>
-              <Feather name="lock" size={20} color="#BEBEBE" style={styles.inputIcon} />
-              <TextInput
-                style={[styles.input, passwordErrorMsg && { borderColor: "red" }]}
-                placeholder="Ingresar contraseña*"
-                secureTextEntry={!showPassword}
-                value={password}
-                onChangeText={(text) => {
-                  setPassword(text);
-                  if (passwordErrorMsg) setPasswordErrorMsg("");
-                }}
-                onBlur={validatePassword}
-                placeholderTextColor="#999"
-              />
-              <TouchableOpacity style={styles.eyeButton} onPress={() => setShowPassword(!showPassword)}>
-                <Feather name={showPassword ? "eye" : "eye-off"} size={15} color="#BEBEBE" />
-              </TouchableOpacity>
+              <Feather name="lock" size={25} color="#BEBEBE" style={styles.inputIcon} />
+              <View style={[styles.inputWrapper, passwordErrorMsg && { borderColor: "red" }]}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Ingresar contraseña*"
+                  secureTextEntry={!showPassword}
+                  value={password}
+                  onChangeText={(text) => {
+                    setPassword(text);
+                    if (passwordErrorMsg) setPasswordErrorMsg("");
+                  }}
+                  onBlur={validatePassword}
+                  placeholderTextColor="#999"
+                />
+                <TouchableOpacity style={styles.eyeButton} onPress={() => setShowPassword(!showPassword)}>
+                  <Feather name={showPassword ? "eye" : "eye-off"} size={18} color="#BEBEBE" />
+                </TouchableOpacity>
+              </View>
             </View>
             {passwordErrorMsg ? <Text style={styles.errorText}>{passwordErrorMsg}</Text> : null}
           </View>
           <ValidatedInput
+            label={"Confirmar Contraseña"}
             icon="lock"
             placeholder="Repetir contraseña*"
             secureTextEntry
@@ -223,7 +228,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   eyeButton: {
-    paddingTop: 10
+    paddingEnd: 10,
   },
   image: {
     width: 280,
@@ -244,26 +249,9 @@ const styles = StyleSheet.create({
     width: "100%",
     marginBottom: 20,
   },
-  inputContainer: {
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 5,
-    paddingHorizontal: 10,
-  },
   inputIcon: {
     marginRight: 10,
     marginTop: 10
-  },
-  input: {
-    flex: 1,
-    height: 45,
-    fontFamily: "montserrat-regular",
-    color: "#000",
-    borderBottomWidth: 1,
-    borderColor: "#BEBEBE",
-    paddingBottom: 0,
-    fontSize: 16,
   },
   termsText: {
     fontSize: 14,
@@ -283,6 +271,28 @@ const styles = StyleSheet.create({
     color: "red",
     fontSize: 12,
     marginLeft: 45,
+  },
+  inputContainer: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center", // Centrado vertical
+    paddingHorizontal: 10,
+  },
+  inputWrapper: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#BEBEBE",
+    borderRadius: 5,
+    paddingHorizontal: 7,
+  },
+  input: {
+    flex: 1,
+    height: 45,
+    fontFamily: "montserrat-regular",
+    color: "#000",
+    fontSize: 16,
   },
 });
 

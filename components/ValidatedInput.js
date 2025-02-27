@@ -18,7 +18,12 @@ const ValidatedInput = ({
     return (
         <View style={styles.inputContainerMargin}>
             <View style={styles.inputContainer}>
-                <Feather name={icon} size={20} color="#BEBEBE" style={[styles.inputIcon, inputIconStyle]} />
+                <Feather
+                    name={icon}
+                    size={25}
+                    color="#BEBEBE"
+                    style={[styles.inputIcon, inputIconStyle]}
+                />
                 <TextInput
                     style={[styles.input, errorMsg && { borderColor: "red" }, additionalStyle]}
                     placeholder={placeholder}
@@ -47,16 +52,16 @@ const styles = StyleSheet.create({
     },
     inputIcon: {
         marginRight: 10,
-        marginTop: 10,
     },
     input: {
         flex: 1,
         height: 45,
         fontFamily: "montserrat-regular",
         color: "#000",
-        borderBottomWidth: 1,
+        borderWidth: 1,
         borderColor: "#BEBEBE",
-        paddingBottom: 0,
+        borderRadius: 5,
+        paddingHorizontal: 10,
         fontSize: 16,
     },
     errorText: {

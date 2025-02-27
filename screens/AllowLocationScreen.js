@@ -28,7 +28,7 @@ const AllowLocationScreen = () => {
                     [{ text: "OK" }]
                 );
                 await AsyncStorage.setItem("userLocation", JSON.stringify(defaultLocation));
-                navigation.navigate("HomeScreen");
+                navigation.navigate("SingUpScreen");
                 return;
             }
             // Obtener la ubicación actual
@@ -48,6 +48,11 @@ const AllowLocationScreen = () => {
         }
     };
 
+    const handleNotAllowLocation = async () => {
+        await AsyncStorage.setItem("userLocation", JSON.stringify(defaultLocation));
+        navigation.navigate("SingUpScreen");
+    };
+
     return (
         <View style={styles.container}>
             <BackButton />
@@ -65,7 +70,7 @@ const AllowLocationScreen = () => {
                 onPress={handleAllowLocation}
                 icon={<FontAwesome6 name="location-dot" size={24} color="white" />}
             />
-            <TouchableOpacity onPress={handleAllowLocation}>
+            <TouchableOpacity onPress={handleNotAllowLocation}>
                 <Text style={styles.skipText}>Saltar por ahora</Text>
             </TouchableOpacity>
         </View>
