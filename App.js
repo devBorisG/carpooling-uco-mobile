@@ -15,6 +15,7 @@ import HomeScreen from "./screens/HomeScreen";
 import * as Font from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
+import SelectRoleScreen from "./screens/SelectRoleScreen";
 
 const Stack = createStackNavigator();
 
@@ -100,6 +101,11 @@ export default function App() {
          name="ForgotPasswordScreen" 
          component={ForgotPasswordScreen}
          options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+        name="SelectRoleScreen" 
+        component={SelectRoleScreen}
+        options={{ headerShown: false }}
         />
       </Stack.Navigator>
       <StatusBar style="auto" />
