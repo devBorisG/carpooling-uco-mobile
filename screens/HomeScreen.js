@@ -4,18 +4,22 @@ import { View, StyleSheet, TextInput, Dimensions, TouchableOpacity } from "react
 import MapView, { Marker } from "react-native-maps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Footer from "../components/Footer";
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome6, Ionicons } from "@expo/vector-icons";
+import Sidebar from "../components/SideBar";
+import { useNavigation } from "@react-navigation/native";
 
 const { width } = Dimensions.get("window");
 
-const HomeScreen = () => {
-    const [region, setRegion] = useState({
-        latitude: 6.17807,      // Rionegro, Antioquia
-        longitude: -75.6193,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-    });
+const names = [
+    "Jarod", "Jarod Sapo", "Rafa", "Felipito", "Morronga",
+    "Pepito", "Rafael", "Boris", "Luis", "Carlos"
+];
 
+const HomeScreen = () => {
+    const navigation = useNavigation();
+    const [sidebarVisible, setSidebarVisible] = useState(false);
+    const [region, setRegion] = useState(null);
+    const [mockCars, setMockCars] = useState([]);  // Inicialmente vacío
     const mapRef = useRef(null);
 
     useEffect(() => {
@@ -24,11 +28,12 @@ const HomeScreen = () => {
                 const storedLocation = await AsyncStorage.getItem("userLocation");
                 if (storedLocation) {
                     const { latitude, longitude } = JSON.parse(storedLocation);
-                    setRegion((prevRegion) => ({
-                        ...prevRegion,
+                    setRegion({
                         latitude,
                         longitude,
-                    }));
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    });
                 }
             } catch (error) {
                 console.error("Error al cargar la ubicación:", error);
@@ -38,52 +43,83 @@ const HomeScreen = () => {
         loadLocation();
     }, []);
 
-    // Reinicia la orientación del mapa a norte (heading 0)
+    useEffect(() => {
+        if (region && mockCars.length === 0) { // 🚀 Solo genera los autos si no existen
+            const generateMockCars = () => {
+                return Array.from({ length: 10 }).map((_, index) => ({
+                    id: index + 1,
+                    name: names[index % names.length],
+                    latitude: region.latitude + (Math.random() * 0.03 - 0.015),
+                    longitude: region.longitude + (Math.random() * 0.03 - 0.015),
+                    rotation: Math.random() * 360,
+                }));
+            };
+            setMockCars(generateMockCars());
+        }
+    }, [region]); // Solo ejecuta esto cuando `region` cambia por primera vez
+
     const resetMapHeading = () => {
         if (mapRef.current) {
-            mapRef.current.animateCamera(
-                {
-                    heading: 0,
-                },
-                { duration: 500 }
-            );
+            mapRef.current.animateCamera({ heading: 0 }, { duration: 500 });
         }
     };
 
-    // Centra el mapa en la ubicación del usuario
     const centerOnUser = () => {
         if (mapRef.current) {
-            mapRef.current.animateCamera(
-                {
-                    center: {
-                        latitude: region.latitude,
-                        longitude: region.longitude,
-                    },
-                },
-                { duration: 500 }
-            );
+            mapRef.current.animateCamera({ center: region }, { duration: 500 });
         }
+    };
+
+    const handleOptionPress = (option) => {
+        console.log("Opción seleccionada:", option);
+        setSidebarVisible(false);
+    };
+
+    // Footer actions
+    const handleMenuPress = () => {
+        setSidebarVisible((prev) => !prev);
+    };
+
+    const handleHomePress = () => {
+        setSidebarVisible(false);
+        navigation.navigate("HomeScreen");
     };
 
     return (
         <View style={styles.container}>
-            <MapView
-                ref={mapRef}
-                style={styles.map}
-                region={region}
-                showsUserLocation={true}
-                showsCompass={false}  // Ocultamos la brújula nativa para usar la personalizada
-                showsMyLocationButton={false}
-            >
-                <Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }} />
-            </MapView>
-            <TextInput
-                style={styles.searchInput}
-                placeholder="Buscar viaje"
-                placeholderTextColor="#999"
-            />
+            {region ? (
+                <MapView
+                    ref={mapRef}
+                    style={styles.map}
+                    region={region}
+                    showsUserLocation={true}
+                    showsCompass={false}
+                    showsMyLocationButton={false}
+                >
+                    {/* Marcador de la ubicación actual */}
+                    <Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }} />
 
-            {/* Contenedor para los controles: brújula y botón de enfoque */}
+                    {/* Marcadores de autos cercanos con iconos y rotación */}
+                    {mockCars.map((car) => (
+                        <Marker
+                            key={car.id}
+                            coordinate={{ latitude: car.latitude, longitude: car.longitude }}
+                            title={car.name}
+                        >
+                            <View style={{ transform: [{ rotate: `${car.rotation}deg` }] }}>
+                                <FontAwesome6 name="car-side" size={20} color="green" />
+                            </View>
+                        </Marker>
+                    ))}
+                </MapView>
+            ) : (
+                <View style={styles.loadingContainer}>
+                    <Ionicons name="location-outline" size={50} color="#00473B" />
+                </View>
+            )}
+
+            <TextInput style={styles.searchInput} placeholder="Buscar viaje" placeholderTextColor="#999" />
+
             <View style={styles.mapControlsContainer}>
                 <TouchableOpacity style={styles.controlButton} onPress={resetMapHeading}>
                     <Ionicons name="compass" size={30} color="#00473B" />
@@ -93,7 +129,8 @@ const HomeScreen = () => {
                 </TouchableOpacity>
             </View>
 
-            <Footer />
+            <Footer onMenuPress={handleMenuPress} onHomePress={handleHomePress} />
+            <Sidebar visible={sidebarVisible} onClose={handleMenuPress} onOptionPress={handleOptionPress} />
         </View>
     );
 };
@@ -104,6 +141,11 @@ const styles = StyleSheet.create({
     },
     map: {
         flex: 1,
+    },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
     },
     searchInput: {
         position: "absolute",
@@ -123,10 +165,9 @@ const styles = StyleSheet.create({
         elevation: 3,
         height: 50,
     },
-    // Contenedor de los controles de mapa (brújula y enfoque)
     mapControlsContainer: {
         position: "absolute",
-        top: 120, // posición de la brújula
+        top: 120,
         right: 20,
         alignItems: "center",
     },
@@ -139,7 +180,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowOffset: { width: 0, height: 2 },
     },
-    // Agrega un margen superior para separar el botón de enfoque de la brújula
     focusButton: {
         marginTop: 10,
     },
