@@ -1,75 +1,76 @@
 /* eslint-disable */
 import React, { useState } from "react";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
-import { Ionicons, MaterialIcons, Feather } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons, Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+
+let accountIndex = 0;
+let homeIndex = 1;
+let tripIndex = 2;
+let chatIndex = 3;
 
 const Footer = ({ onMenuPress, onHomePress }) => {
-    // Controla el índice del icono activo
     const [activeIndex, setActiveIndex] = useState(0);
 
     const handlePress = (index) => {
         setActiveIndex(index);
-        // Aquí podrías agregar navegación o cualquier otra acción
         switch (index) {
             case 0:
+                console.log("Menú");
+                onMenuPress();
+                break;
+            case 1:
                 console.log("Home");
                 onHomePress();
                 break;
-            case 1:
+            case 2:
                 console.log("Viaje");
                 break;
-            case 2:
-                console.log("Chat");
-                break;
             case 3:
-                console.log("Menú");
-                onMenuPress();
+                console.log("Chat");
                 break;
         };
     };
 
-    // Color inactivo: negro con opacidad 80% (rgba(0, 0, 0, 0.8))
-    // Color activo: #308A5A
     return (
         <View style={styles.footer}>
-            <TouchableOpacity style={styles.iconButton} onPress={() => handlePress(0)}>
+            <TouchableOpacity style={styles.iconButton} onPress={() => handlePress(accountIndex)}>
+                <MaterialCommunityIcons
+                    name="account"
+                    size={30}
+                    color={activeIndex === accountIndex ? "#308A5A" : "rgba(0, 0, 0, 0.8)"}
+                />
+                <Text style={{ color: activeIndex === accountIndex ? "#308A5A" : "rgba(0, 0, 0, 0.8)" }}>
+                    Cuenta
+                </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.iconButton} onPress={() => handlePress(homeIndex)}>
                 <Ionicons
                     name="home"
                     size={30}
-                    color={activeIndex === 0 ? "#308A5A" : "rgba(0, 0, 0, 0.8)"}
+                    color={activeIndex === homeIndex ? "#308A5A" : "rgba(0, 0, 0, 0.8)"}
                 />
-                <Text style={{ color: activeIndex === 0 ? "#308A5A" : "rgba(0, 0, 0, 0.8)" }}>
+                <Text style={{ color: activeIndex === homeIndex ? "#308A5A" : "rgba(0, 0, 0, 0.8)" }}>
                     Home
                 </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton} onPress={() => handlePress(1)}>
+            <TouchableOpacity style={styles.iconButton} onPress={() => handlePress(tripIndex)}>
                 <MaterialIcons
                     name="directions-car"
                     size={30}
-                    color={activeIndex === 1 ? "#308A5A" : "rgba(0, 0, 0, 0.8)"}
+                    color={activeIndex === tripIndex ? "#308A5A" : "rgba(0, 0, 0, 0.8)"}
                 />
-                <Text style={{ color: activeIndex === 1 ? "#308A5A" : "rgba(0, 0, 0, 0.8)" }}>
+                <Text style={{ color: activeIndex === tripIndex ? "#308A5A" : "rgba(0, 0, 0, 0.8)" }}>
                     Viaje
                 </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton} onPress={() => handlePress(2)}>
+            <TouchableOpacity style={styles.iconButton} onPress={() => handlePress(chatIndex)}>
                 <Feather
                     name="message-circle"
                     size={30}
-                    color={activeIndex === 2 ? "#308A5A" : "rgba(0, 0, 0, 0.8)"}
+                    color={activeIndex === chatIndex ? "#308A5A" : "rgba(0, 0, 0, 0.8)"}
                 />
-                <Text style={{ color: activeIndex === 2 ? "#308A5A" : "rgba(0, 0, 0, 0.8)" }}>
+                <Text style={{ color: activeIndex === chatIndex ? "#308A5A" : "rgba(0, 0, 0, 0.8)" }}>
                     Chat
-                </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton} onPress={() => handlePress(3)}>
-                <Feather
-                    name="menu"
-                    size={30}
-                    color={activeIndex === 3 ? "#308A5A" : "rgba(0, 0, 0, 0.8)"}
-                />
-                <Text style={{ color: activeIndex === 3 ? "#308A5A" : "rgba(0, 0, 0, 0.8)" }}>
-                    Menú
                 </Text>
             </TouchableOpacity>
         </View>
@@ -92,6 +93,7 @@ const styles = StyleSheet.create({
     },
     iconButton: {
         padding: 10,
+        alignItems: "center",
     },
 });
 

@@ -1,3 +1,4 @@
+/*eslint-disable prettier/prettier*/
 import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from "react-native";
 import Svg, { Line } from "react-native-svg";
@@ -92,12 +93,12 @@ const LoginScreen = () => {
                 </View>
 
                 <Button title="Ingresar" onPress={handleLogin} buttonStyle={{ width: "100%" }} icon={<Entypo name="login" size={20} color="#fff" />} />
-                
+
                 <View style={styles.dividerContainer}>
-                <View style={styles.divider} />
-                <Text style={styles.dividerText}>o</Text>
-                <View style={styles.divider} />
-                </View>        
+                    <View style={styles.divider} />
+                    <Text style={styles.dividerText}>o</Text>
+                    <View style={styles.divider} />
+                </View>
 
                 <Button
                     title="Ingresar con Google"
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: "#4A73DA",
         textDecorationLine: "underline",
-        fontFamily: "montserrat-semibold",
+        fontFamily: "montserrat-bold",
         alignSelf: "flex-end",
         marginTop: 5,
         marginRight: 10,

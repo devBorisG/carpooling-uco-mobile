@@ -26,8 +26,8 @@ const optionsList = [
 
 const Sidebar = ({ visible, onClose, onOptionPress }) => {
   const [shouldRender, setShouldRender] = useState(visible);
-  // Animaciones para deslizar y para fade
-  const slideAnim = useRef(new Animated.Value(visible ? width - sidebarWidth : width)).current;
+  // Inicialmente fuera de la pantalla a la izquierda: -sidebarWidth
+  const slideAnim = useRef(new Animated.Value(visible ? 0 : -sidebarWidth)).current;
   const fadeAnim = useRef(new Animated.Value(visible ? 1 : 0)).current;
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const Sidebar = ({ visible, onClose, onOptionPress }) => {
       setShouldRender(true);
       Animated.parallel([
         Animated.timing(slideAnim, {
-          toValue: width - sidebarWidth,
+          toValue: 0,
           duration: 300,
           useNativeDriver: false,
         }),
@@ -48,7 +48,7 @@ const Sidebar = ({ visible, onClose, onOptionPress }) => {
     } else {
       Animated.parallel([
         Animated.timing(slideAnim, {
-          toValue: width,
+          toValue: -sidebarWidth,
           duration: 300,
           useNativeDriver: false,
         }),
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     width: sidebarWidth,
-    backgroundColor: "rgba(226,254,239, 0.9)",
+    backgroundColor: "rgba(226,254,239, 1)",
     padding: 20,
   },
   closeButton: {
