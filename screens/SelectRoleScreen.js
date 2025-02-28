@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import BackButton from "../components/BackButton";
 import Svg, { Line } from "react-native-svg";
 
 const driverImage = require("../assets/img/rol_conductor.jpg");
@@ -13,6 +14,7 @@ const SelectRoleScreen = () => {
 
     return (
         <View style={styles.container}>
+            <BackButton />
             <Text style={styles.title}>
                 Selecciona tu <Text style={styles.boldText}>rol</Text>
             </Text>
@@ -42,7 +44,7 @@ const SelectRoleScreen = () => {
             {/* Opción: Pasajero */}
             <TouchableOpacity 
                 style={styles.option} 
-                onPress={() => navigation.navigate("PassengerScreen")}
+                onPress={() => navigation.navigate("HomeScreen")}
             >
                 <View style={styles.imageContainer}>
                     <Image source={passengerImage} style={styles.image} />
@@ -64,7 +66,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     title: {
-        fontSize: 26,
+        fontSize: 40,
         fontFamily: "montserrat-bold",
         color: "#00473B",
         textAlign: "center",

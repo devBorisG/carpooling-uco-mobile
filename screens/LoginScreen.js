@@ -7,7 +7,7 @@ import BackButton from "../components/BackButton";
 import ValidatedInput from "../components/ValidatedInput";
 import Button from "../components/Button";
 import Entypo from "@expo/vector-icons/Entypo";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import GoogleIcon from "../assets/img/google-icon.svg";
 
 const loginIcon = require("../assets/img/Login.jpg");
 
@@ -40,7 +40,7 @@ const LoginScreen = () => {
         validatePassword();
         if (correoErrorMsg === "" && passwordErrorMsg === "" && correo && password) {
             setSuccessMessage("Inicio de sesión exitoso");
-            navigation.navigate("HomeScreen");
+            navigation.navigate("SelectRoleScreen");
         }
     };
 
@@ -92,14 +92,24 @@ const LoginScreen = () => {
                 </View>
 
                 <Button title="Ingresar" onPress={handleLogin} buttonStyle={{ width: "100%" }} icon={<Entypo name="login" size={20} color="#fff" />} />
+                
+                <View style={styles.dividerContainer}>
+                <View style={styles.divider} />
+                <Text style={styles.dividerText}>o</Text>
+                <View style={styles.divider} />
+                </View>        
 
-                <TouchableOpacity style={styles.googleButton} onPress={() => console.log("Login con Google")}> 
-                    <FontAwesome name="google" size={24} color="#EA4335" style={styles.googleIcon} /> 
-                    <Text style={styles.googleButtonText}>Continuar con Google</Text> 
-                </TouchableOpacity>
+                <Button
+                    title="Ingresar con Google"
+                    onPress={() => console.log("Login con Google")}
+                    variant="secondary" // Para el fondo blanco
+                    buttonStyle={{ width: "100%" }}
+                    textStyle={styles.googleButtonText}
+                    icon={<GoogleIcon width={24} height={24} />}
+                />
 
                 <Text style={styles.registerText}>
-                    ¿No tienes cuenta? <Text style={styles.link} onPress={() => navigation.navigate("SingUpScreen")}>Registrarse</Text>
+                    ¿Eres nuevo? <Text style={styles.link} onPress={() => navigation.navigate("SingUpScreen")}>Registrate ahora</Text>
                 </Text>
             </View>
         </ScrollView>
@@ -119,6 +129,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingHorizontal: 20,
         paddingTop: 50,
+        paddingBottom: 40,
     },
     image: {
         width: 280,
@@ -153,26 +164,6 @@ const styles = StyleSheet.create({
         fontFamily: "montserrat-medium",
         textAlign: "center",
     },
-    googleButton: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
-        paddingVertical: 12,
-        backgroundColor: "#fff",
-        borderWidth: 1,
-        borderColor: "#ccc",
-        borderRadius: 15,
-        marginTop: 10,
-    },
-    googleIcon: {
-        marginRight: 10,
-    },
-    googleButtonText: {
-        fontSize: 16,
-        color: "#333",
-        fontFamily: "montserrat-bold",
-    },
     registerText: {
         fontSize: 14,
         textAlign: "center",
@@ -183,7 +174,24 @@ const styles = StyleSheet.create({
         textDecorationLine: "underline",
         color: "#4A73DA",
         fontFamily: "montserrat-bold",
-    }
+    },
+    dividerContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        width: "100%",
+        marginVertical: 10,
+        paddingBottom: 10,
+    },
+    divider: {
+        flex: 1,
+        height: 1,
+        backgroundColor: "#CCC",
+    },
+    dividerText: {
+        marginHorizontal: 10,
+        fontSize: 16,
+        color: "#777",
+    },
 });
 
 export default LoginScreen;

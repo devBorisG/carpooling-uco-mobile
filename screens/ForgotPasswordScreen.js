@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import Svg, { Line } from "react-native-svg";
+import { Feather } from "@expo/vector-icons";
 import BackButton from "../components/BackButton";
 import Button from "../components/Button";
 import ValidatedInput from "../components/ValidatedInput";
@@ -26,6 +28,11 @@ const ForgotPasswordScreen = () => {
         <View style={styles.container}>
             <BackButton />
             <Text style={styles.title}>Recuperar contraseña</Text>
+            <View style={styles.svgContainer}>
+                <Svg height="10" width="230">
+                    <Line x1="0" y1="0" x2="80" y2="0" stroke="#00473B" strokeWidth="9" strokeOpacity={0.7} strokeLinecap="round" />
+                </Svg>
+            </View>
             <Text style={styles.subtitle}>
                 Ingresa tu correo y te enviaremos instrucciones para restablecer tu contraseña.
             </Text>
@@ -48,7 +55,11 @@ const ForgotPasswordScreen = () => {
                 />
             </View>
             {successMessage ? <Text style={styles.successMsg}>{successMessage}</Text> : null}
-            <Button title="Enviar correo" onPress={handleSendEmail} buttonStyle={styles.button} />
+            <Button title="Enviar correo" 
+            onPress={handleSendEmail} 
+            buttonStyle={styles.button}
+            icon={<Feather name="send" size={20} color="#fff" />}        
+            />
             <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Text style={styles.backToLogin}>Volver al inicio de sesión</Text>
             </TouchableOpacity>
@@ -61,17 +72,22 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        padding: 20,
+        padding:20,
         backgroundColor: "#fff",
     },
     title: {
-        fontSize: 28,
+        fontSize: 40,
         fontFamily: "montserrat-bold",
         color: "#005C53",
-        marginBottom: 10,
+        marginBottom: 8, // Espacio antes de la línea
+        lineHeight: 44, // Evita que el texto se vea demasiado separado
+        textAlign: "center",
+    },
+    svgContainer: {
+        marginBottom: 16, // Espacio entre la línea y el subtítulo
     },
     subtitle: {
-        fontSize: 14,
+        fontSize: 18,
         fontFamily: "montserrat-medium",
         color: "#666",
         textAlign: "center",
