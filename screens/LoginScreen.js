@@ -1,6 +1,5 @@
-/* eslint-disable prettier/prettier */
 import React, { useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from "react-native";
 import Svg, { Line } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
 import { isValidEmail, isValidPassword } from "../utils/validation";
@@ -8,6 +7,7 @@ import BackButton from "../components/BackButton";
 import ValidatedInput from "../components/ValidatedInput";
 import Button from "../components/Button";
 import Entypo from "@expo/vector-icons/Entypo";
+import GoogleIcon from "../assets/img/google-icon.svg";
 
 const loginIcon = require("../assets/img/Login.jpg");
 
@@ -15,9 +15,9 @@ const LoginScreen = () => {
     const navigation = useNavigation();
     const [correo, setCorreo] = useState("");
     const [password, setPassword] = useState("");
-
     const [correoErrorMsg, setCorreoErrorMsg] = useState("");
     const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
 
     const validateEmail = () => {
         if (!isValidEmail(correo)) {
@@ -35,16 +35,13 @@ const LoginScreen = () => {
         }
     };
 
-    // Validación global del formulario al presionar el botón
-    const validateForm = () => {
+    const handleLogin = () => {
         validateEmail();
         validatePassword();
-        return (
-            correoErrorMsg === "" &&
-            passwordErrorMsg === "" &&
-            correo &&
-            password
-        );
+        if (correoErrorMsg === "" && passwordErrorMsg === "" && correo && password) {
+            setSuccessMessage("Inicio de sesión exitoso");
+            navigation.navigate("SelectRoleScreen");
+        }
     };
 
     return (
@@ -54,72 +51,65 @@ const LoginScreen = () => {
                 <Image source={loginIcon} style={styles.image} />
                 <Text style={styles.title}>Ingresar</Text>
 
-                {/* Línea horizontal SVG debajo del título */}
                 <View style={styles.svgContainer}>
                     <Svg height="10" width="230">
-                        <Line
-                            x1="0"
-                            y1="0"
-                            x2="80"
-                            y2="0"
-                            stroke="#00473B"
-                            strokeWidth="9"
-                            strokeOpacity={0.7}
-                            strokeLinecap="round"
-                        />
+                        <Line x1="0" y1="0" x2="80" y2="0" stroke="#00473B" strokeWidth="9" strokeOpacity={0.7} strokeLinecap="round" />
                     </Svg>
                 </View>
 
-                {/* Formulario */}
                 <View style={styles.formContainer}>
                     <ValidatedInput
-                        label={"Correo*"}
+                        label="Correo electrónico*"
                         icon="mail"
                         placeholder="Ingresar correo"
                         value={correo}
                         onChangeText={(text) => {
                             setCorreo(text);
-                            if (correoErrorMsg) setCorreoErrorMsg("");
+                            setCorreoErrorMsg("");
+                            setSuccessMessage("");
                         }}
                         onBlur={validateEmail}
                         errorMsg={correoErrorMsg}
                     />
                     <ValidatedInput
-                        label={"Contraseña*"}
+                        label="Contraseña*"
                         icon="lock"
-                        placeholder="Ingresar contraseña*"
+                        placeholder="Ingresar contraseña"
                         secureTextEntry
                         value={password}
                         onChangeText={(text) => {
                             setPassword(text);
-                            if (passwordErrorMsg) setPasswordErrorMsg("");
+                            setPasswordErrorMsg("");
+                            setSuccessMessage("");
                         }}
                         onBlur={validatePassword}
                         errorMsg={passwordErrorMsg}
                     />
+                    {successMessage ? <Text style={styles.successMsg}>{successMessage}</Text> : null}
+                    <TouchableOpacity onPress={() => navigation.navigate("ForgotPasswordScreen")}>
+                        <Text style={styles.forgotPassword}>¿Olvidaste tu contraseña?</Text>
+                    </TouchableOpacity>
                 </View>
 
-                {/* Botón Ingresar */}
+                <Button title="Ingresar" onPress={handleLogin} buttonStyle={{ width: "100%" }} icon={<Entypo name="login" size={20} color="#fff" />} />
+                
+                <View style={styles.dividerContainer}>
+                <View style={styles.divider} />
+                <Text style={styles.dividerText}>o</Text>
+                <View style={styles.divider} />
+                </View>        
+
                 <Button
-                    title="Ingresar"
-                    onPress={() => {
-                        if (validateForm()) {
-                            navigation.navigate("HomeScreen");
-                        }
-                    }}
+                    title="Ingresar con Google"
+                    onPress={() => console.log("Login con Google")}
+                    variant="secondary" // Para el fondo blanco
                     buttonStyle={{ width: "100%" }}
-                    icon={<Entypo name="login" size={20} color="#fff" />}
+                    textStyle={styles.googleButtonText}
+                    icon={<GoogleIcon width={24} height={24} />}
                 />
 
-                {/* Redirección a Registro */}
-                <Text style={styles.termsText}>
-                    ¿No tienes cuenta?{" "}
-                    <Text
-                        style={styles.link}
-                        onPress={() => navigation.navigate("SingUpScreen")}
-                    >
-                        Registrarse
-                    </Text>
+                <Text style={styles.registerText}>
+                    ¿Eres nuevo? <Text style={styles.link} onPress={() => navigation.navigate("SingUpScreen")}>Registrate ahora</Text>
                 </Text>
             </View>
         </ScrollView>
@@ -139,6 +129,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingHorizontal: 20,
         paddingTop: 50,
+        paddingBottom: 40,
     },
     image: {
         width: 280,
@@ -157,31 +148,49 @@ const styles = StyleSheet.create({
         width: "100%",
         marginBottom: 20,
     },
-    button: {
-        backgroundColor: "#00473B",
-        paddingVertical: 12,
-        paddingHorizontal: 25,
-        borderRadius: 15,
-        marginBottom: 20,
-        width: "100%",
-        alignSelf: "stretch",
-        alignItems: "center",
+    forgotPassword: {
+        fontSize: 14,
+        color: "#4A73DA",
+        textDecorationLine: "underline",
+        fontFamily: "montserrat-semibold",
+        alignSelf: "flex-end",
+        marginTop: 5,
+        marginRight: 10,
     },
-    buttonText: {
-        color: "#fff",
-        fontSize: 16,
-        fontFamily: "montserrat-bold",
+    successMsg: {
+        color: "green",
+        fontSize: 14,
+        marginTop: 5,
+        fontFamily: "montserrat-medium",
+        textAlign: "center",
     },
-    termsText: {
+    registerText: {
         fontSize: 14,
         textAlign: "center",
-        marginBottom: 20,
+        marginTop: 15,
         fontFamily: "montserrat-semibold",
     },
     link: {
         textDecorationLine: "underline",
         color: "#4A73DA",
         fontFamily: "montserrat-bold",
+    },
+    dividerContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        width: "100%",
+        marginVertical: 10,
+        paddingBottom: 10,
+    },
+    divider: {
+        flex: 1,
+        height: 1,
+        backgroundColor: "#CCC",
+    },
+    dividerText: {
+        marginHorizontal: 10,
+        fontSize: 16,
+        color: "#777",
     },
 });
 
