@@ -283,102 +283,109 @@ const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    map: {
-        flex: 1,
-    },
-    loadingContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    searchInput: {
-        position: "absolute",
-        top: 50,
-        left: 20,
-        right: 20,
-        backgroundColor: "#fff",
-        borderRadius: 8,
-        paddingHorizontal: 15,
-        paddingVertical: 8,
-        fontSize: 18,
-        fontFamily: "montserrat-regular",
-        color: "#000",
-        shadowColor: "#000",
-        shadowOpacity: 0.1,
-        shadowOffset: { width: 0, height: 2 },
-        elevation: 3,
-        height: 50,
-    },
-    markerContainer: {
-        justifyContent: "center",
-        alignItems: "center",
-    },
+  container: {
+    flex: 1,
+  },
+  map: {
+    flex: 1,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  searchInput: {
+    position: "absolute",
+    top: 50,
+    left: 20,
+    right: 20,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    fontSize: 18,
+    fontFamily: "montserrat-regular",
+    color: "#000",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
+    height: 50,
+  },
+  markerContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  searchBox: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },    
+  searchPlaceholder: {
+    fontSize: 18,
+    color: "rgba(0,0,0,0.4)",
+  },
+  outerCircle: {
+    width: 30,
+    height: 30,
+    borderRadius: 100,
+    backgroundColor: "white",
+    position: "absolute",
+    borderWidth: 2,
+    borderColor: "rgba(0,0,0,0.2)",
+  },
+  pulsatingCircle: {
+    width: 17.5,
+    height: 17.5,
+    borderRadius: 100,
+    backgroundColor: "rgba(0, 122, 255, 1)",
+    position: "absolute",
+  },
 
-    outerCircle: {
-        width: 30,
-        height: 30,
-        borderRadius: 100,
-        backgroundColor: "white",
-        position: "absolute",
-        borderWidth: 2,
-        borderColor: "rgba(0,0,0,0.2)",
-    },
-    pulsatingCircle: {
-        width: 17.5,
-        height: 17.5,
-        borderRadius: 100,
-        backgroundColor: "rgba(0, 122, 255, 1)",
-        position: "absolute",
-    },
+  searchContainer: {
+    position: "absolute",
+    top: 50,
+    left: 20,
+    right: 20,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 15,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
+    height: 50,
+  },
+  searchIcon: {
+    marginRight: 10, // Espacio entre la lupa y el texto
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 18,
+    fontFamily: "montserrat-regular",
+    color: "#000",
+  },
 
-    searchContainer: {
-        position: "absolute",
-        top: 50,
-        left: 20,
-        right: 20,
-        backgroundColor: "#fff",
-        borderRadius: 8,
-        flexDirection: "row",
-        alignItems: "center",
-        paddingHorizontal: 15,
-        shadowColor: "#000",
-        shadowOpacity: 0.1,
-        shadowOffset: { width: 0, height: 2 },
-        elevation: 3,
-        height: 50,
-    },
-    searchIcon: {
-        marginRight: 10, // Espacio entre la lupa y el texto
-    },
-    searchInput: {
-        flex: 1,
-        fontSize: 18,
-        fontFamily: "montserrat-regular",
-        color: "#000",
-    },
-
-    mapControlsContainer: {
-        position: "absolute",
-        bottom: 72,
-        right: 10,
-        alignItems: "center",
-        gap: 4.5,
-    },
-    controlButton: {
-        backgroundColor: "#fff",
-        borderRadius: 100,
-        padding: 5,
-        elevation: 5,
-        shadowColor: "#000",
-        shadowOpacity: 0.2,
-        shadowOffset: { width: 0, height: 2 },
-    },
-    focusButton: {
-        marginTop: 10,
-    },
+  mapControlsContainer: {
+    position: "absolute",
+    top: 120,
+    right: 20,
+    alignItems: "center",
+  },
+  controlButton: {
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 5,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 2 },
+  },
+  focusButton: {
+    marginTop: 10,
+  },
 });
 
 export default HomeScreen;
