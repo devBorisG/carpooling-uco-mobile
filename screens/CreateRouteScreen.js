@@ -1,53 +1,80 @@
-import React from 'react';
-import { View, Text, TextInput, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import BackButton from "../components/BackButton";
+import Button from "../components/Button";
+import { Feather, Ionicons } from '@expo/vector-icons';
+import ValidatedInput from "../components/ValidatedInput";
+import Footer from "../components/Footer";
 
 const CreateTripScreen = () => {
+  const navigation = useNavigation();
+  const [startPoint, setStartPoint] = useState("");
+  const [endPoint, setEndPoint] = useState("");
+  const [startPointError, setStartPointError] = useState("");
+  const [endPointError, setEndPointError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const validateEmptyField = (value, setError) => {
+    if (value.trim() === "") {
+      setError("Este campo es obligatorio");
+    } else {
+      setError("");
+    }
+  };
+
+  const handleSubmit = () => {
+    validateEmptyField(startPoint, setStartPointError);
+    validateEmptyField(endPoint, setEndPointError);
+    if (startPoint !== "" && endPoint !== "") {
+      setSuccessMessage("Ruta creada con éxito");
+      navigation.navigate("HomeScreen");
+    }
+  };
+
   return (
     <View style={styles.container}>
       <BackButton />
-
-      <Text style={styles.title}>Vamos a crear {"\n"}tu viaje</Text>
+      <Text style={styles.title}>Vamos a crear tu viaje</Text>
       <Text style={styles.subtitle}>Su dirección se mantiene privada.</Text>
 
-      {/* Campos de entrada */}
-      <View style={styles.inputContainer}>
-        <Ionicons name="location-outline" size={20} color="#888" />
-        <TextInput placeholder="Punto de partida" style={styles.input} />
-        <Ionicons name="options-outline" size={20} color="#888" />
-      </View>
+      <ValidatedInput
+        label="Punto de partida*"
+        placeholder="Ingresar punto de partida"
+        icon={<Ionicons name="location-outline" size={25} color="#888" />}
+        value={startPoint}
+        onChangeText={(text) => {
+          setStartPoint(text);
+          setStartPointError("");
+        }}
+        onBlur={() => validateEmptyField(startPoint, setStartPointError)}
+        errorMsg={startPointError}
+      />
 
-      <View style={styles.inputContainer}>
-        <Ionicons name="location-outline" size={20} color="#888" />
-        <TextInput placeholder="Punto de llegada" style={styles.input} />
-        <Ionicons name="options-outline" size={20} color="#888" />
-      </View>
+      <ValidatedInput
+        label="Punto de llegada*"
+        placeholder="Ingresar punto de llegada"
+        icon={<Ionicons name="location-outline" size={25} color="#888" />}
+        value={endPoint}
+        onChangeText={(text) => {
+          setEndPoint(text);
+          setEndPointError("");
+        }}
+        onBlur={() => validateEmptyField(endPoint, setEndPointError)}
+        errorMsg={endPointError}
+      />
 
-      {/* Imagen */}
-      <Image source={require('./assets/map.png')} style={styles.image} />
+      <Image source={require("../assets/img/map.jpg")} style={styles.image} />
 
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.footerItem}>
-          <Ionicons name="home" size={24} color="#043927" />
-          <Text style={styles.footerText}>HOME</Text>
-        </TouchableOpacity>
+      <Button 
+        title="Crear Ruta" onPress={handleSubmit} 
+        buttonStyle={{ width: "100%" }} 
+        icon={<Feather name="send" size={20} color="#fff" />}
+      />
 
-        <TouchableOpacity style={styles.footerItem}>
-          <Ionicons name="car-outline" size={24} color="#888" />
-          <Text style={styles.footerTextInactive}>VIAJE</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.footerItem}>
-          <Ionicons name="chatbubble-outline" size={24} color="#888" />
-          <Text style={styles.footerTextInactive}>MENSAJE</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.footerItem}>
-          <Ionicons name="menu-outline" size={24} color="#888" />
-          <Text style={styles.footerTextInactive}>MENU</Text>
-        </TouchableOpacity>
-      </View>
+      {successMessage ? <Text style={styles.successMsg}>{successMessage}</Text> : null}
+      
+      <Footer />
     </View>
   );
 };
@@ -58,66 +85,40 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9F9F9',
     paddingHorizontal: 20,
     paddingTop: 50,
+    paddingBottom: 60,
   },
-  backButton: {
-    position: 'absolute',
-    top: 50,
-    left: 20,
+  backButtonContainer: {
+    marginBottom: 10,
   },
   title: {
-    fontSize: 24,
+    fontSize: 38,
     fontWeight: 'bold',
     color: '#043927',
-    marginTop: 10,
+    alignSelf: 'center',
+    marginTop: 30,
+    marginBottom: 10,
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: 20,
     color: '#888',
+    alignSelf: 'center',
     marginBottom: 20,
   },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#EAEAEA',
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    marginBottom: 10,
-    height: 50,
-  },
-  input: {
-    flex: 1,
-    marginLeft: 10,
-    fontSize: 16,
-  },
+  successMsg: {
+    color: "green",
+    fontSize: 14,
+    marginTop: 5,
+    fontFamily: "montserrat-medium",
+    textAlign: "center",
+    alignSelf: "center",
+},
   image: {
     width: '100%',
     height: 180,
     resizeMode: 'contain',
     marginTop: 20,
+    marginBottom: 20,
     alignSelf: 'center',
-  },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    backgroundColor: '#FFF',
-    paddingVertical: 10,
-    borderTopWidth: 1,
-    borderTopColor: '#DDD',
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-  },
-  footerItem: {
-    alignItems: 'center',
-  },
-  footerText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: '#043927',
-  },
-  footerTextInactive: {
-    fontSize: 12,
-    color: '#888',
   },
 });
 

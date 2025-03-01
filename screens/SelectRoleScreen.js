@@ -4,8 +4,8 @@ import { useNavigation } from "@react-navigation/native";
 import BackButton from "../components/BackButton";
 import Svg, { Line } from "react-native-svg";
 
-const driverImage = require("../assets/img/rol_conductor.jpg");
-const passengerImage = require("../assets/img/rol_pasajero.jpg");
+const driverImage = require("../assets/img/rolConductor.jpg");
+const passengerImage = require("../assets/img/rolPasajero.jpg");
 
 const { width } = Dimensions.get("window");
 
@@ -22,7 +22,7 @@ const SelectRoleScreen = () => {
             {/* Línea decorativa */}
             <View style={styles.svgContainer}>
                 <Svg height="10" width="150">
-                    <Line x1="0" y1="0" x2="60" y2="0" stroke="#00473B" strokeWidth="8" strokeOpacity={0.7} strokeLinecap="round" />
+                    <Line x1="0" y1="0" x2="80" y2="0" stroke="#00473B" strokeWidth="8" strokeOpacity={0.7} strokeLinecap="round" />
                 </Svg>
             </View>
 

@@ -4,9 +4,10 @@ import { AntDesign, Ionicons, Feather } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import BackButton from "../components/BackButton";
 import Button from "../components/Button";
+import { isValidPlaca } from "../utils/validation";
 import ValidatedInput from "../components/ValidatedInput";
 
-const optIcon = require("../assets/img/car_image.jpg");
+const optIcon = require("../assets/img/carImage.jpg");
 
 const FormularioVehiculo = () => {
   const navigation = useNavigation();
@@ -19,30 +20,47 @@ const FormularioVehiculo = () => {
   const [isValid, setIsValid] = useState(false);
 
   const validatePlaca = () => {
-    if (placa.length !== 6) {
+    if (placa.trim() === "") {
+      setPlacaErrorMsg("Este campo es obligatorio");
+    } else if (placa.length !== 6) {
       setPlacaErrorMsg("La placa debe tener 6 caracteres");
+    } else if (!isValidPlaca(placa)) {
+      setPlacaErrorMsg("La placa no es válida");
     } else {
       setPlacaErrorMsg("");
     }
   };
 
-  const validateEmptyOrNull = (value) => {
-    return value.trim() === "" ? "Este campo es obligatorio" : "";
+  const validateEmptyField = (value, setError) => {
+    if (value.trim() === "") {
+      setError("Este campo es obligatorio");
+    } else {
+      setError("");
+    }
   };
 
   useEffect(() => {
-    if (placaErrorMsg === "" && marcaErrorMsg === "" && tipoErrorMsg === "" && placa && marca && tipo) {
+    if (
+      placaErrorMsg === "" &&
+      marcaErrorMsg === "" &&
+      tipoErrorMsg === "" &&
+      placa &&
+      marca &&
+      tipo
+    ) {
       setIsValid(true);
     } else {
       setIsValid(false);
     }
   }, [placaErrorMsg, marcaErrorMsg, tipoErrorMsg, placa, marca, tipo]);
 
-  const validateForm = () => {
+  const handleSubmit = () => {
     validatePlaca();
-    setMarcaErrorMsg(validateEmptyOrNull(marca));
-    setTipoErrorMsg(validateEmptyOrNull(tipo));
-    return isValid;
+    validateEmptyField(marca, setMarcaErrorMsg);
+    validateEmptyField(tipo, setTipoErrorMsg);
+    if (isValid) {
+      navigation.navigate("CreateRouteScreen");
+    }
   };
 
   return (
@@ -55,49 +73,44 @@ const FormularioVehiculo = () => {
       <ValidatedInput
         label="Placa del vehículo*"
         placeholder="ABC123"
-        icon={<Ionicons name="car-outline" size={25} color="#777" />}
+        icon={<Ionicons name="car-outline" size={20} color="#777" />}
         value={placa}
         onChangeText={(text) => {
           setPlaca(text);
           setPlacaErrorMsg("");
         }}
         onBlur={validatePlaca}
-        errorMessage={placaErrorMsg}
-        style={[styles.input, placaErrorMsg ? styles.inputError : null]}
+        errorMsg={placaErrorMsg}
       />
       <ValidatedInput
         label="Marca del vehículo*"
         placeholder="Toyota"
-        icon={<Ionicons name="pricetag-outline" size={25} color="#777" />}
+        icon={<Ionicons name="pricetag-outline" size={20} color="#777" />}
         value={marca}
         onChangeText={(text) => {
           setMarca(text);
           setMarcaErrorMsg("");
         }}
-        errorMessage={marcaErrorMsg}
-        style={[styles.input, marcaErrorMsg ? styles.inputError : null]}
+        onBlur={() => validateEmptyField(marca, setMarcaErrorMsg)}
+        errorMsg={marcaErrorMsg}
       />
       <ValidatedInput
         label="Tipo de vehículo*"
         placeholder="Sedán, SUV, Camioneta"
-        icon={<Ionicons name="car-outline" size={25} color="#777" />}
+        icon={<Ionicons name="car-outline" size={20} color="#777" />}
         value={tipo}
         onChangeText={(text) => {
           setTipo(text);
           setTipoErrorMsg("");
         }}
-        errorMessage={tipoErrorMsg}
-        style={[styles.input, tipoErrorMsg ? styles.inputError : null]}
+        onBlur={() => validateEmptyField(tipo, setTipoErrorMsg)}
+        errorMsg={tipoErrorMsg}
       />
       <Button
         title="Agregar"
         buttonStyle={{ width: "100%" }}
         icon={<Feather name="send" size={20} color="#fff" />}
-        onPress={() => {
-          if (validateForm()) {
-            navigation.navigate("HomeScreen");
-          }
-        }}
+        onPress={handleSubmit}
       />
     </View>
   );
@@ -120,21 +133,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   title: {
-    fontSize: 36,
+    fontSize: 38,
     fontFamily: "montserrat-bold",
     color: "#005C53",
     alignSelf: "flex-start",
     marginBottom: 20,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-  },
-  inputError: {
-    borderColor: "red",
-    backgroundColor: "#FFE5E5",
   },
 });
 

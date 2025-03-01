@@ -17,6 +17,7 @@ import { StatusBar } from "expo-status-bar";
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 import SelectRoleScreen from "./screens/SelectRoleScreen";
 import CreateCarScreen from "./screens/CreateCarScreen";
+import CreateRouteScreen from "./screens/CreateRouteScreen";
 
 const Stack = createStackNavigator();
 
@@ -111,6 +112,11 @@ export default function App() {
         <Stack.Screen
         name="CreateCarScreen"
         component={CreateCarScreen}
+        options={{ headerShown: false }}
+        />
+        <Stack.Screen
+        name="CreateRouteScreen"
+        component={CreateRouteScreen}
         options={{ headerShown: false }}
         />
       </Stack.Navigator>
