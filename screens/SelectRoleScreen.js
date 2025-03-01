@@ -16,7 +16,7 @@ const SelectRoleScreen = () => {
         <View style={styles.container}>
             <BackButton />
             <Text style={styles.title}>
-                Selecciona tu <Text style={styles.boldText}>rol</Text>
+                Elige tu <Text style={styles.boldText}>perfil</Text>
             </Text>
 
             {/* Línea decorativa */}
@@ -59,24 +59,23 @@ const SelectRoleScreen = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#F5F5F5",
-        paddingHorizontal: 20,
     },
     title: {
         fontSize: 40,
         fontFamily: "montserrat-bold",
         color: "#00473B",
         textAlign: "center",
+        marginTop: 120,
     },
     boldText: {
         fontWeight: "bold",
     },
     svgContainer: {
         alignItems: "flex-start",
-        marginBottom: 25,
+        marginBottom: 35,
     },
     option: {
         width: width * 0.8,
@@ -121,7 +120,7 @@ const styles = StyleSheet.create({
     orText: {
         fontSize: 18,
         fontFamily: "montserrat-semibold",
-        marginVertical: 10,
+        marginVertical: 20,
         color: "#7D7D7D",
     },
 });
