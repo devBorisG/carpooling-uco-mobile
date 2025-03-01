@@ -80,7 +80,7 @@ const SignUpScreen = () => {
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
         <BackButton />
-        <Image source={singUpIcon} style={styles.image} />
+        <Image source={signUpIcon} style={styles.image} />
         <Text style={styles.title}>Registrarse</Text>
 
         {/* Línea horizontal SVG debajo del título */}
