@@ -1,8 +1,8 @@
+/*eslint-disable*/
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Modal, Switch } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const BookingScreen = () => {
   const navigation = useNavigation();
@@ -16,7 +16,6 @@ const BookingScreen = () => {
   const [selectedDays, setSelectedDays] = useState([]);
   const [selectedTime, setSelectedTime] = useState("");
   const [isReminder, setIsReminder] = useState(false);
-  const [isTimePickerVisible, setIsTimePickerVisible] = useState(false);
 
   const toggleModal = () => setModalVisible(!isModalVisible);
 
@@ -46,16 +45,9 @@ const BookingScreen = () => {
 
   const handleTimeChange = (time) => {
     setSelectedTime(time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
-    setIsTimePickerVisible(false);
   };
 
-  const showTimePicker = () => {
-    setIsTimePickerVisible(true);
-  };
 
-  const hideTimePicker = () => {
-    setIsTimePickerVisible(false);
-  };
 
   return (
     <View style={styles.container}>
@@ -116,10 +108,6 @@ const BookingScreen = () => {
 
       {/* Sección de Hora de Recogida y Cupos en una sola fila */}
       <View style={styles.rowOptions}>
-        <TouchableOpacity style={styles.timePicker} onPress={toggleModal}>
-          <Ionicons name="time-outline" size={20} color="#00473B" />
-          <Text style={styles.timeText}>{pickupTime}</Text>
-        </TouchableOpacity>
         <View style={styles.seatSelector}>
           {/* Condición para esconder el botón de decremento cuando los cupos sean 1 */}
           {seats > 1 && (
@@ -189,9 +177,7 @@ const BookingScreen = () => {
                   ))}
                 </View>
                 <Text style={styles.subTitle}>Selecciona un horario:</Text>
-                <TouchableOpacity onPress={showTimePicker} style={styles.timeButton}>
-                  <Text style={styles.timeText}>{selectedTime || "Selecciona una hora"}</Text>
-                </TouchableOpacity>
+
                 <View style={styles.switchContainer}>
                   <Text style={styles.switchLabel}>Recordar</Text>
                   <Switch
@@ -214,13 +200,7 @@ const BookingScreen = () => {
         </View>
       </Modal>
 
-      {/* Time Picker Modal */}
-      <DateTimePickerModal
-        isVisible={isTimePickerVisible}
-        mode="time"
-        onConfirm={handleTimeChange}
-        onCancel={hideTimePicker}
-      />
+
     </View>
   );
 };
@@ -239,7 +219,6 @@ const styles = StyleSheet.create({
   divider: { height: 1, backgroundColor: "#CCC", width: "80%", alignSelf: "center", marginVertical: 3 },
   swapButton: { marginLeft: 10 },
   rowOptions: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginTop: 10 },
-  timePicker: { flexDirection: "row", alignItems: "center" },
   timeText: { fontSize: 16, color: "#00473B", marginLeft: 8 },
   seatSelector: { flexDirection: "row", alignItems: "center" },
   seatCount: { fontSize: 16, color: "#00473B", marginHorizontal: 8 },
