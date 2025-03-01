@@ -1,8 +1,8 @@
-/*eslint-disable*/
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Modal, Switch } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const BookingScreen = () => {
   const navigation = useNavigation();
@@ -16,8 +16,11 @@ const BookingScreen = () => {
   const [selectedDays, setSelectedDays] = useState([]);
   const [selectedTime, setSelectedTime] = useState("");
   const [isReminder, setIsReminder] = useState(false);
+  const [isTimePickerVisible, setIsTimePickerVisible] = useState(false);
+  const [time, setTime] = useState(new Date()); // Store the selected time
 
   const toggleModal = () => setModalVisible(!isModalVisible);
+  const toggleTimePickerModal = () => setIsTimePickerVisible(!isTimePickerVisible);
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
@@ -37,17 +40,31 @@ const BookingScreen = () => {
     }
   };
 
+  const showTimePicker = () => {
+    setIsTimePickerVisible(true);  // Show the DateTimePicker modal
+    setModalVisible(false);        // Close the main modal when Time Picker is shown
+  };
+
+  const handleTimeChange = (event, selectedDate) => {
+    const currentDate = selectedDate || time;
+    setTime(currentDate);
+    const hours = currentDate.getHours() > 12 ? currentDate.getHours() - 12 : currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+    const ampm = currentDate.getHours() >= 12 ? 'PM' : 'AM';
+    setSelectedTime(`${hours}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`);
+  };
+
+  const closeTimePicker = () => {
+    setIsTimePickerVisible(false); // Close the DateTimePicker modal when the close button is clicked
+    setModalVisible(true); // Reopen the main modal after closing time picker
+  };
+
+  // Toggle day selection
   const toggleDaySelection = (day) => {
     setSelectedDays(prevState =>
       prevState.includes(day) ? prevState.filter(d => d !== day) : [...prevState, day]
     );
   };
-
-  const handleTimeChange = (time) => {
-    setSelectedTime(time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
-  };
-
-
 
   return (
     <View style={styles.container}>
@@ -108,21 +125,32 @@ const BookingScreen = () => {
 
       {/* Sección de Hora de Recogida y Cupos en una sola fila */}
       <View style={styles.rowOptions}>
+        <TouchableOpacity style={styles.timePicker} onPress={toggleModal}>
+          <Ionicons name="time-outline" size={20} color="#00473B" />
+          <Text style={styles.timeText}>{pickupTime}</Text>
+        </TouchableOpacity>
         <View style={styles.seatSelector}>
+          {/* Ícono de personas */}
+          <Ionicons name="people-outline" size={22} color="#00473B" />
+
           {/* Condición para esconder el botón de decremento cuando los cupos sean 1 */}
           {seats > 1 && (
             <TouchableOpacity onPress={() => setSeats(seats - 1)}>
               <Ionicons name="remove-circle-outline" size={22} color="#00473B" />
             </TouchableOpacity>
           )}
+
+          {/* Mostrar los cupos */}
           <Text style={styles.seatCount}>{seats}</Text>
+
+          {/* Botón para sumar cupos */}
           <TouchableOpacity onPress={() => setSeats(seats + 1)}>
             <Ionicons name="add-circle-outline" size={22} color="#00473B" />
           </TouchableOpacity>
         </View>
       </View>
 
-      {/* Modal para seleccionar opción de tiempo */}
+      {/* Modal principal */}
       <Modal
         visible={isModalVisible}
         transparent={true}
@@ -177,7 +205,9 @@ const BookingScreen = () => {
                   ))}
                 </View>
                 <Text style={styles.subTitle}>Selecciona un horario:</Text>
-
+                <TouchableOpacity onPress={showTimePicker} style={styles.timeButton}>
+                  <Text style={styles.timeText}>{selectedTime || "Selecciona una hora"}</Text>
+                </TouchableOpacity>
                 <View style={styles.switchContainer}>
                   <Text style={styles.switchLabel}>Recordar</Text>
                   <Switch
@@ -200,6 +230,30 @@ const BookingScreen = () => {
         </View>
       </Modal>
 
+      {/* Modal para Time Picker */}
+      <Modal
+        visible={isTimePickerVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={closeTimePicker}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.timePickerModalContainer}>
+            <TouchableOpacity onPress={closeTimePicker} style={styles.closeButton}>
+              <Ionicons name="close-circle" size={28} color="#00473B" />
+            </TouchableOpacity>
+
+            <Text style={styles.modalTitle}>Selecciona una hora</Text>
+            <DateTimePicker
+              value={time}
+              mode="time"
+              is24Hour={false} // Use 12-hour format
+              display="spinner"
+              onChange={handleTimeChange}
+            />
+          </View>
+        </View>
+      </Modal>
 
     </View>
   );
@@ -219,11 +273,12 @@ const styles = StyleSheet.create({
   divider: { height: 1, backgroundColor: "#CCC", width: "80%", alignSelf: "center", marginVertical: 3 },
   swapButton: { marginLeft: 10 },
   rowOptions: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginTop: 10 },
+  timePicker: { flexDirection: "row", alignItems: "center" },
   timeText: { fontSize: 16, color: "#00473B", marginLeft: 8 },
   seatSelector: { flexDirection: "row", alignItems: "center" },
   seatCount: { fontSize: 16, color: "#00473B", marginHorizontal: 8 },
 
-  // Modal Styles
+  // Modal Styles for main modal
   modalOverlay: {
     flex: 1,
     justifyContent: "center",
@@ -288,6 +343,13 @@ const styles = StyleSheet.create({
   continueText: { fontSize: 16, color: "#FFF" },
   disabledButton: {
     backgroundColor: "#B0B0B0"
+  },
+  timePickerModalContainer: {
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 30,
+    width: "80%",
+    alignItems: "center",
   },
 });
 
