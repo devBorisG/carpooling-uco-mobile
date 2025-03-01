@@ -29,7 +29,7 @@ const SelectRoleScreen = () => {
             {/* Opción: Conductor */}
             <TouchableOpacity 
                 style={styles.option} 
-                onPress={() => navigation.navigate("DriverScreen")}
+                onPress={() => navigation.navigate("CreateCarScreen")}
             >
                 <View style={styles.imageContainer}>
                     <Image source={driverImage} style={styles.image} />
