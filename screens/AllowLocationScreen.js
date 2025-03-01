@@ -50,7 +50,7 @@ const AllowLocationScreen = () => {
 
     const handleNotAllowLocation = async () => {
         await AsyncStorage.setItem("userLocation", JSON.stringify(defaultLocation));
-        navigation.navigate("SingUpScreen");
+        navigation.navigate("SignUpScreen");
     };
 
     return (

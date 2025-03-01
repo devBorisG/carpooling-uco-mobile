@@ -51,7 +51,7 @@ const LoginScreen = () => {
         validatePassword();
         if (isValid) {
             setSuccessMessage("Inicio de sesión exitoso");
-            navigation.navigate("SelectRoleScreen");
+            navigation.navigate("HomeScreen");
         }
     };
 
@@ -121,7 +121,7 @@ const LoginScreen = () => {
                 />
 
                 <Text style={styles.registerText}>
-                    ¿Eres nuevo? <Text style={styles.link} onPress={() => navigation.navigate("SingUpScreen")}>Registrate ahora</Text>
+                    ¿Eres nuevo? <Text style={styles.link} onPress={() => navigation.navigate("SignUpScreen")}>Registrate ahora</Text>
                 </Text>
             </View>
         </ScrollView>

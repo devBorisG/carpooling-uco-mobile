@@ -110,7 +110,7 @@ export default function App() {
         />
         <Stack.Screen
           name="AllowLocationScreen"
-          component={HomeScreen}
+          component={AllowLocationScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen

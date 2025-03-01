@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Modal, Switch } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const BookingScreen = () => {
   const navigation = useNavigation();
