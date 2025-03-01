@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import { Ionicons, MaterialIcons, Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 
-let accountIndex = 0;
-let homeIndex = 1;
-let tripIndex = 2;
-let chatIndex = 3;
+let accountIndex = 3;
+let homeIndex = 0;
+let tripIndex = 1;
+let chatIndex = 2;
 
 const Footer = ({ onMenuPress, onHomePress }) => {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -14,18 +14,18 @@ const Footer = ({ onMenuPress, onHomePress }) => {
     const handlePress = (index) => {
         setActiveIndex(index);
         switch (index) {
-            case 0:
+            case 3:
                 console.log("Menú");
                 onMenuPress();
                 break;
-            case 1:
+            case 0:
                 console.log("Home");
                 onHomePress();
                 break;
-            case 2:
+            case 1:
                 console.log("Viaje");
                 break;
-            case 3:
+            case 2:
                 console.log("Chat");
                 break;
         };
@@ -33,16 +33,7 @@ const Footer = ({ onMenuPress, onHomePress }) => {
 
     return (
         <View style={styles.footer}>
-            <TouchableOpacity style={styles.iconButton} onPress={() => handlePress(accountIndex)}>
-                <MaterialCommunityIcons
-                    name="account"
-                    size={30}
-                    color={activeIndex === accountIndex ? "#308A5A" : "rgba(0, 0, 0, 0.8)"}
-                />
-                <Text style={{ color: activeIndex === accountIndex ? "#308A5A" : "rgba(0, 0, 0, 0.8)" }}>
-                    Cuenta
-                </Text>
-            </TouchableOpacity>
+
             <TouchableOpacity style={styles.iconButton} onPress={() => handlePress(homeIndex)}>
                 <Ionicons
                     name="home"
@@ -71,6 +62,16 @@ const Footer = ({ onMenuPress, onHomePress }) => {
                 />
                 <Text style={{ color: activeIndex === chatIndex ? "#308A5A" : "rgba(0, 0, 0, 0.8)" }}>
                     Chat
+                </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.iconButton} onPress={() => handlePress(accountIndex)}>
+                <MaterialCommunityIcons
+                    name="account"
+                    size={30}
+                    color={activeIndex === accountIndex ? "#308A5A" : "rgba(0, 0, 0, 0.8)"}
+                />
+                <Text style={{ color: activeIndex === accountIndex ? "#308A5A" : "rgba(0, 0, 0, 0.8)" }}>
+                    Cuenta
                 </Text>
             </TouchableOpacity>
         </View>

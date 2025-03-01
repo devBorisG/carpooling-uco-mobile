@@ -8,7 +8,6 @@ import { Ionicons } from "@expo/vector-icons";
 import Sidebar from "../components/SideBar";
 import { useNavigation } from "@react-navigation/native";
 
-const { width } = Dimensions.get("window");
 
 const names = [
     "Jarod", "Jarod Sapo", "Rafa", "Felipito", "Morronga",

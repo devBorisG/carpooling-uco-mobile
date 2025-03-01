@@ -57,7 +57,7 @@ const BookingScreen = () => {
       </TouchableOpacity>
 
       {/* Título */}
-      <Text style={styles.title}>¿A Dónde Vamos?</Text>
+      <Text style={styles.title}>¿Hacia dónde vamos?</Text>
 
       {/* Contenedor de Origen y Destino con Línea Conectada */}
       <View style={styles.locationContainer}>
