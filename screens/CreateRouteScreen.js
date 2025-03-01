@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   skipText: {
       fontSize: 22,
       fontFamily: "montserrat-bold",
-      color: "#B2AFAF",
+      color: "#76af68",
       textDecorationLine: "underline",
       textAlign: "center",
   },

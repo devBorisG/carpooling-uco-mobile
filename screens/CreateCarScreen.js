@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
-import { AntDesign, Ionicons, Feather } from '@expo/vector-icons';
+import { Picker } from "@react-native-picker/picker";
+import { AntDesign, Ionicons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import BackButton from "../components/BackButton";
 import Button from "../components/Button";
@@ -12,8 +13,8 @@ const optIcon = require("../assets/img/carImage.jpg");
 const FormularioVehiculo = () => {
   const navigation = useNavigation();
   const [placa, setPlaca] = useState("");
-  const [marca, setMarca] = useState("");
-  const [tipo, setTipo] = useState("");
+  const [marca, setMarca] = useState(""); 
+  const [tipo, setTipo] = useState(""); 
   const [placaErrorMsg, setPlacaErrorMsg] = useState("");
   const [marcaErrorMsg, setMarcaErrorMsg] = useState("");
   const [tipoErrorMsg, setTipoErrorMsg] = useState("");
@@ -28,14 +29,6 @@ const FormularioVehiculo = () => {
       setPlacaErrorMsg("La placa no es válida");
     } else {
       setPlacaErrorMsg("");
-    }
-  };
-
-  const validateEmptyField = (value, setError) => {
-    if (value.trim() === "") {
-      setError("Este campo es obligatorio");
-    } else {
-      setError("");
     }
   };
 
@@ -56,9 +49,10 @@ const FormularioVehiculo = () => {
 
   const handleSubmit = () => {
     validatePlaca();
-    validateEmptyField(marca, setMarcaErrorMsg);
-    validateEmptyField(tipo, setTipoErrorMsg);
-    if (isValid) {
+    if (!marca) setMarcaErrorMsg("Debe seleccionar una marca");
+    if (!tipo) setTipoErrorMsg("Debe seleccionar un tipo de vehículo");
+
+    if (placa && marca && tipo && placaErrorMsg === "" && marcaErrorMsg === "" && tipoErrorMsg === "") {
       navigation.navigate("CreateRouteScreen");
     }
   };
@@ -70,10 +64,11 @@ const FormularioVehiculo = () => {
         <Image source={optIcon} style={styles.image} />
       </View>
       <Text style={styles.title}>Registrar vehículo</Text>
+      
       <ValidatedInput
         label="Placa del vehículo*"
         placeholder="ABC123"
-        icon={<Ionicons name="car-outline" size={20} color="#777" />}
+        icon={<MaterialCommunityIcons name="card-outline" size={25} color="#777" />}
         value={placa}
         onChangeText={(text) => {
           setPlaca(text);
@@ -82,30 +77,47 @@ const FormularioVehiculo = () => {
         onBlur={validatePlaca}
         errorMsg={placaErrorMsg}
       />
-      <ValidatedInput
-        label="Marca del vehículo*"
-        placeholder="Toyota"
-        icon={<Ionicons name="pricetag-outline" size={20} color="#777" />}
-        value={marca}
-        onChangeText={(text) => {
-          setMarca(text);
-          setMarcaErrorMsg("");
-        }}
-        onBlur={() => validateEmptyField(marca, setMarcaErrorMsg)}
-        errorMsg={marcaErrorMsg}
-      />
-      <ValidatedInput
-        label="Tipo de vehículo*"
-        placeholder="Sedán, SUV, Camioneta"
-        icon={<Ionicons name="car-outline" size={20} color="#777" />}
-        value={tipo}
-        onChangeText={(text) => {
-          setTipo(text);
-          setTipoErrorMsg("");
-        }}
-        onBlur={() => validateEmptyField(tipo, setTipoErrorMsg)}
-        errorMsg={tipoErrorMsg}
-      />
+
+      <Text style={styles.label}>Marca del vehículo*</Text>
+      <View style={styles.pickerContainer}>
+        <Ionicons name="list" size={25} color="#777" style={styles.pickerIcon} />
+        <Picker
+          selectedValue={marca}
+          onValueChange={(itemValue) => {
+            setMarca(itemValue);
+            setMarcaErrorMsg("");
+          }}
+          style={styles.picker}
+        >
+          <Picker.Item label="Seleccione una marca" value="" />
+          <Picker.Item label="Toyota" value="Toyota" />
+          <Picker.Item label="Ford" value="Ford" />
+          <Picker.Item label="Chevrolet" value="Chevrolet" />
+          <Picker.Item label="Nissan" value="Nissan" />
+        </Picker>
+      </View>
+      {marcaErrorMsg ? <Text style={styles.errorText}>{marcaErrorMsg}</Text> : null}
+
+      <Text style={styles.label}>Tipo de vehículo*</Text>
+      <View style={styles.pickerContainer}>
+        <Ionicons name="list" size={25} color="#777" style={styles.pickerIcon} />
+        <Picker
+          selectedValue={tipo}
+          onValueChange={(itemValue) => {
+            setTipo(itemValue);
+            setTipoErrorMsg("");
+          }}
+          style={styles.picker}
+        >
+          <Picker.Item label="Seleccione un tipo" value="" />
+          <Picker.Item label="Automóvil" value="Sedán" />
+          <Picker.Item label="Bus" value="SUV" />
+          <Picker.Item label="Camioneta" value="Camioneta" />
+          <Picker.Item label="Motocicleta" value="Motocicleta" />
+        </Picker>
+      </View>
+      {tipoErrorMsg ? <Text style={styles.errorText}>{tipoErrorMsg}</Text> : null}
+
       <Button
         title="Agregar"
         buttonStyle={{ width: "100%" }}
@@ -138,6 +150,33 @@ const styles = StyleSheet.create({
     color: "#005C53",
     alignSelf: "flex-start",
     marginBottom: 20,
+  },
+  label: {
+    fontSize: 16,
+    color: "#005C53",
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  pickerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+  pickerIcon: {
+    marginRight: 10,
+  },
+  picker: {
+    flex: 1,
+  },
+  errorText: {
+    color: "red",
+    fontSize: 14,
+    marginBottom: 10,
   },
 });
 
