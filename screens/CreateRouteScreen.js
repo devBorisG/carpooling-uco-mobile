@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet} from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import BackButton from "../components/BackButton";
 import Button from "../components/Button";
@@ -31,6 +31,10 @@ const CreateTripScreen = () => {
       navigation.navigate("HomeScreen");
     }
   };
+
+  const handleSkip = () => {
+    navigation.navigate("HomeScreen");
+};
 
   return (
     <View style={styles.container}>
@@ -71,6 +75,9 @@ const CreateTripScreen = () => {
         buttonStyle={{ width: "100%" }} 
         icon={<Feather name="send" size={20} color="#fff" />}
       />
+      <TouchableOpacity onPress={handleSkip}>
+        <Text style={styles.skipText}>Saltar por ahora</Text>
+      </TouchableOpacity>
 
       {successMessage ? <Text style={styles.successMsg}>{successMessage}</Text> : null}
       
@@ -89,6 +96,13 @@ const styles = StyleSheet.create({
   },
   backButtonContainer: {
     marginBottom: 10,
+  },
+  skipText: {
+      fontSize: 22,
+      fontFamily: "montserrat-bold",
+      color: "#B2AFAF",
+      textDecorationLine: "underline",
+      textAlign: "center",
   },
   title: {
     fontSize: 38,
