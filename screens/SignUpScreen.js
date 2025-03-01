@@ -9,9 +9,9 @@ import { useNavigation } from "@react-navigation/native";
 import { isValidEmail, isValidPhone, isValidPassword } from "../utils/validation";
 import Button from "../components/Button";
 
-const singUpIcon = require("../assets/img/SingUp.jpg");
+const signUpIcon = require("../assets/img/SingUp.jpg");
 
-const SingUpScreen = () => {
+const SignUpScreen = () => {
   const navigation = useNavigation();
   const [correo, setCorreo] = useState("");
   const [celular, setCelular] = useState("");
@@ -302,4 +302,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SingUpScreen;
+export default SignUpScreen;

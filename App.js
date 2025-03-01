@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import SplashScreen from "./screens/SplashScreen";
-import SingUpScreen from "./screens/SingUpScreen";
+import SignUpScreen from "./screens/SignUpScreen";
 import TermsScreen from "./screens/TermsScreen";
 import PrivacyScreen from "./screens/PrivacyScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -18,15 +18,24 @@ import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 import SelectRoleScreen from "./screens/SelectRoleScreen";
 import CreateCarScreen from "./screens/CreateCarScreen";
 import CreateRouteScreen from "./screens/CreateRouteScreen";
+import BookingScreen from "./screens/BookingScreen";
+
 
 const Stack = createStackNavigator();
 
-const fetchFonts = () => {
-  return Font.loadAsync({
-    "montserrat-regular": require("./assets/fonts/Montserrat-Regular.ttf"),
-    "montserrat-bold": require("./assets/fonts/Montserrat-Bold.ttf"),
-    "montserrat-semibold": require("./assets/fonts/Montserrat-SemiBold.ttf"),
-  });
+
+const fetchFonts = async () => {
+  try {
+    await Font.loadAsync({
+      "montserrat-regular": require("./assets/fonts/Montserrat-Regular.ttf"),
+      "montserrat-bold": require("./assets/fonts/Montserrat-Bold.ttf"),
+      "montserrat-semibold": require("./assets/fonts/Montserrat-SemiBold.ttf"),
+    });
+    return true;
+  } catch (error) {
+    console.error("Error cargando fuentes:", error);
+    return false;
+  }
 };
 
 export default function App() {
@@ -65,8 +74,8 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="SingUpScreen"
-          component={SingUpScreen}
+          name="SignUpScreen"
+          component={SignUpScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -95,8 +104,13 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
+        name="BookingScreen"
+        component={BookingScreen}
+        options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="AllowLocationScreen"
-          component={AllowLocationScreen}
+          component={HomeScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen

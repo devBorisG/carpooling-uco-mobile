@@ -20,12 +20,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#E2FEEF",
     justifyContent: "center",
     alignItems: "center",
+    paddingHorizontal: 10,
+  },
+  logo: {
+    width: 300,
+    height: 190,
+    resizeMode: "contain",
   },
   title: {
-    fontSize: 70,
+    fontSize: 58,
     color: "#00473B",
     fontFamily: "montserrat-bold",
+    textAlign: "center",
+    flexWrap: "nowrap",
+    maxWidth: "90%",
+  },
+  loader: {
+    paddingTop: 40,
   },
 });
-
 export default SplashScreen;
