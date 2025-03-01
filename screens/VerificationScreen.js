@@ -17,7 +17,7 @@ const VerificationScreen = () => {
 
     const handleVerify = () => {
         console.log("OTP verificado:", otp);
-        navigation.navigate("HomeScreen");
+        navigation.navigate("SelectRoleScreen");
     };
 
     const handleResend = () => {
