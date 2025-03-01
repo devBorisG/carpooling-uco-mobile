@@ -4,8 +4,8 @@ import { useNavigation } from "@react-navigation/native";
 import BackButton from "../components/BackButton";
 import Svg, { Line } from "react-native-svg";
 
-const driverImage = require("../assets/img/rol_conductor.jpg");
-const passengerImage = require("../assets/img/rol_pasajero.jpg");
+const driverImage = require("../assets/img/rolConductor.jpg");
+const passengerImage = require("../assets/img/rolPasajero.jpg");
 
 const { width } = Dimensions.get("window");
 
@@ -16,13 +16,13 @@ const SelectRoleScreen = () => {
         <View style={styles.container}>
             <BackButton />
             <Text style={styles.title}>
-                Selecciona tu <Text style={styles.boldText}>rol</Text>
+                Elige tu <Text style={styles.boldText}>perfil</Text>
             </Text>
 
             {/* Línea decorativa */}
             <View style={styles.svgContainer}>
                 <Svg height="10" width="150">
-                    <Line x1="0" y1="0" x2="60" y2="0" stroke="#00473B" strokeWidth="8" strokeOpacity={0.7} strokeLinecap="round" />
+                    <Line x1="0" y1="0" x2="80" y2="0" stroke="#00473B" strokeWidth="8" strokeOpacity={0.7} strokeLinecap="round" />
                 </Svg>
             </View>
 
@@ -59,24 +59,23 @@ const SelectRoleScreen = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#F5F5F5",
-        paddingHorizontal: 20,
     },
     title: {
         fontSize: 40,
         fontFamily: "montserrat-bold",
         color: "#00473B",
         textAlign: "center",
+        marginTop: 120,
     },
     boldText: {
         fontWeight: "bold",
     },
     svgContainer: {
         alignItems: "flex-start",
-        marginBottom: 25,
+        marginBottom: 35,
     },
     option: {
         width: width * 0.8,
@@ -121,7 +120,7 @@ const styles = StyleSheet.create({
     orText: {
         fontSize: 18,
         fontFamily: "montserrat-semibold",
-        marginVertical: 10,
+        marginVertical: 20,
         color: "#7D7D7D",
     },
 });
