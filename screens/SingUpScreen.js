@@ -103,7 +103,7 @@ const SingUpScreen = () => {
         <View style={styles.formContainer}>
           <ValidatedInput
             label={"Correo*"}
-            icon="mail"
+            icon= {<Feather name="mail" size={25} color="#777"/>}
             placeholder="Ingresar correo"
             keyboardType="email-address"
             value={correo}
@@ -116,7 +116,7 @@ const SingUpScreen = () => {
           />
           <ValidatedInput
             label={"Celular*"}
-            icon="phone"
+            icon={<Feather name="phone" size={25} color="#777"/>}
             placeholder="Ingresar número celular"
             keyboardType="phone-pad"
             value={celular}
@@ -156,7 +156,7 @@ const SingUpScreen = () => {
           </View>
           <ValidatedInput
             label={"Confirmar Contraseña*"}
-            icon="lock"
+            icon={<Feather name="lock" size={25} color="#777"/>}
             placeholder="Repetir contraseña"
             secureTextEntry
             value={confirmPassword}

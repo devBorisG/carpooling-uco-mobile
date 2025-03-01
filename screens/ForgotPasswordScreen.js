@@ -39,7 +39,7 @@ const ForgotPasswordScreen = () => {
             <View style={styles.inputContainer}>
                 <ValidatedInput
                     label="Correo electrónico*"
-                    icon="mail"
+                    icon={<Feather name="mail" size={25} color="#777"/>}
                     placeholder="Ingresa tu correo"
                     keyboardType="email-address"
                     value={correo}

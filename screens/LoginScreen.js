@@ -1,11 +1,12 @@
 /*eslint-disable prettier/prettier*/
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from "react-native";
 import Svg, { Line } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
 import { isValidEmail, isValidPassword } from "../utils/validation";
 import BackButton from "../components/BackButton";
 import ValidatedInput from "../components/ValidatedInput";
+import {Feather} from "@expo/vector-icons";
 import Button from "../components/Button";
 import Entypo from "@expo/vector-icons/Entypo";
 import GoogleIcon from "../assets/img/google-icon.svg";
@@ -19,6 +20,7 @@ const LoginScreen = () => {
     const [correoErrorMsg, setCorreoErrorMsg] = useState("");
     const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
+    const [isValid, setIsValid] = useState(false);
 
     const validateEmail = () => {
         if (!isValidEmail(correo)) {
@@ -36,14 +38,23 @@ const LoginScreen = () => {
         }
     };
 
+    useEffect(() => {
+        if (correoErrorMsg === "" && passwordErrorMsg === "" && correo && password) {
+            setIsValid(true);
+        } else {
+            setIsValid(false);
+        }
+    }, [correoErrorMsg, passwordErrorMsg, correo, password]);
+
     const handleLogin = () => {
         validateEmail();
         validatePassword();
-        if (correoErrorMsg === "" && passwordErrorMsg === "" && correo && password) {
+        if (isValid) {
             setSuccessMessage("Inicio de sesión exitoso");
             navigation.navigate("SelectRoleScreen");
         }
     };
+
 
     return (
         <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
@@ -61,7 +72,7 @@ const LoginScreen = () => {
                 <View style={styles.formContainer}>
                     <ValidatedInput
                         label="Correo electrónico*"
-                        icon="mail"
+                        icon={<Feather name="mail" size={25} color="#777"/>}
                         placeholder="Ingresar correo"
                         value={correo}
                         onChangeText={(text) => {
@@ -74,7 +85,7 @@ const LoginScreen = () => {
                     />
                     <ValidatedInput
                         label="Contraseña*"
-                        icon="lock"
+                        icon={<Feather name="lock" size={25} color="#777"/>}
                         placeholder="Ingresar contraseña"
                         secureTextEntry
                         value={password}

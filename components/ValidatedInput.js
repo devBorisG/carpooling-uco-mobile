@@ -1,7 +1,6 @@
 /*eslint-disable*/
 import React from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
-import { Feather } from "@expo/vector-icons";
 
 const ValidatedInput = ({
     label,
@@ -21,12 +20,11 @@ const ValidatedInput = ({
             <View style={styles.inputContainerFather}>
                 <Text style={[{ marginLeft: 45, marginBottom: 3, fontSize: 16}, errorMsg && { color: "red" } ]}>{label}</Text>
                 <View style={styles.inputContainer}>
-                    <Feather
-                        name={icon}
-                        size={25}
-                        color="#BEBEBE"
-                        style={[styles.inputIcon, inputIconStyle]}
-                    />
+                    {icon && React.isValidElement(icon) ? (
+                        React.cloneElement(icon, {
+                            style: [styles.inputIcon, icon.props.style, inputIconStyle],
+                        })
+                    ) : null}
                     <TextInput
                         style={[styles.input, errorMsg && { borderColor: "red" }, additionalStyle]}
                         placeholder={placeholder}
