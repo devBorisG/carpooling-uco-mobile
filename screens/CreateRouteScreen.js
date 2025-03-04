@@ -1,11 +1,13 @@
+/*eslint-disable prettier/prettier*/
 import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import BackButton from "../components/BackButton";
 import Button from "../components/Button";
 import { Feather, Ionicons } from '@expo/vector-icons';
 import ValidatedInput from "../components/ValidatedInput";
 import Footer from "../components/Footer";
+import Toast from 'react-native-toast-message';
 
 const CreateTripScreen = () => {
   const navigation = useNavigation();
@@ -13,7 +15,6 @@ const CreateTripScreen = () => {
   const [endPoint, setEndPoint] = useState("");
   const [startPointError, setStartPointError] = useState("");
   const [endPointError, setEndPointError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
 
   const validateEmptyField = (value, setError) => {
     if (value.trim() === "") {
@@ -27,14 +28,19 @@ const CreateTripScreen = () => {
     validateEmptyField(startPoint, setStartPointError);
     validateEmptyField(endPoint, setEndPointError);
     if (startPoint !== "" && endPoint !== "") {
-      setSuccessMessage("Ruta creada con éxito");
+      Toast.show({
+        type: "success",
+        text1: "Ruta creada \uD83D\uDE80",
+        position: "top",
+        visibilityTime: 2000,
+      });
       navigation.navigate("HomeScreen");
     }
   };
 
   const handleSkip = () => {
     navigation.navigate("HomeScreen");
-};
+  };
 
   return (
     <View style={styles.container}>
@@ -70,17 +76,14 @@ const CreateTripScreen = () => {
 
       <Image source={require("../assets/img/map.jpg")} style={styles.image} />
 
-      <Button 
-        title="Crear Ruta" onPress={handleSubmit} 
-        buttonStyle={{ width: "100%" }} 
+      <Button
+        title="Crear Ruta" onPress={handleSubmit}
+        buttonStyle={{ width: "100%" }}
         icon={<Feather name="send" size={20} color="#fff" />}
       />
       <TouchableOpacity onPress={handleSkip}>
         <Text style={styles.skipText}>Saltar por ahora</Text>
       </TouchableOpacity>
-
-      {successMessage ? <Text style={styles.successMsg}>{successMessage}</Text> : null}
-      
       <Footer />
     </View>
   );
@@ -98,11 +101,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   skipText: {
-      fontSize: 22,
-      fontFamily: "montserrat-bold",
-      color: "#76af68",
-      textDecorationLine: "underline",
-      textAlign: "center",
+    fontSize: 22,
+    fontFamily: "montserrat-bold",
+    color: "#76af68",
+    textDecorationLine: "underline",
+    textAlign: "center",
   },
   title: {
     fontSize: 38,
@@ -118,14 +121,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: 20,
   },
-  successMsg: {
-    color: "green",
-    fontSize: 14,
-    marginTop: 5,
-    fontFamily: "montserrat-medium",
-    textAlign: "center",
-    alignSelf: "center",
-},
   image: {
     width: '100%',
     height: 180,
