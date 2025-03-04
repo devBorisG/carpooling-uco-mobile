@@ -1,4 +1,4 @@
-/*eslint-disable prettier/prettier*/
+/* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from "react-native";
 import Svg, { Line } from "react-native-svg";
@@ -6,10 +6,11 @@ import { useNavigation } from "@react-navigation/native";
 import { isValidEmail, isValidPassword } from "../utils/validation";
 import BackButton from "../components/BackButton";
 import ValidatedInput from "../components/ValidatedInput";
-import {Feather} from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import Button from "../components/Button";
 import Entypo from "@expo/vector-icons/Entypo";
 import GoogleIcon from "../assets/img/google-icon.svg";
+import Toast from 'react-native-toast-message';
 
 const loginIcon = require("../assets/img/Login.jpg");
 
@@ -19,7 +20,6 @@ const LoginScreen = () => {
     const [password, setPassword] = useState("");
     const [correoErrorMsg, setCorreoErrorMsg] = useState("");
     const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
-    const [successMessage, setSuccessMessage] = useState("");
     const [isValid, setIsValid] = useState(false);
 
     const validateEmail = () => {
@@ -50,11 +50,15 @@ const LoginScreen = () => {
         validateEmail();
         validatePassword();
         if (isValid) {
-            setSuccessMessage("Inicio de sesión exitoso");
+            Toast.show({
+                type: 'success',
+                text1: '¡Inicio de sesión exitoso! \uD83D\uDE0A',
+                position: 'top',
+                visibilityTime: 2000,
+            });
             navigation.navigate("HomeScreen");
         }
     };
-
 
     return (
         <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
@@ -72,32 +76,29 @@ const LoginScreen = () => {
                 <View style={styles.formContainer}>
                     <ValidatedInput
                         label="Correo electrónico*"
-                        icon={<Feather name="mail" size={25} color="#777"/>}
+                        icon={<Feather name="mail" size={25} color="#777" />}
                         placeholder="Ingresar correo"
                         value={correo}
                         onChangeText={(text) => {
                             setCorreo(text);
                             setCorreoErrorMsg("");
-                            setSuccessMessage("");
                         }}
                         onBlur={validateEmail}
                         errorMsg={correoErrorMsg}
                     />
                     <ValidatedInput
                         label="Contraseña*"
-                        icon={<Feather name="lock" size={25} color="#777"/>}
+                        icon={<Feather name="lock" size={25} color="#777" />}
                         placeholder="Ingresar contraseña"
                         secureTextEntry
                         value={password}
                         onChangeText={(text) => {
                             setPassword(text);
                             setPasswordErrorMsg("");
-                            setSuccessMessage("");
                         }}
                         onBlur={validatePassword}
                         errorMsg={passwordErrorMsg}
                     />
-                    {successMessage ? <Text style={styles.successMsg}>{successMessage}</Text> : null}
                     <TouchableOpacity onPress={() => navigation.navigate("ForgotPasswordScreen")}>
                         <Text style={styles.forgotPassword}>¿Olvidaste tu contraseña?</Text>
                     </TouchableOpacity>
@@ -168,13 +169,6 @@ const styles = StyleSheet.create({
         alignSelf: "flex-end",
         marginTop: 5,
         marginRight: 10,
-    },
-    successMsg: {
-        color: "green",
-        fontSize: 14,
-        marginTop: 5,
-        fontFamily: "montserrat-medium",
-        textAlign: "center",
     },
     registerText: {
         fontSize: 14,

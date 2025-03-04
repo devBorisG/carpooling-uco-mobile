@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -7,6 +8,7 @@ import BackButton from "../components/BackButton";
 import Button from "../components/Button";
 import ValidatedInput from "../components/ValidatedInput";
 import { isValidEmail } from "../utils/validation";
+import Toast from "react-native-toast-message";
 
 const ForgotPasswordScreen = () => {
     const navigation = useNavigation();
@@ -20,8 +22,12 @@ const ForgotPasswordScreen = () => {
             setSuccessMessage("");
             return;
         }
-        setCorreoErrorMsg("");
-        setSuccessMessage("Correo enviado con éxito. Verifica tu bandeja de entrada.");
+        Toast.show({
+            type: "info",
+            text1: "Correo enviado \uD83D\uDCE7",
+            text2: "Revisa tu bandeja de entrada",
+            position: "top",
+        });
     };
 
     return (
@@ -39,7 +45,7 @@ const ForgotPasswordScreen = () => {
             <View style={styles.inputContainer}>
                 <ValidatedInput
                     label="Correo electrónico*"
-                    icon={<Feather name="mail" size={25} color="#777"/>}
+                    icon={<Feather name="mail" size={25} color="#777" />}
                     placeholder="Ingresa tu correo"
                     keyboardType="email-address"
                     value={correo}
@@ -55,10 +61,10 @@ const ForgotPasswordScreen = () => {
                 />
             </View>
             {successMessage ? <Text style={styles.successMsg}>{successMessage}</Text> : null}
-            <Button title="Enviar correo" 
-            onPress={handleSendEmail} 
-            buttonStyle={styles.button}
-            icon={<Feather name="send" size={20} color="#fff" />}        
+            <Button title="Enviar correo"
+                onPress={handleSendEmail}
+                buttonStyle={styles.button}
+                icon={<Feather name="send" size={20} color="#fff" />}
             />
             <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Text style={styles.backToLogin}>Volver al inicio de sesión</Text>
@@ -72,7 +78,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        padding:20,
+        padding: 20,
         backgroundColor: "#fff",
     },
     title: {

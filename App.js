@@ -18,7 +18,9 @@ import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 import SelectRoleScreen from "./screens/SelectRoleScreen";
 import CreateCarScreen from "./screens/CreateCarScreen";
 import CreateRouteScreen from "./screens/CreateRouteScreen";
+import Toast from 'react-native-toast-message';
 import BookingScreen from "./screens/BookingScreen";
+import { toastConfig } from "./toastConfig";
 
 
 const Stack = createStackNavigator();
@@ -104,9 +106,9 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-        name="BookingScreen"
-        component={BookingScreen}
-        options={{ headerShown: false }}
+          name="BookingScreen"
+          component={BookingScreen}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="AllowLocationScreen"
@@ -114,27 +116,28 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-        name="ForgotPasswordScreen" 
-        component={ForgotPasswordScreen}
-        options={{ headerShown: false }}
-        />
-        <Stack.Screen 
-        name="SelectRoleScreen" 
-        component={SelectRoleScreen}
-        options={{ headerShown: false }}
+          name="ForgotPasswordScreen"
+          component={ForgotPasswordScreen}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
-        name="CreateCarScreen"
-        component={CreateCarScreen}
-        options={{ headerShown: false }}
+          name="SelectRoleScreen"
+          component={SelectRoleScreen}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
-        name="CreateRouteScreen"
-        component={CreateRouteScreen}
-        options={{ headerShown: false }}
+          name="CreateCarScreen"
+          component={CreateCarScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="CreateRouteScreen"
+          component={CreateRouteScreen}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
       <StatusBar style="auto" />
+      <Toast config={toastConfig}/>
     </NavigationContainer>
   );
 }
