@@ -35,3 +35,9 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 package-lock.json
+.idea/carpooling-uco-mobile.iml
+.idea/discord.xml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml

@@ -3,6 +3,17 @@ import "react-native-get-random-values";
 import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { StatusBar } from "expo-status-bar";
+import Toast from 'react-native-toast-message';
+import { toastConfig } from "./toastConfig";
+
+// Servicios
+import { loadFonts, delay } from "./utils/fontService";
+
+// Constantes
+import { SCREENS, TIMES } from "./utils/constants";
+
+// Pantallas
 import SplashScreen from "./screens/SplashScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import TermsScreen from "./screens/TermsScreen";
@@ -12,33 +23,13 @@ import VerificationScreen from "./screens/VerificationScreen";
 import OnboardingScreen from "./screens/OnboardingScreen";
 import AllowLocationScreen from "./screens/AllowLocationScreen";
 import HomeScreen from "./screens/HomeScreen";
-import * as Font from "expo-font";
-import { StatusBar } from "expo-status-bar";
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 import SelectRoleScreen from "./screens/SelectRoleScreen";
 import CreateCarScreen from "./screens/CreateCarScreen";
 import CreateRouteScreen from "./screens/CreateRouteScreen";
-import Toast from 'react-native-toast-message';
 import BookingScreen from "./screens/BookingScreen";
-import { toastConfig } from "./toastConfig";
-
 
 const Stack = createStackNavigator();
-
-
-const fetchFonts = async () => {
-  try {
-    await Font.loadAsync({
-      "montserrat-regular": require("./assets/fonts/Montserrat-Regular.ttf"),
-      "montserrat-bold": require("./assets/fonts/Montserrat-Bold.ttf"),
-      "montserrat-semibold": require("./assets/fonts/Montserrat-SemiBold.ttf"),
-    });
-    return true;
-  } catch (error) {
-    console.error("Error cargando fuentes:", error);
-    return false;
-  }
-};
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -46,18 +37,25 @@ export default function App() {
 
   useEffect(() => {
     const loadResources = async () => {
-      await fetchFonts();
-      setFontLoaded(true);
-      // Una vez que las fuentes están cargadas, se espera el tiempo de splash
-      // eslint-disable-next-line no-undef
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      setIsLoading(false);
+      try {
+        // Carga de fuentes
+        const fontsLoaded = await loadFonts();
+        setFontLoaded(fontsLoaded);
+
+        // Espera el tiempo de splash
+        await delay(TIMES.SPLASH_DURATION);
+
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error al cargar recursos:", error);
+        setIsLoading(false);
+      }
     };
 
     loadResources();
   }, []);
 
-  // Mientras las fuentes no se hayan cargado, no renderizamos nada (o podemos renderizar un indicador básico)
+  // Mientras las fuentes no se hayan cargado, no renderizamos nada
   if (!fontLoaded) {
     return null;
   }
@@ -69,75 +67,84 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="OnboardingScreen">
+      <Stack.Navigator initialRouteName={SCREENS.ONBOARDING}>
+        {/* Pantallas principales */}
         <Stack.Screen
-          name="HomeScreen"
+          name={SCREENS.HOME}
           component={HomeScreen}
           options={{ headerShown: false }}
         />
+
+        {/* Pantallas de autenticación */}
         <Stack.Screen
-          name="SignUpScreen"
+          name={SCREENS.SIGNUP}
           component={SignUpScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="TermsScreen"
-          component={TermsScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="PrivacyScreen"
-          component={PrivacyScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="LoginScreen"
+          name={SCREENS.LOGIN}
           component={LoginScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="VerificationScreen"
+          name={SCREENS.VERIFICATION}
           component={VerificationScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="OnboardingScreen"
+          name={SCREENS.FORGOT_PASSWORD}
+          component={ForgotPasswordScreen}
+          options={{ headerShown: false }}
+        />
+
+        {/* Pantallas de onboarding */}
+        <Stack.Screen
+          name={SCREENS.ONBOARDING}
           component={OnboardingScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="BookingScreen"
-          component={BookingScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="AllowLocationScreen"
-          component={AllowLocationScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="ForgotPasswordScreen"
-          component={ForgotPasswordScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="SelectRoleScreen"
+          name={SCREENS.SELECT_ROLE}
           component={SelectRoleScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="CreateCarScreen"
+          name={SCREENS.ALLOW_LOCATION}
+          component={AllowLocationScreen}
+          options={{ headerShown: false }}
+        />
+
+        {/* Pantallas de funcionalidad */}
+        <Stack.Screen
+          name={SCREENS.BOOKING}
+          component={BookingScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={SCREENS.CREATE_CAR}
           component={CreateCarScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="CreateRouteScreen"
+          name={SCREENS.CREATE_ROUTE}
           component={CreateRouteScreen}
+          options={{ headerShown: false }}
+        />
+
+        {/* Pantallas legales */}
+        <Stack.Screen
+          name={SCREENS.TERMS}
+          component={TermsScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={SCREENS.PRIVACY}
+          component={PrivacyScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
       <StatusBar style="auto" />
-      <Toast config={toastConfig}/>
+      <Toast config={toastConfig} />
     </NavigationContainer>
   );
 }

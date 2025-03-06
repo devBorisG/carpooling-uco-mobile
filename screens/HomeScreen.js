@@ -1,84 +1,42 @@
 /*eslint-disable*/
 import React, { useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Dimensions, TouchableOpacity, Image, Animated, Platform } from "react-native";
-import MapView, { Marker, AnimatedRegion } from "react-native-maps";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import Footer from "../components/Footer";
-import { Ionicons } from "@expo/vector-icons";
-import Sidebar from "../components/SideBar";
+import MapView, { Marker } from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 
+// Componentes
+import Footer from "../components/Footer";
+import Sidebar from "../components/SideBar";
+import { Ionicons } from "@expo/vector-icons";
 
-const names = [
-    "Jarod", "Jarod Sapo", "Rafa", "Felipito", "Morronga",
-    "Pepito", "Rafael", "Boris", "Luis", "Carlos"
-];
+// Hooks y servicios
+import { useUserLocation, useMapControls, usePulseAnimation, createAnimatedCoordinate } from "../utils/mapHooks";
 
-const createAnimatedCoordinate = (latitude, longitude) => {
-    return new AnimatedRegion({
-        latitude,
-        longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-    });
-};
+// Constantes
+import { COLORS, MOCK_DATA, SCREENS } from "../utils/constants";
 
+/**
+ * Pantalla principal con mapa y vehículos cercanos
+ * @returns {JSX.Element} Componente HomeScreen
+ */
 const HomeScreen = () => {
     const navigation = useNavigation();
     const [sidebarVisible, setSidebarVisible] = useState(false);
-    const [region, setRegion] = useState(null);
-    const [mockCars, setMockCars] = useState([]); // Arreglo de carros animados
+    const [mockCars, setMockCars] = useState([]);
     const mapRef = useRef(null);
-    const pulseAnim = useRef(new Animated.Value(1)).current;
 
+    // Hooks personalizados
+    const { region } = useUserLocation();
+    const { resetMapHeading, centerOnUser, zoomIn, zoomOut } = useMapControls(mapRef, region);
+    const pulseAnim = usePulseAnimation();
 
-    // Animación del círculo pulsante
-    useEffect(() => {
-        Animated.loop(
-            Animated.sequence([
-                Animated.timing(pulseAnim, {
-                    toValue: 1.2,
-                    duration: 1200,
-                    useNativeDriver: false,
-                }),
-                Animated.timing(pulseAnim, {
-                    toValue: 1,
-                    duration: 3000,
-                    useNativeDriver: false,
-                }),
-            ])
-        ).start();
-    }, []);
-
-    // Cargar ubicación del usuario desde AsyncStorage
-    useEffect(() => {
-        const loadLocation = async () => {
-            try {
-                const storedLocation = await AsyncStorage.getItem("userLocation");
-                if (storedLocation) {
-                    const { latitude, longitude } = JSON.parse(storedLocation);
-                    setRegion({
-                        latitude,
-                        longitude,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                    });
-                }
-            } catch (error) {
-                console.error("Error al cargar la ubicación:", error);
-            }
-        };
-
-        loadLocation();
-    }, []);
-
-    // Generar carros animados una sola vez cuando la región esté disponible
+    // Generar vehículos simulados cuando la región esté disponible
     useEffect(() => {
         if (region && mockCars.length === 0) {
             const generateMockCars = () => {
                 return Array.from({ length: 10 }).map((_, index) => ({
                     id: index + 1,
-                    name: names[index % names.length],
+                    name: MOCK_DATA.DRIVER_NAMES[index % MOCK_DATA.DRIVER_NAMES.length],
                     // Se genera una posición aleatoria cerca de la ubicación del usuario
                     animatedCoordinate: createAnimatedCoordinate(
                         region.latitude + (Math.random() * 0.03 - 0.015),
@@ -91,7 +49,7 @@ const HomeScreen = () => {
         }
     }, [region]);
 
-    // Simula el movimiento de los carros actualizando su AnimatedRegion
+    // Simula el movimiento de los vehículos
     useEffect(() => {
         if (mockCars.length > 0) {
             const intervalId = setInterval(() => {
@@ -107,95 +65,11 @@ const HomeScreen = () => {
                         useNativeDriver: false,
                     }).start();
                 });
-            }, 3000); // Actualiza cada 2 segundos
+            }, 3000);
 
             return () => clearInterval(intervalId);
         }
     }, [mockCars]);
-
-    const resetMapHeading = () => {
-        if (mapRef.current) {
-            mapRef.current.animateCamera({ heading: 0 }, { duration: 500 });
-        }
-    };
-
-    const centerOnUser = () => {
-        if (mapRef.current && region) {
-            mapRef.current.animateCamera({ center: region }, { duration: 500 });
-        }
-    };
-
-
-    // Función para hacer zoom in
-    const zoomIn = async () => {
-        if (mapRef.current) {
-            try {
-                const camera = await mapRef.current.getCamera();
-                if (!camera || !camera.center || isNaN(camera.center.latitude) || isNaN(camera.center.longitude)) {
-                    console.error("Cámara no válida:", camera);
-                    return;
-                }
-                let newLatitudeDelta;
-                if (Platform.OS === "ios") {
-                    // En iOS usamos la altitude si está disponible
-                    newLatitudeDelta = Math.max((camera.altitude || 0) / 20000, 0.002);
-                } else {
-                    // En Android, usamos el delta actual y lo reducimos
-                    newLatitudeDelta = Math.max(region.latitudeDelta / 1.5, 0.002);
-                }
-                const newLongitudeDelta = newLatitudeDelta; // Asumiendo proporción 1:1
-
-                mapRef.current.animateToRegion({
-                    latitude: camera.center.latitude,
-                    longitude: camera.center.longitude,
-                    latitudeDelta: newLatitudeDelta,
-                    longitudeDelta: newLongitudeDelta,
-                }, 500);
-            } catch (error) {
-                console.error("Error al obtener la cámara:", error);
-            }
-        }
-    };
-
-    // Función para hacer zoom out
-    const zoomOut = async () => {
-        if (mapRef.current) {
-            try {
-                const camera = await mapRef.current.getCamera();
-                if (!camera || !camera.center || isNaN(camera.center.latitude) || isNaN(camera.center.longitude)) {
-                    console.error("Cámara no válida:", camera);
-                    return;
-                }
-                let newLatitudeDelta;
-                if (Platform.OS === "ios") {
-                    newLatitudeDelta = Math.min((camera.altitude || 0) / 20000, 1);
-                } else {
-                    // En Android, aumentamos el delta actual
-                    newLatitudeDelta = Math.min(region.latitudeDelta * 1.5, 1);
-                }
-                const newLongitudeDelta = newLatitudeDelta; // Asumiendo proporción 1:1
-
-                mapRef.current.animateToRegion({
-                    latitude: camera.center.latitude,
-                    longitude: camera.center.longitude,
-                    latitudeDelta: newLatitudeDelta,
-                    longitudeDelta: newLongitudeDelta,
-                }, 500);
-            } catch (error) {
-                console.error("Error al obtener la cámara:", error);
-            }
-        }
-    };
-
-
-
-
-
-
-    const handleOptionPress = (option) => {
-        console.log("Opción seleccionada:", option);
-        setSidebarVisible(false);
-    };
 
     // Acciones del Footer
     const handleMenuPress = () => {
@@ -204,7 +78,21 @@ const HomeScreen = () => {
 
     const handleHomePress = () => {
         setSidebarVisible(false);
-        navigation.navigate("HomeScreen");
+        navigation.navigate(SCREENS.HOME);
+    };
+
+    const handleOptionPress = (option) => {
+        console.log("Opción seleccionada:", option);
+        setSidebarVisible(false);
+
+        // Manejo de opciones del menú
+        switch (option) {
+            case "Cerrar sesión":
+                navigation.navigate(SCREENS.LOGIN);
+                break;
+            default:
+                break;
+        }
     };
 
     return (
@@ -218,18 +106,16 @@ const HomeScreen = () => {
                     showsCompass={false}
                     showsMyLocationButton={false}
                 >
+                    {/* Marcador de ubicación actual con animación de pulso */}
+                    <Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }}>
+                        <View style={styles.markerContainer}>
+                            <View style={styles.outerCircle} />
+                            <Animated.View style={[styles.pulsatingCircle, { transform: [{ scale: pulseAnim }] }]} />
+                            <View style={styles.innerCircle} />
+                        </View>
+                    </Marker>
 
-                    {/* Círculo de ubicación actual animado */}
-                    {region && (
-                        <Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }}>
-                            <View style={styles.markerContainer}>
-                                <View style={styles.outerCircle} />
-                                <Animated.View style={[styles.pulsatingCircle, { transform: [{ scale: pulseAnim }] }]} />
-                                <View style={styles.innerCircle} />
-                            </View>
-                        </Marker>
-                    )}
-                    {/* Marcadores animados de autos cercanos */}
+                    {/* Marcadores animados de vehículos cercanos */}
                     {mockCars.map((car) => (
                         <Marker.Animated
                             key={car.id}
@@ -239,152 +125,193 @@ const HomeScreen = () => {
                             <View style={{ transform: [{ rotate: `${car.rotation}deg` }] }}>
                                 <Image
                                     source={require("../assets/img/car-2d.png")}
-                                    style={{ width: 40, height: 40, resizeMode: "contain", backgroundColor: "transparent" }}
+                                    style={styles.carIcon}
                                 />
                             </View>
                         </Marker.Animated>
                     ))}
                 </MapView>
             ) : (
-                <View style={styles.loadingContainer}>
-                    <Ionicons name="location-outline" size={50} color="#00473B" />
-                </View>
+                <LoadingView />
             )}
 
-            <View style={styles.searchContainer}>
-                <TouchableOpacity style={styles.searchBox} onPress={() => navigation.navigate("BookingScreen")}>
-                    <Ionicons name="search" size={24} color="#999" style={styles.searchIcon} />
-                    <Text style={styles.searchPlaceholder}>Buscar viaje</Text>
-                </TouchableOpacity>
-            </View>
+            {/* Controles del mapa */}
+            <MapControls
+                onCenterPress={centerOnUser}
+                onZoomInPress={zoomIn}
+                onZoomOutPress={zoomOut}
+                onCompassPress={resetMapHeading}
+            />
 
+            {/* Barra de búsqueda */}
+            <SearchBar />
 
-            <View style={styles.mapControlsContainer}>
-                <TouchableOpacity style={styles.controlButton} onPress={resetMapHeading}>
-                    <Ionicons name="compass" size={30} color="#00473B" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.controlButton} onPress={centerOnUser}>
-                    <Ionicons name="locate" size={30} color="#00473B" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.controlButton} onPress={zoomIn}>
-                    <Ionicons name="add-circle" size={30} color="#00473B" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.controlButton} onPress={zoomOut}>
-                    <Ionicons name="remove-circle" size={30} color="#00473B" />
-                </TouchableOpacity>
-            </View>
+            {/* Menú lateral */}
+            <Sidebar
+                visible={sidebarVisible}
+                onClose={() => setSidebarVisible(false)}
+                onOptionPress={handleOptionPress}
+            />
 
-
-            <Footer onMenuPress={handleMenuPress} onHomePress={handleHomePress} />
-            <Sidebar visible={sidebarVisible} onClose={handleMenuPress} onOptionPress={handleOptionPress} />
+            {/* Footer */}
+            <Footer
+                onMenuPress={handleMenuPress}
+                onHomePress={handleHomePress}
+            />
         </View>
     );
 };
 
+/**
+ * Componente para mostrar durante la carga del mapa
+ * @returns {JSX.Element} Componente LoadingView
+ */
+const LoadingView = () => (
+    <View style={styles.loadingContainer}>
+        <Ionicons name="location-outline" size={50} color={COLORS.PRIMARY} />
+        <Text style={styles.loadingText}>Cargando mapa...</Text>
+    </View>
+);
+
+/**
+ * Componente para la barra de búsqueda
+ * @returns {JSX.Element} Componente SearchBar
+ */
+const SearchBar = () => (
+    <View style={styles.searchContainer}>
+        <View style={styles.searchBar}>
+            <Ionicons name="search" size={20} color={COLORS.GRAY} style={styles.searchIcon} />
+            <TextInput
+                style={styles.searchInput}
+                placeholder="¿A dónde vas?"
+                placeholderTextColor={COLORS.GRAY}
+            />
+        </View>
+    </View>
+);
+
+/**
+ * Componente para los controles del mapa
+ * @param {Object} props - Propiedades del componente
+ * @param {Function} props.onCenterPress - Función para centrar el mapa
+ * @param {Function} props.onZoomInPress - Función para hacer zoom in
+ * @param {Function} props.onZoomOutPress - Función para hacer zoom out
+ * @param {Function} props.onCompassPress - Función para resetear la orientación
+ * @returns {JSX.Element} Componente MapControls
+ */
+const MapControls = ({ onCenterPress, onZoomInPress, onZoomOutPress, onCompassPress }) => (
+    <View style={styles.mapControls}>
+        <TouchableOpacity style={styles.mapControlButton} onPress={onCenterPress}>
+            <Ionicons name="locate" size={24} color={COLORS.PRIMARY} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.mapControlButton} onPress={onZoomInPress}>
+            <Ionicons name="add" size={24} color={COLORS.PRIMARY} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.mapControlButton} onPress={onZoomOutPress}>
+            <Ionicons name="remove" size={24} color={COLORS.PRIMARY} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.mapControlButton} onPress={onCompassPress}>
+            <Ionicons name="compass" size={24} color={COLORS.PRIMARY} />
+        </TouchableOpacity>
+    </View>
+);
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  map: {
-    flex: 1,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  searchInput: {
-    position: "absolute",
-    top: 50,
-    left: 20,
-    right: 20,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-    fontSize: 18,
-    fontFamily: "montserrat-regular",
-    color: "#000",
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 3,
-    height: 50,
-  },
-  markerContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  searchBox: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },    
-  searchPlaceholder: {
-    fontSize: 18,
-    color: "rgba(0,0,0,0.4)",
-  },
-  outerCircle: {
-    width: 30,
-    height: 30,
-    borderRadius: 100,
-    backgroundColor: "white",
-    position: "absolute",
-    borderWidth: 2,
-    borderColor: "rgba(0,0,0,0.2)",
-  },
-  pulsatingCircle: {
-    width: 17.5,
-    height: 17.5,
-    borderRadius: 100,
-    backgroundColor: "rgba(0, 122, 255, 1)",
-    position: "absolute",
-  },
-
-  searchContainer: {
-    position: "absolute",
-    top: 50,
-    left: 20,
-    right: 20,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 15,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 3,
-    height: 50,
-  },
-  searchIcon: {
-    marginRight: 10, // Espacio entre la lupa y el texto
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 18,
-    fontFamily: "montserrat-regular",
-    color: "#000",
-  },
-
-  mapControlsContainer: {
-    position: "absolute",
-    top: 120,
-    right: 20,
-    alignItems: "center",
-  },
-  controlButton: {
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    padding: 5,
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowOffset: { width: 0, height: 2 },
-  },
-  focusButton: {
-    marginTop: 10,
-  },
+    container: {
+        flex: 1,
+        backgroundColor: COLORS.BACKGROUND,
+    },
+    map: {
+        flex: 1,
+        width: Dimensions.get("window").width,
+        height: Dimensions.get("window").height,
+    },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    loadingText: {
+        marginTop: 10,
+        fontSize: 16,
+        color: COLORS.PRIMARY,
+    },
+    searchContainer: {
+        position: "absolute",
+        top: 50,
+        left: 20,
+        right: 20,
+    },
+    searchBar: {
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: COLORS.WHITE,
+        borderRadius: 25,
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        shadowColor: COLORS.BLACK,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    searchIcon: {
+        marginRight: 10,
+    },
+    searchInput: {
+        flex: 1,
+        fontSize: 16,
+    },
+    mapControls: {
+        position: "absolute",
+        right: 20,
+        top: 150,
+        backgroundColor: COLORS.WHITE,
+        borderRadius: 10,
+        padding: 5,
+        shadowColor: COLORS.BLACK,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    mapControlButton: {
+        padding: 10,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    markerContainer: {
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    outerCircle: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        backgroundColor: "rgba(26, 115, 232, 0.2)",
+    },
+    pulsatingCircle: {
+        width: 30,
+        height: 30,
+        borderRadius: 15,
+        backgroundColor: "rgba(26, 115, 232, 0.4)",
+        position: "absolute",
+    },
+    innerCircle: {
+        width: 15,
+        height: 15,
+        borderRadius: 7.5,
+        backgroundColor: "#1A73E8",
+        borderWidth: 2,
+        borderColor: "#FFFFFF",
+        position: "absolute",
+    },
+    carIcon: {
+        width: 40,
+        height: 40,
+        resizeMode: "contain",
+        backgroundColor: "transparent"
+    },
 });
 
 export default HomeScreen;
