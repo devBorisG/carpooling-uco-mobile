@@ -2,8 +2,8 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Button from "../components/Button";
-import BackButton from "../components/BackButton";
+import Button from "../components/common/Button";
+import BackButton from "../components/common/BackButton";
 import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
@@ -57,7 +57,7 @@ const AllowLocationScreen = () => {
         <View style={styles.container}>
             <BackButton />
             <Image
-                source={require("../assets/img/onboarding4.jpg")}
+                source={require("../../assets/img/onboarding4.jpg")}
                 style={styles.image}
                 resizeMode="contain"
             />

@@ -4,9 +4,9 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Svg, { Line } from "react-native-svg";
 import { Feather } from "@expo/vector-icons";
-import BackButton from "../components/BackButton";
-import Button from "../components/Button";
-import ValidatedInput from "../components/ValidatedInput";
+import BackButton from "../components/common/BackButton";
+import Button from "../components/common/Button";
+import ValidatedInput from "../components/common/ValidatedInput";
 import { isValidEmail } from "../utils/validation";
 import Toast from "react-native-toast-message";
 

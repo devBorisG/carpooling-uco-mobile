@@ -5,8 +5,8 @@ import MapView, { Marker } from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 
 // Componentes
-import Footer from "../components/Footer";
-import Sidebar from "../components/SideBar";
+import Footer from "../components/layout/Footer";
+import Sidebar from "../components/layout/SideBar";
 import { Ionicons } from "@expo/vector-icons";
 
 // Hooks y servicios
@@ -124,7 +124,7 @@ const HomeScreen = () => {
                         >
                             <View style={{ transform: [{ rotate: `${car.rotation}deg` }] }}>
                                 <Image
-                                    source={require("../assets/img/car-2d.png")}
+                                    source={require("../../assets/img/car-2d.png")}
                                     style={styles.carIcon}
                                 />
                             </View>

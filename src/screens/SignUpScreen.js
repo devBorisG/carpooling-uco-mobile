@@ -2,14 +2,14 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, ScrollView } from "react-native";
 import Svg, { Line } from "react-native-svg";
-import BackButton from "../components/BackButton";
-import ValidatedInput from "../components/ValidatedInput";
+import BackButton from "../components/common/BackButton";
+import ValidatedInput from "../components/common/ValidatedInput";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { isValidEmail, isValidPhone, isValidPassword } from "../utils/validation";
-import Button from "../components/Button";
+import Button from "../components/common/Button";
 
-const signUpIcon = require("../assets/img/SingUp.jpg");
+const signUpIcon = require("../../assets/img/SingUp.jpg");
 
 const SignUpScreen = () => {
   const navigation = useNavigation();

@@ -2,7 +2,7 @@
 import React from "react";
 import { View, Text, StyleSheet, ActivityIndicator, Image } from "react-native";
 
-const carIcon = require("../assets/img/Logo.jpg");
+const carIcon = require("../../assets/img/Logo.jpg");
 
 const SplashScreen = () => {
   return (

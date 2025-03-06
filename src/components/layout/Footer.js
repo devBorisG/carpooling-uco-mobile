@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import { Ionicons, MaterialIcons, Feather, MaterialCommunityIcons } from "@expo/vector-icons";
-import { COLORS, FONTS } from "../utils/constants";
+import { COLORS, FONTS } from "../../utils/constants";
 
 // Índices de las opciones del footer
 const FOOTER_ITEMS = {

@@ -8,16 +8,16 @@ import { login } from "../utils/authService";
 import { COLORS, FONTS, SCREENS, SIZES } from "../utils/constants";
 
 // Componentes
-import BackButton from "../components/BackButton";
-import ValidatedInput from "../components/ValidatedInput";
-import Button from "../components/Button";
+import BackButton from "../components/common/BackButton";
+import ValidatedInput from "../components/common/ValidatedInput";
+import Button from "../components/common/Button";
 
 // Iconos
 import { Feather } from "@expo/vector-icons";
 import Entypo from "@expo/vector-icons/Entypo";
-import GoogleIcon from "../assets/img/google-icon.svg";
+import GoogleIcon from "../../assets/img/google-icon.svg";
 
-const loginIcon = require("../assets/img/Login.jpg");
+const loginIcon = require("../../assets/img/Login.jpg");
 
 /**
  * Pantalla de inicio de sesión

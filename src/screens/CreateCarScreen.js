@@ -3,12 +3,12 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { AntDesign, Ionicons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
-import BackButton from "../components/BackButton";
-import Button from "../components/Button";
+import BackButton from "../components/common/BackButton";
+import Button from "../components/common/Button";
 import { isValidPlaca } from "../utils/validation";
-import ValidatedInput from "../components/ValidatedInput";
+import ValidatedInput from "../components/common/ValidatedInput";
 
-const optIcon = require("../assets/img/carImage.jpg");
+const optIcon = require("../../assets/img/carImage.jpg");
 
 const FormularioVehiculo = () => {
   const navigation = useNavigation();

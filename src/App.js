@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { StatusBar } from "expo-status-bar";
 import Toast from 'react-native-toast-message';
-import { toastConfig } from "./toastConfig";
+import { toastConfig } from "../toastConfig";
 
 // Servicios
 import { loadFonts, delay } from "./utils/fontService";

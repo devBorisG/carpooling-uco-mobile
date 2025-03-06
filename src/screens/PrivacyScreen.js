@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import BackButton from "../components/BackButton";
+import BackButton from "../components/common/BackButton";
 
 const PrivacyScreen = () => {
 

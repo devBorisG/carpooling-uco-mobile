@@ -10,7 +10,7 @@ import {
     Dimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Button from "../components/Button";
+import Button from "../components/common/Button";
 import { Feather } from "@expo/vector-icons";
 
 const { width } = Dimensions.get("window");
@@ -24,19 +24,19 @@ const OnboardingScreen = () => {
         {
             title: "Solicitar viaje",
             description: "Solicita un viaje y que te recoja un conductor cercano.",
-            image: require("../assets/img/onboarding1.jpg"),
+            image: require("../../assets/img/onboarding1.jpg"),
         },
         {
             title: "Seguimiento en tiempo real",
             description:
                 "Conoce a tu conductor de antemano y visualiza su ubicación en el mapa.",
-            image: require("../assets/img/onboarding2.jpg"),
+            image: require("../../assets/img/onboarding2.jpg"),
         },
         {
             title: "Ganar dinero",
             description:
                 "Ofrece viajes a lugares cercanos, usa códigos promocionales y gana dinero.",
-            image: require("../assets/img/onboarding3.jpg"),
+            image: require("../../assets/img/onboarding3.jpg"),
         },
     ];
 

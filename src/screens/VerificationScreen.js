@@ -3,13 +3,13 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Svg, { Line } from "react-native-svg";
-import BackButton from "../components/BackButton";
-import OTPInput from "../components/OTPInput";
-import Button from "../components/Button";
+import BackButton from "../components/common/BackButton";
+import OTPInput from "../components/common/OTPInput";
+import Button from "../components/common/Button";
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
-const optIcon = require("../assets/img/VerificationCode.jpg");
+const optIcon = require("../../assets/img/VerificationCode.jpg");
 
 const VerificationScreen = () => {
     const navigation = useNavigation();

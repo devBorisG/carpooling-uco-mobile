@@ -2,11 +2,11 @@
 import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import BackButton from "../components/BackButton";
-import Button from "../components/Button";
+import BackButton from "../components/common/BackButton";
+import Button from "../components/common/Button";
 import { Feather, Ionicons } from '@expo/vector-icons';
-import ValidatedInput from "../components/ValidatedInput";
-import Footer from "../components/Footer";
+import ValidatedInput from "../components/common/ValidatedInput";
+import Footer from "../components/layout/Footer";
 import Toast from 'react-native-toast-message';
 
 const CreateTripScreen = () => {
@@ -74,7 +74,7 @@ const CreateTripScreen = () => {
         errorMsg={endPointError}
       />
 
-      <Image source={require("../assets/img/map.jpg")} style={styles.image} />
+      <Image source={require("../../assets/img/map.jpg")} style={styles.image} />
 
       <Button
         title="Crear Ruta" onPress={handleSubmit}

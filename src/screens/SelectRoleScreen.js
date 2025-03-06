@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import BackButton from "../components/BackButton";
+import BackButton from "../components/common/BackButton";
 import Svg, { Line } from "react-native-svg";
 
-const driverImage = require("../assets/img/rolConductor.jpg");
-const passengerImage = require("../assets/img/rolPasajero.jpg");
+const driverImage = require("../../assets/img/rolConductor.jpg");
+const passengerImage = require("../../assets/img/rolPasajero.jpg");
 
 const { width } = Dimensions.get("window");
 

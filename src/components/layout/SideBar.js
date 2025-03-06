@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
-import { COLORS, FONTS, SIDEBAR_OPTIONS, TIMES } from "../utils/constants";
+import { COLORS, FONTS, SIDEBAR_OPTIONS, TIMES } from "../../utils/constants";
 
 const { width } = Dimensions.get("window");
 const sidebarWidth = width * 0.8;
@@ -91,7 +91,7 @@ const Sidebar = ({ visible, onClose, onOptionPress }) => {
 const UserSection = () => (
   <View style={styles.userSection}>
     <Image
-      source={require("../assets/img/jarodsito.png")}
+      source={require("../../../assets/img/jarodsito.png")}
       style={styles.userImage}
     />
     <Text style={styles.username}>Jarodsito</Text>
