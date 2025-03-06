@@ -618,13 +618,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 5,
     },
-    selectedVehicleMarker: {
-        backgroundColor: 'rgba(255, 255, 255, 0.7)',
-        borderRadius: 20,
-        padding: 8,
-        borderWidth: 2,
-        borderColor: COLORS.PRIMARY,
-    },
     carIcon: {
         width: 30,
         height: 30,
@@ -635,8 +628,6 @@ const styles = StyleSheet.create({
         bottom: -5,
         width: 10,
         height: 10,
-        borderRadius: 5,
-        backgroundColor: COLORS.PRIMARY,
     },
     destinationMarker: {
         alignItems: 'center',
