@@ -66,6 +66,11 @@ export const MOCK_DATA = {
         "Jarod", "Jarod Sapo", "Rafa", "Felipito", "Morronga",
         "Pepito", "Rafael", "Boris", "Luis", "Carlos"
     ],
+    DESTINATIONS: [
+        "Universidad de Córdoba", "Centro Comercial", "Parque Lineal",
+        "Terminal de Transporte", "Aeropuerto", "Hospital San Jerónimo",
+        "Estadio", "Ronda del Sinú", "Mercado Central", "Biblioteca Pública"
+    ]
 };
 
 // Opciones del menú lateral
