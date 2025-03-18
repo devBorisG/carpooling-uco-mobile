@@ -1,10 +1,12 @@
 /*eslint-disable*/
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Modal, Platform } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Modal, Platform, Keyboard } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { FlatList, ScrollView } from "react-native"
+import Toast from 'react-native-toast-message';
+import { toastConfig } from '../config/toastConfig';
 
 // Componentes
 import Footer from "../components/layout/Footer";
@@ -19,6 +21,26 @@ const BookingScreen = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isTimePickerVisible, setIsTimePickerVisible] = useState(false);
   const [time, setTime] = useState(new Date());
+  const [selectedDays, setSelectedDays] = useState([]);
+  const [showDaySelector, setShowDaySelector] = useState(false);
+  const [selectedTime, setSelectedTime] = useState(null);
+
+  const weekDays = [
+    { id: 1, name: 'Lunes' },
+    { id: 2, name: 'Martes' },
+    { id: 3, name: 'Miércoles' },
+    { id: 4, name: 'Jueves' },
+    { id: 5, name: 'Viernes' },
+    { id: 6, name: 'Sábado' }
+  ];
+
+  const toggleDaySelection = (dayId) => {
+    setSelectedDays(prevDays => 
+      prevDays.includes(dayId)
+        ? prevDays.filter(id => id !== dayId)
+        : [...prevDays, dayId]
+    );
+  };
 
   const toggleModal = () => setModalVisible(!isModalVisible);
 
@@ -29,10 +51,72 @@ const BookingScreen = () => {
       const minutes = selectedDate.getMinutes();
       const ampm = selectedDate.getHours() >= 12 ? "PM" : "AM";
       const formattedTime = `${hours}:${minutes < 10 ? "0" + minutes : minutes} ${ampm}`;
-      setPickupTime(formattedTime);
+      setSelectedTime(formattedTime);
     }
     setIsTimePickerVisible(false);
   };
+
+  const handleSaveSchedule = () => {
+    if (selectedDays.length > 0 && selectedTime) {
+      setPickupTime(`${selectedTime} (${selectedDays.length} días)`);
+      setSelectedTime(null);
+      setSelectedDays([]);
+      setShowDaySelector(false);
+      toggleModal();
+      
+      // Mostrar toast de confirmación
+      Toast.show({
+        type: "success",
+        position: "top",
+        text1: "¡Ruta agendada!",
+        text2: "Se ha agendado correctamente tu ruta",
+        visibilityTime: 3000,
+        autoHide: true,
+        topOffset: 100,
+        props: {
+          style: {
+            zIndex: 9999,
+            position: 'absolute',
+            top: 0,
+            right: 0,
+          }
+        }
+      });
+    }
+  };
+
+  const handleUCOInputPress = () => {
+    Toast.show({
+      type: "success",
+      text1: "Aviso",
+      text2: "Carpooling UCO es de uso exclusivo para desplazamientos hacia y desde la universidad",
+      visibilityTime: 3000,
+      autoHide: true,
+      topOffset: 100,
+    });
+  };
+
+  const handleSwap = () => {
+    const tempOrigin = origin;
+    setOrigin(destination);
+    setDestination(tempOrigin);
+  };
+
+  const handleIncreaseSeats = () => {
+    if (seats >= 4) {
+      Toast.show({
+        type: "info",
+        text1: "Límite de cupos",
+        text2: "Carpooling UCO solo permite separar hasta 4 cupos",
+        visibilityTime: 3000,
+        autoHide: true,
+        topOffset: 100,
+      });
+      return;
+    }
+    setSeats(seats + 1);
+  };
+
   const [recentTrips, setRecentTrips] = useState([
     {
       id: 1,
@@ -111,14 +195,44 @@ const BookingScreen = () => {
 
           {/* Contenedor de inputs alineados en columna */}
           <View style={styles.inputColumn}>
-            <TextInput style={styles.searchInput} value={origin} onChangeText={setOrigin} placeholder="Origen" />
+            <TextInput 
+              style={styles.searchInput}
+              value={origin} 
+              onChangeText={(text) => {
+                if (text !== "Universidad Católica de Oriente") {
+                  setOrigin(text);
+                }
+              }}
+              editable={origin !== "Universidad Católica de Oriente"}
+              onPressIn={() => {
+                if (origin === "Universidad Católica de Oriente") {
+                  handleUCOInputPress();
+                }
+              }}
+              placeholder="Origen" 
+            />
             <View style={styles.divider} />
-            <TextInput style={styles.searchInput} value={destination} onChangeText={setDestination} placeholder="Destino" />
+            <TextInput 
+              style={styles.searchInput}
+              value={destination} 
+              onChangeText={(text) => {
+                if (text !== "Universidad Católica de Oriente") {
+                  setDestination(text);
+                }
+              }}
+              editable={destination !== "Universidad Católica de Oriente"}
+              onPressIn={() => {
+                if (destination === "Universidad Católica de Oriente") {
+                  handleUCOInputPress();
+                }
+              }}
+              placeholder="Destino" 
+            />
           </View>
 
           {/* Botón para intercambiar origen y destino */}
-          <TouchableOpacity onPress={() => { const temp = origin; setOrigin(destination); setDestination(temp); }} style={styles.swapButton}>
-            <Ionicons name="swap-vertical" size={22} color="#00473B" />
+          <TouchableOpacity style={styles.swapButton} onPress={handleSwap}>
+            <Ionicons name="swap-vertical" size={24} color="#00473B" />
           </TouchableOpacity>
         </View>
 
@@ -144,8 +258,12 @@ const BookingScreen = () => {
             </TouchableOpacity>
           )}
           <Text style={styles.seatCount}>{seats}</Text>
-          <TouchableOpacity onPress={() => setSeats(seats + 1)}>
-            <Ionicons name="add-circle-outline" size={22} color="#00473B" />
+          <TouchableOpacity onPress={handleIncreaseSeats}>
+            <Ionicons 
+              name="add-circle-outline" 
+              size={22} 
+              color={seats >= 4 ? "#999" : "#00473B"} 
+            />
           </TouchableOpacity>
         </View>
 
@@ -153,7 +271,28 @@ const BookingScreen = () => {
 </View>
 
 {/* Botón Buscar Ruta fuera, pero pegado visualmente al mainContainer */}
-<TouchableOpacity style={styles.searchRouteButton}>
+<TouchableOpacity 
+  style={styles.searchRouteButton}
+  onPress={() => {
+    if (!destination) {
+      Toast.show({
+        type: "info",
+        text1: "Destino requerido",
+        text2: "Por favor, ingresa un destino para buscar rutas",
+        visibilityTime: 3000,
+        autoHide: true,
+        topOffset: 100,
+      });
+      return;
+    }
+    navigation.navigate("SimilarRoutes", {
+      origin,
+      destination,
+      seats,
+      pickupTime
+    });
+  }}
+>
   <Text style={styles.searchRouteText}>Buscar Ruta</Text>
 </TouchableOpacity>
 
@@ -165,14 +304,76 @@ const BookingScreen = () => {
               <Text style={styles.closeText}>Cerrar</Text>
             </TouchableOpacity>
             <Text style={styles.modalTitle}>¿Cuándo necesitas la ruta?</Text>
-            <TouchableOpacity onPress={() => { setPickupTime("Ahora"); toggleModal(); }} style={styles.optionButton}>
+            
+            <TouchableOpacity onPress={() => { 
+              setPickupTime("Ahora"); 
+              setShowDaySelector(false);
+              setSelectedTime(null);
+              toggleModal(); 
+            }} style={styles.optionButton}>
               <Ionicons name="time-outline" size={20} color="#00473B" />
               <Text style={styles.optionText}>Ahora</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setIsTimePickerVisible(true)} style={styles.optionButton}>
+
+            <TouchableOpacity 
+              onPress={() => {
+                setShowDaySelector(true);
+              }} 
+              style={styles.optionButton}
+            >
               <Ionicons name="calendar-outline" size={20} color="#00473B" />
               <Text style={styles.optionText}>Agendar</Text>
             </TouchableOpacity>
+
+            {showDaySelector && (
+              <>
+                <Text style={styles.sectionTitle}>¿Qué días de la semana?</Text>
+                <View style={styles.daysContainer}>
+                  {weekDays.map((day) => (
+                    <TouchableOpacity
+                      key={day.id}
+                      onPress={() => toggleDaySelection(day.id)}
+                      style={[
+                        styles.dayButton,
+                        selectedDays.includes(day.id) && styles.dayButtonSelected
+                      ]}
+                    >
+                      <Text style={[
+                        styles.dayButtonText,
+                        selectedDays.includes(day.id) && styles.dayButtonTextSelected
+                      ]}>
+                        {day.name.substring(0, 3)}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+
+                <Text style={styles.sectionTitle}>¿En qué horario?</Text>
+                <TouchableOpacity 
+                  style={styles.timePickerButton}
+                  onPress={() => setIsTimePickerVisible(true)}
+                >
+                  <Ionicons name="time-outline" size={20} color="#00473B" />
+                  <Text style={styles.timePickerButtonText}>
+                    {selectedTime || "Seleccionar hora"}
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity 
+                  style={[
+                    styles.saveButton,
+                    (!selectedDays.length || !selectedTime) && styles.saveButtonDisabled
+                  ]}
+                  onPress={handleSaveSchedule}
+                  disabled={!selectedDays.length || !selectedTime}
+                >
+                  <Text style={[
+                    styles.saveButtonText,
+                    (!selectedDays.length || !selectedTime) && styles.saveButtonTextDisabled
+                  ]}>Guardar</Text>
+                </TouchableOpacity>
+              </>
+            )}
           </View>
         </View>
       </Modal>
@@ -187,6 +388,13 @@ const BookingScreen = () => {
         onHomePress={() => navigation.navigate("Home")}
       />
 
+      <Toast 
+        config={toastConfig} 
+        style={{
+          zIndex: 9999,
+          elevation: 10,
+        }}
+      />
 
 <View style={styles.activityOuterContainer}>
   <Text style={styles.activityTitle}>Actividad</Text>
@@ -209,7 +417,10 @@ const BookingScreen = () => {
             <Text style={styles.tripDetails}>{item.price} • {item.status}</Text>
           </View>
           <TouchableOpacity style={styles.rebookButton}>
-            <Text style={styles.rebookText}>🔄 Rebook</Text>
+            <View style={styles.rebookContent}>
+              <Ionicons name="repeat-outline" size={20} color="#00473B" />
+              <Text style={styles.rebookText}>Re agendar</Text>
+            </View>
           </TouchableOpacity>
         </View>
       )}
@@ -226,7 +437,7 @@ const BookingScreen = () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#F9F9F9", paddingHorizontal: 20, paddingTop: 50 },
-  backButton: { position: "absolute", top: 50, left: 20, zIndex: 10 },
+  backButton: { position: "absolute", top: 50, left: 20, zIndex: 1 },
   title: { fontSize: 22, fontWeight: "bold", marginBottom: 20, textAlign: "center", color: "#000" },
 
 mainContainer: {
@@ -241,15 +452,33 @@ mainContainer: {
   dot: { width: 2, height: 2, borderRadius: 2, backgroundColor: "#00473B" },
 
   inputColumn: { flex: 1, marginLeft: 8, alignItems: "center" },
-  searchInput: { fontSize: 16, color: "#333", textAlign: "center", width: "90%" },
+  searchInput: { 
+    fontSize: 16, 
+    color: "#333", 
+    textAlign: "center", 
+    width: "90%"
+  },
   divider: { height: 1, backgroundColor: "#CCC", width: "90%", marginVertical: 5 },
 
   swapButton: { marginLeft: 10 },
   modalOverlay: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(0, 0, 0, 0.5)" },
 
-  modalContainer: { backgroundColor: "white", borderRadius: 10, padding: 20, width: "80%", alignItems: "center" },
+  modalContainer: { 
+    backgroundColor: "white", 
+    borderRadius: 10, 
+    padding: 20, 
+    width: "80%", 
+    alignItems: "center",
+    maxHeight: '80%'
+  },
 
-  closeButton: { position: "absolute", top: 10, right: 10 },
+  closeButton: { 
+    position: "absolute", 
+    top: 15, 
+    right: 10,
+    zIndex: 1
+  },
+
   closeText: { fontSize: 16, color: "#00473B", fontWeight: "bold" },
 
   optionButton: { flexDirection: "row", alignItems: "center", paddingVertical: 10 },
@@ -350,18 +579,136 @@ tripDetails: {
 },
 
 rebookButton: {
-  paddingVertical: 5,
+  paddingVertical: 8,
   paddingHorizontal: 12,
   backgroundColor: "#E0F0E5",
   borderRadius: 8,
+  minWidth: 80,
+},
+
+rebookContent: {
+  alignItems: 'center',
+  justifyContent: 'center',
 },
 
 rebookText: {
-  fontSize: 14,
+  fontSize: 12,
   color: "#00473B",
   fontWeight: "bold",
+  marginTop: 4,
 },
 
+daysContainer: {
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  justifyContent: 'center',
+  marginTop: 15,
+  width: '100%',
+  gap: 10,
+},
+
+dayButton: {
+  width: 45,
+  height: 45,
+  borderRadius: 25,
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: '#F0F0F0',
+  margin: 5,
+},
+
+dayButtonSelected: {
+  backgroundColor: '#00473B',
+},
+
+dayButtonText: {
+  fontSize: 14,
+  color: '#333',
+  fontWeight: '500',
+},
+
+dayButtonTextSelected: {
+  color: '#FFFFFF',
+},
+
+selectedTimeContainer: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginTop: 10,
+  padding: 10,
+  backgroundColor: '#F0F0F0',
+  borderRadius: 8,
+},
+
+selectedTimeText: {
+  fontSize: 16,
+  color: '#00473B',
+  fontWeight: 'bold',
+},
+
+saveButton: {
+  backgroundColor: '#00473B',
+  paddingVertical: 10,
+  paddingHorizontal: 20,
+  borderRadius: 8,
+  marginTop: 25,
+  marginBottom: 10,
+  width: '100%',
+  alignItems: 'center',
+},
+
+saveButtonDisabled: {
+  backgroundColor: '#CCC',
+},
+
+saveButtonText: {
+  color: '#FFF',
+  fontSize: 16,
+  fontWeight: 'bold',
+},
+
+saveButtonTextDisabled: {
+  color: '#777',
+},
+
+modalTitle: {
+  fontSize: 18,
+  fontWeight: "bold",
+  color: "#000",
+  marginTop: 15,
+  marginBottom: 20,
+  alignSelf: 'center'
+},
+
+sectionTitle: {
+  fontSize: 16,
+  color: "#333",
+  fontWeight: '500',
+  alignSelf: 'flex-start',
+  marginTop: 10,
+  marginBottom: 5,
+  marginLeft: 5
+},
+
+timePickerButton: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  backgroundColor: '#F0F0F0',
+  padding: 10,
+  borderRadius: 8,
+  marginTop: 5,
+},
+
+timePickerButtonText: {
+  fontSize: 16,
+  color: '#00473B',
+  marginLeft: 8,
+},
+
+toastContainer: {
+  alignItems: 'flex-end',
+  marginRight: 15
+},
 
 });
 
