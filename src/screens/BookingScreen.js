@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { FlatList, ScrollView } from "react-native"
 import Toast from 'react-native-toast-message';
-import { toastConfig } from '../config/toastConfig';
+import { toastConfig } from '../../toastConfig';
 
 // Componentes
 import Footer from "../components/layout/Footer";
