@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from "rea
 import { useNavigation } from "@react-navigation/native";
 import BackButton from "../components/common/BackButton";
 import Svg, { Line } from "react-native-svg";
+import { COLORS, FONTS, SCREENS, SIZES } from "../utils/constants";
 
 const driverImage = require("../../assets/img/rolConductor.jpg");
 const passengerImage = require("../../assets/img/rolPasajero.jpg");
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 40,
         fontFamily: "montserrat-bold",
-        color: "#00473B",
+        color: COLORS.SECONDARY,
         textAlign: "center",
         marginTop: 120,
     },
