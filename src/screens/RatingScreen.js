@@ -1,13 +1,29 @@
 import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from "react-native";
 import BackButton from "../components/common/BackButton";
 import Button from "../components/common/Button";
-import {Entypo, FontAwesome} from "@expo/vector-icons";
+import { Feather, FontAwesome } from "@expo/vector-icons";
 import { COLORS, FONTS, SCREENS, SIZES } from "../utils/constants";
+import Toast from "react-native-toast-message";
 
 const RatingScreen = () => {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
+    const navigation = useNavigation();
+
+    const handleSubmit = () => {
+        if (rating === 0) {
+            Toast.show({
+                type: "error",
+                text1: "La calificación es requerida",
+                text2: "Porfavor, califica tu experiencia",
+                position: "top",
+            });
+            return;
+        }
+        navigation.navigate(SCREENS.HOME);
+    };
 
     return (
         <View style={styles.container}>
@@ -20,9 +36,9 @@ const RatingScreen = () => {
                 <Image source={require("../../assets/img/jarodsito.png")} style={styles.profileImage} />
                 <Text style={styles.name}>Jarod Herrera</Text>
                 <Text style={styles.license}>DL 5C AB 1234</Text>
-                
-                <Text style={styles.question}>How was your trip?</Text>
-                <Text style={styles.subText}>Your feedback will help improve driving experience</Text>
+
+                <Text style={styles.question}>¿Qué tal el viaje?</Text>
+                <Text style={styles.subText}>Sus comentarios ayudarán a mejorar la experiencia de conducción</Text>
 
                 <View style={styles.starsContainer}>
                     {[1, 2, 3, 4, 5].map((index) => (
@@ -34,20 +50,17 @@ const RatingScreen = () => {
 
                 <TextInput
                     style={styles.commentBox}
-                    placeholder="Additional comments..."
+                    placeholder="¿Algún comentario adicional?"
                     value={comment}
                     onChangeText={setComment}
                     multiline
                 />
-                
-                <Button 
-                    title="Enviar" 
-                    // TODO definir logica de la acción
-                    onPress={() => console.log("Enviar")} 
-                    buttonStyle={{ width: "100%" }} 
-                    icon={<Entypo name="login" size={20} color={COLORS.WHITE} />} 
-                    // TODO definir logica de validaciones.
-                    // disabled={!isValid}
+
+                <Button
+                    title="Enviar"
+                    onPress={handleSubmit}
+                    buttonStyle={{ width: "100%" }}
+                    icon={<Feather name="send" size={20} color={COLORS.WHITE} />}
                 />
             </View>
         </View>
@@ -63,17 +76,19 @@ const styles = StyleSheet.create({
         paddingHorizontal: SIZES.PADDING_LARGE,
     },
     header: {
-        position: "absolute",
-        top: 50,
-        left: 20,
         flexDirection: "row",
         alignItems: "center",
+        width: "100%",
+        position: "absolute",
+        top: 50,
+        paddingHorizontal: SIZES.PADDING_LARGE,
     },
     title: {
+        flex: 1,
         fontSize: SIZES.FONT_XXLARGE,
         fontFamily: FONTS.BOLD,
-        marginLeft: 10,
         color: COLORS.PRIMARY,
+        textAlign: "center",
     },
     card: {
         backgroundColor: "#FFF",
@@ -90,8 +105,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     name: {
-        fontSize: 18,
-        fontFamily: "montserrat-semibold",
+        fontSize: SIZES.FONT_LARGE,
+        fontFamily: FONTS.SEMIBOLD,
     },
     license: {
         fontSize: 14,
@@ -122,18 +137,6 @@ const styles = StyleSheet.create({
         padding: 10,
         textAlignVertical: "top",
         marginBottom: 15,
-    },
-    submitButton: {
-        backgroundColor: "#2F80ED",
-        paddingVertical: 12,
-        borderRadius: 10,
-        width: "100%",
-        alignItems: "center",
-    },
-    submitText: {
-        color: "#FFF",
-        fontSize: SIZES.FONT_LARGE,
-        fontFamily: FONTS.BOLD,
     },
 });
 
