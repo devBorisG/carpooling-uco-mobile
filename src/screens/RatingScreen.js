@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
         fontFamily: FONTS.SEMIBOLD,
     },
     license: {
-        fontSize: 14,
+        fontSize: SIZES.FONT_SMALL,
         color: COLORS.GRAY,
         marginBottom: 10,
     },
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     subText: {
-        fontSize: 14,
+        fontSize: SIZES.FONT_SMALL,
         color: COLORS.GRAY,
         textAlign: "center",
         marginBottom: 15,
