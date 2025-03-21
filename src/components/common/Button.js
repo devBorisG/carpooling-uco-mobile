@@ -1,6 +1,7 @@
 /*eslint-disable*/
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
+import { COLORS, FONTS, SIZES } from "../../utils/constants";
 
 const Button = ({ title, onPress, variant, buttonStyle, textStyle, icon, iconStyle, ...props }) => {
   return (
@@ -21,7 +22,7 @@ const Button = ({ title, onPress, variant, buttonStyle, textStyle, icon, iconSty
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#00473B",
+    backgroundColor: COLORS.PRIMARY,
     paddingVertical: 12,
     paddingHorizontal: 25,
     borderRadius: 15,
@@ -37,17 +38,17 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   buttonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontFamily: "montserrat-bold",
+    color: COLORS.WHITE,
+    fontSize: SIZES.FONT_LARGE,
+    fontFamily: FONTS.BOLD,
   },
   secondary: {
-    backgroundColor: "#fff",
-    borderColor: "#B0A9A9",
+    backgroundColor: COLORS.WHITE,
+    borderColor: COLORS.SECONDARY,
     borderWidth: 1,
   },
   buttonSecondaryText: {
-    color: "#B0A9A9",
+    color: COLORS.SECONDARY,
   },
 });
 
