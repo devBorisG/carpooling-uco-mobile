@@ -27,10 +27,10 @@ const RatingScreen = () => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
+            <View style={styles.backButtonContainer}>
                 <BackButton />
-                <Text style={styles.title}>Rating</Text>
             </View>
+            <Text style={styles.title}>Rating</Text>
 
             <View style={styles.card}>
                 <Image source={require("../../assets/img/jarodsito.png")} style={styles.profileImage} />
@@ -62,6 +62,9 @@ const RatingScreen = () => {
                     buttonStyle={{ width: "100%" }}
                     icon={<Feather name="send" size={20} color={COLORS.WHITE} />}
                 />
+                <TouchableOpacity onPress={() => navigation.navigate(SCREENS.HOME)} style={styles.skipButton}>
+                    <Text style={styles.skipText}>Saltar por ahora</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -75,20 +78,21 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         paddingHorizontal: SIZES.PADDING_LARGE,
     },
-    header: {
-        flexDirection: "row",
-        alignItems: "center",
-        width: "100%",
+    backButtonContainer: {
         position: "absolute",
-        top: 50,
-        paddingHorizontal: SIZES.PADDING_LARGE,
+        top: 40,
+        left: 0,
+        width: "100%",
+        zIndex: 10,
     },
     title: {
-        flex: 1,
+        position: "absolute",
+        top: 60,
+        width: "100%",
+        textAlign: "center",
         fontSize: SIZES.FONT_XXLARGE,
         fontFamily: FONTS.BOLD,
         color: COLORS.PRIMARY,
-        textAlign: "center",
     },
     card: {
         backgroundColor: "#FFF",
@@ -110,7 +114,7 @@ const styles = StyleSheet.create({
     },
     license: {
         fontSize: 14,
-        color: "#7D7D7D",
+        color: COLORS.GRAY,
         marginBottom: 10,
     },
     question: {
@@ -120,7 +124,7 @@ const styles = StyleSheet.create({
     },
     subText: {
         fontSize: 14,
-        color: "#7D7D7D",
+        color: COLORS.GRAY,
         textAlign: "center",
         marginBottom: 15,
     },
@@ -131,12 +135,21 @@ const styles = StyleSheet.create({
     commentBox: {
         width: "100%",
         height: 80,
-        borderColor: "#CCCCCC",
+        borderColor: COLORS.LIGHT_GRAY,
         borderWidth: 1,
         borderRadius: 10,
         padding: 10,
         textAlignVertical: "top",
         marginBottom: 15,
+    },
+    skipButton: {
+        paddingVertical: 10,
+    },
+    skipText: {
+        fontSize: SIZES.FONT_LARGE,
+        fontFamily: FONTS.BOLD,
+        color: COLORS.SECONDARY,
+        textDecorationLine: "underline",
     },
 });
 

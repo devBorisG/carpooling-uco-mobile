@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: SIZES.FONT_XXLARGE,
         fontFamily: FONTS.BOLD,
-        color: COLORS.SECONDARY,
+        color: COLORS.PRIMARY,
         textAlign: "center",
         marginTop: 120,
     },
