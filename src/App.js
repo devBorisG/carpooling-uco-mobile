@@ -68,7 +68,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={SCREENS.RATING}>
+      <Stack.Navigator initialRouteName={SCREENS.ONBOARDING}>
         {/* Pantallas principales */}
         <Stack.Screen
           name={SCREENS.HOME}

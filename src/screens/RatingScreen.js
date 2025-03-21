@@ -11,7 +11,8 @@ const RatingScreen = () => {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
     const navigation = useNavigation();
-
+    const SCORE = [1, 2, 3, 4, 5];
+    const IMAGE_CARD = require("../../assets/img/jarodsito.png");
     const handleSubmit = () => {
         if (rating === 0) {
             Toast.show({
@@ -33,7 +34,7 @@ const RatingScreen = () => {
             <Text style={styles.title}>Rating</Text>
 
             <View style={styles.card}>
-                <Image source={require("../../assets/img/jarodsito.png")} style={styles.profileImage} />
+                <Image source={IMAGE_CARD} style={styles.profileImage} />
                 <Text style={styles.name}>Jarod Herrera</Text>
                 <Text style={styles.license}>DL 5C AB 1234</Text>
 
@@ -41,7 +42,7 @@ const RatingScreen = () => {
                 <Text style={styles.subText}>Sus comentarios ayudarán a mejorar la experiencia de conducción</Text>
 
                 <View style={styles.starsContainer}>
-                    {[1, 2, 3, 4, 5].map((index) => (
+                    {SCORE.map((index) => (
                         <TouchableOpacity key={index} onPress={() => setRating(index)}>
                             <FontAwesome name={index <= rating ? "star" : "star-o"} size={32} color="#FFD700" />
                         </TouchableOpacity>
