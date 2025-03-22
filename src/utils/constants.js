@@ -58,6 +58,7 @@ export const SCREENS = {
     CREATE_ROUTE: "CreateRouteScreen",
     BOOKING: "BookingScreen",
     ALLOW_LOCATION: "AllowLocationScreen",
+    RIDE_IN_PROGRESS: "RideInProgressScreen",
 };
 
 // Datos mock para el desarrollo

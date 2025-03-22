@@ -28,6 +28,7 @@ import SelectRoleScreen from "./screens/SelectRoleScreen";
 import CreateCarScreen from "./screens/CreateCarScreen";
 import CreateRouteScreen from "./screens/CreateRouteScreen";
 import BookingScreen from "./screens/BookingScreen";
+import RideInProgressScreen from "./screens/RideInProgressScreen";
 
 const Stack = createStackNavigator();
 
@@ -128,6 +129,11 @@ export default function App() {
         <Stack.Screen
           name={SCREENS.CREATE_ROUTE}
           component={CreateRouteScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={SCREENS.RIDE_IN_PROGRESS}
+          component={RideInProgressScreen}
           options={{ headerShown: false }}
         />
 
