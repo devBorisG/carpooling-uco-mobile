@@ -59,6 +59,7 @@ export const SCREENS = {
     BOOKING: "BookingScreen",
     ALLOW_LOCATION: "AllowLocationScreen",
     RATING: "RatingScreen",
+    RIDE_IN_PROGRESS: "RideInProgressScreen",
 };
 
 // Datos mock para el desarrollo

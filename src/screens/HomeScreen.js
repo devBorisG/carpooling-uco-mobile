@@ -233,7 +233,6 @@ const HomeScreen = () => {
                     <Marker.Animated
                         key={car.id}
                         coordinate={car.animatedCoordinate}
-                        title={car.name}
                         onPress={() => handleCarPress(car)}
                     >
                         <VehicleMarker rotation={car.rotation} isSelected={selectedCar?.id === car.id} />
@@ -317,8 +316,11 @@ const HomeScreen = () => {
                     car={selectedCar}
                     onClose={handleCloseRouteInfo}
                     onRequestRide={() => {
-                        // Aquí iría la lógica para solicitar un viaje
-                        alert(`Solicitud de viaje enviada a ${selectedCar.name}`);
+                        // Navegación a la pantalla de viaje en progreso
+                        navigation.navigate(SCREENS.RIDE_IN_PROGRESS, {
+                            selectedCar,
+                            routeCoordinates
+                        });
                     }}
                 />
             )}
