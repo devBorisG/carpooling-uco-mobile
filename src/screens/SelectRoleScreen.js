@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from "rea
 import { useNavigation } from "@react-navigation/native";
 import BackButton from "../components/common/BackButton";
 import Svg, { Line } from "react-native-svg";
+import { COLORS, FONTS, SCREENS, SIZES } from "../utils/constants";
 
 const driverImage = require("../../assets/img/rolConductor.jpg");
 const passengerImage = require("../../assets/img/rolPasajero.jpg");
@@ -29,7 +30,7 @@ const SelectRoleScreen = () => {
             {/* Opción: Conductor */}
             <TouchableOpacity 
                 style={styles.option} 
-                onPress={() => navigation.navigate("CreateCarScreen")}
+                onPress={() => navigation.navigate(SCREENS.CREATE_CAR)}
             >
                 <View style={styles.imageContainer}>
                     <Image source={driverImage} style={styles.image} />
@@ -44,7 +45,7 @@ const SelectRoleScreen = () => {
             {/* Opción: Pasajero */}
             <TouchableOpacity 
                 style={styles.option} 
-                onPress={() => navigation.navigate("HomeScreen")}
+                onPress={() => navigation.navigate(SCREENS.HOME)}
             >
                 <View style={styles.imageContainer}>
                     <Image source={passengerImage} style={styles.image} />
@@ -64,9 +65,9 @@ const styles = StyleSheet.create({
         backgroundColor: "#F5F5F5",
     },
     title: {
-        fontSize: 40,
-        fontFamily: "montserrat-bold",
-        color: "#00473B",
+        fontSize: SIZES.FONT_XXLARGE,
+        fontFamily: FONTS.BOLD,
+        color: COLORS.PRIMARY,
         textAlign: "center",
         marginTop: 120,
     },
@@ -113,13 +114,13 @@ const styles = StyleSheet.create({
         backgroundColor: "#E5D3FF",
     },
     optionText: {
-        fontSize: 22,
-        fontFamily: "montserrat-semibold",
+        fontSize: SIZES.FONT_XLARGE, // 22
+        fontFamily: FONTS.SEMIBOLD,
         color: "#00473B",
     },
     orText: {
-        fontSize: 18,
-        fontFamily: "montserrat-semibold",
+        fontSize: SIZES.FONT_LARGE,
+        fontFamily: FONTS.SEMIBOLD,
         marginVertical: 20,
         color: "#7D7D7D",
     },
