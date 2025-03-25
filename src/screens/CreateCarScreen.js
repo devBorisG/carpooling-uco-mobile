@@ -53,7 +53,7 @@ const FormularioVehiculo = () => {
     if (!tipo) setTipoErrorMsg("Debe seleccionar un tipo de vehículo");
 
     if (placa && marca && tipo && placaErrorMsg === "" && marcaErrorMsg === "" && tipoErrorMsg === "") {
-      navigation.navigate("CreateRouteScreen");
+      navigation.navigate("HomeScreen");
     }
   };
 

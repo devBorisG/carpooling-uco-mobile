@@ -285,7 +285,7 @@ const BookingScreen = () => {
       });
       return;
     }
-    navigation.navigate("SimilarRoutes", {
+    navigation.navigate("SimilarRoutesScreen", {
       origin,
       destination,
       seats,

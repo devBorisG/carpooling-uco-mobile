@@ -45,7 +45,7 @@ const SelectRoleScreen = () => {
             {/* Opción: Pasajero */}
             <TouchableOpacity 
                 style={styles.option} 
-                onPress={() => navigation.navigate(SCREENS.HOME)}
+                onPress={() => navigation.navigate(SCREENS.BOOKING)}
             >
                 <View style={styles.imageContainer}>
                     <Image source={passengerImage} style={styles.image} />

@@ -92,9 +92,13 @@ const LoginScreen = () => {
         const isPasswordValid = validatePassword();
         
         if (isEmailValid && isPasswordValid) {
-            const success = await login(formData.email, formData.password);
+            const { success, role } = await login(formData.email, formData.password);
             if (success) {
-                navigation.navigate(SCREENS.HOME);
+                if (role === "driver") {
+                    navigation.navigate(SCREENS.HOME);
+                } else {
+                    navigation.navigate(SCREENS.BOOKING);
+                }
             }
         }
     };
@@ -164,7 +168,7 @@ const LoginScreen = () => {
                     title="Ingresar con Google"
                     onPress={() => console.log("Login con Google")}
                     variant="secondary"
-                    buttonStyle={{ width: "100%" }}
+                    buttonStyle={{ width: "100%", borderColor: COLORS.BLACK }}
                     textStyle={styles.googleButtonText}
                     icon={<GoogleIcon width={24} height={24} />}
                 />
@@ -200,7 +204,7 @@ const styles = StyleSheet.create({
         fontSize: SIZES.FONT_XXLARGE,
         fontFamily: FONTS.BOLD,
         alignSelf: "flex-start",
-        color: COLORS.SECONDARY,
+        color: COLORS.PRIMARY,
     },
     svgContainer: {
         marginBottom: SIZES.PADDING_LARGE,
@@ -245,6 +249,10 @@ const styles = StyleSheet.create({
         marginHorizontal: SIZES.PADDING_MEDIUM,
         fontSize: SIZES.FONT_MEDIUM,
         color: COLORS.GRAY,
+    },
+    googleButtonText: {
+        color: COLORS.BLACK,
+        fontFamily: FONTS.SEMIBOLD,
     },
 });
 

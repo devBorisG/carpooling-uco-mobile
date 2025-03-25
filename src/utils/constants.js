@@ -57,6 +57,7 @@ export const SCREENS = {
     CREATE_CAR: "CreateCarScreen",
     CREATE_ROUTE: "CreateRouteScreen",
     BOOKING: "BookingScreen",
+    SIMILAR_ROUTES: "SimilarRoutesScreen",
     ALLOW_LOCATION: "AllowLocationScreen",
     RATING: "RatingScreen",
     RIDE_IN_PROGRESS: "RideInProgressScreen",

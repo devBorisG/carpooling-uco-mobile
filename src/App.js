@@ -28,6 +28,7 @@ import SelectRoleScreen from "./screens/SelectRoleScreen";
 import CreateCarScreen from "./screens/CreateCarScreen";
 import CreateRouteScreen from "./screens/CreateRouteScreen";
 import BookingScreen from "./screens/BookingScreen";
+import SimilarRoutesScreen from "./screens/SimilarRoutesScreen";
 import RatingScreen from "./screens/RatingScreen";
 import RideInProgressScreen from "./screens/RideInProgressScreen";
 
@@ -120,6 +121,11 @@ export default function App() {
         <Stack.Screen
           name={SCREENS.BOOKING}
           component={BookingScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={SCREENS.SIMILAR_ROUTES}
+          component={SimilarRoutesScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen

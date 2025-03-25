@@ -303,10 +303,13 @@ const HomeScreen = () => {
                 <TouchableOpacity
                     style={styles.requestRideFloatingButton}
                     activeOpacity={0.8}
-                    onPress={() => alert("Selecciona un vehículo para solicitar un viaje")}
+                    onPress={() => 
+                        // alert("Selecciona un vehículo para solicitar un viaje")
+                        navigation.navigate(SCREENS.CREATE_ROUTE)
+                    }
                 >
                     <Ionicons name="car" size={24} color={COLORS.WHITE} style={styles.requestRideIcon} />
-                    <Text style={styles.requestRideFloatingText}>Solicitar Viaje</Text>
+                    <Text style={styles.requestRideFloatingText}>Crear viaje</Text>
                 </TouchableOpacity>
             )}
 
