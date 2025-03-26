@@ -27,6 +27,7 @@ const HomeScreen = () => {
     const [routeCoordinates, setRouteCoordinates] = useState([]);
     const [showRouteInfo, setShowRouteInfo] = useState(false);
     const mapRef = useRef(null);
+    const [hasActiveTrip, setHasActiveTrip] = useState(true);
 
     // Hooks personalizados
     const { region } = useUserLocation();
@@ -206,6 +207,10 @@ const HomeScreen = () => {
         setRouteCoordinates([]);
     };
 
+    const handleChatPress = () => {
+        navigation.navigate(SCREENS.CHAT);
+    };
+
     if (!region) {
         return <LoadingView />;
     }
@@ -339,6 +344,9 @@ const HomeScreen = () => {
             <Footer
                 onMenuPress={handleMenuPress}
                 onHomePress={handleHomePress}
+                onTripPress={() => {}}
+                onChatPress={handleChatPress}
+                hasActiveTrip={hasActiveTrip}
             />
         </View>
     );

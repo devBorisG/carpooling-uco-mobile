@@ -12,15 +12,22 @@ export const login = async (email, password) => {
     try {
         // Datos mockeados de ejemplo
         const mockUsers = {
-            "conductor@test.com": {
+            "jarod@gmail.com": {
                 password: "123456",
                 role: "driver",
-                name: "Juan Conductor"
+                name: "Jarodsito",
+                profileImage: require("../../assets/img/jarodsito.png"),
+                carInfo: {
+                    model: "Toyota Corolla",
+                    plate: "ACH777",
+                    color: "Negro"
+                }
             },
             "pasajero@test.com": {
                 password: "123456",
                 role: "passenger",
-                name: "María Pasajera"
+                name: "María Beserra",
+                profileImage: require("../../assets/img/rolPasajero.jpg")
             }
         };
 
@@ -41,6 +48,8 @@ export const login = async (email, password) => {
             email,
             name: userData.name,
             role: userData.role,
+            profileImage: userData.profileImage,
+            ...(userData.carInfo && { carInfo: userData.carInfo })
         };
 
         await AsyncStorage.setItem("user", JSON.stringify(user));
@@ -132,6 +141,20 @@ export const getCurrentUser = async () => {
         return user ? JSON.parse(user) : null;
     } catch (error) {
         console.error("Error al obtener usuario:", error);
+        return null;
+    }
+};
+
+/**
+ * Obtiene el email del usuario actual
+ * @returns {Promise<string|null>} Email del usuario o null si no hay sesión
+ */
+export const getCurrentUserEmail = async () => {
+    try {
+        const user = await getCurrentUser();
+        return user ? user.email : null;
+    } catch (error) {
+        console.error("Error al obtener el email del usuario:", error);
         return null;
     }
 }; 

@@ -31,6 +31,7 @@ import BookingScreen from "./screens/BookingScreen";
 import SimilarRoutesScreen from "./screens/SimilarRoutesScreen";
 import RatingScreen from "./screens/RatingScreen";
 import RideInProgressScreen from "./screens/RideInProgressScreen";
+import ChatScreen from "./screens/ChatScreen";
 
 const Stack = createStackNavigator();
 
@@ -146,6 +147,11 @@ export default function App() {
         <Stack.Screen
           name={SCREENS.RIDE_IN_PROGRESS}
           component={RideInProgressScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={SCREENS.CHAT}
+          component={ChatScreen}
           options={{ headerShown: false }}
         />
         {/* Pantallas legales */}
