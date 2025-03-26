@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import BackButton from "../components/common/BackButton";
 import Button from "../components/common/Button";
 import { isValidPlaca } from "../utils/validation";
+import { SIZES, FONTS, SCREENS} from '../utils/constants';
 import ValidatedInput from "../components/common/ValidatedInput";
 
 const optIcon = require("../../assets/img/carImage.jpg");
@@ -53,7 +54,7 @@ const FormularioVehiculo = () => {
     if (!tipo) setTipoErrorMsg("Debe seleccionar un tipo de vehículo");
 
     if (placa && marca && tipo && placaErrorMsg === "" && marcaErrorMsg === "" && tipoErrorMsg === "") {
-      navigation.navigate("HomeScreen");
+      navigation.navigate(SCREENS.HOME);
     }
   };
 
@@ -131,25 +132,25 @@ const FormularioVehiculo = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: SIZES.PADDING_LARGE,
     backgroundColor: "#F8F8F8",
     justifyContent: "center",
   },
   imageContainer: {
     alignItems: "center",
-    marginTop: 20,
+    marginTop: SIZES.MARGIN_XLARGE,
   },
   image: {
     width: 300,
     height: 300,
-    marginBottom: 20,
+    marginBottom: SIZES.MARGIN_XLARGE,
   },
   title: {
     fontSize: 38,
-    fontFamily: "montserrat-bold",
+    fontFamily: FONTS.BOLD,
     color: "#005C53",
     alignSelf: "flex-start",
-    marginBottom: 20,
+    marginBottom: SIZES.MARGIN_XLARGE,
   },
   label: {
     fontSize: 16,
@@ -161,22 +162,22 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#fff",
-    borderRadius: 10,
+    borderRadius: SIZES.BORDER_RADIUS,
     borderWidth: 1,
     borderColor: "#ddd",
-    marginBottom: 10,
-    paddingHorizontal: 10,
+    marginBottom: SIZES.MARGIN_XLARGE,
+    paddingHorizontal: SIZES.PADDING_MEDIUM,
   },
   pickerIcon: {
-    marginRight: 10,
+    marginRight: SIZES.PADDING_MEDIUM,
   },
   picker: {
     flex: 1,
   },
   errorText: {
     color: "red",
-    fontSize: 14,
-    marginBottom: 10,
+    fontSize: SIZES.FONT_SMALL,
+    marginBottom: SIZES.MARGIN_MEDIUM,
   },
 });
 

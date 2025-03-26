@@ -23,6 +23,7 @@ export const TIMES = {
 
 // Tamaños
 export const SIZES = {
+    FONT_XSMALL: 12,
     FONT_SMALL: 14,
     FONT_MEDIUM: 16,
     FONT_LARGE: 18,
@@ -32,7 +33,12 @@ export const SIZES = {
     PADDING_SMALL: 5,
     PADDING_MEDIUM: 10,
     PADDING_LARGE: 20,
+    MARGIN_SMALL: 5,
+    MARGIN_MEDIUM: 10,
+    MARGIN_LARGE: 15,
+    MARGIN_XLARGE: 20,
     BORDER_RADIUS: 10,
+    BORDER_RADIUS_LARGE: 20,
 };
 
 // Nombres de fuentes
@@ -61,6 +67,7 @@ export const SCREENS = {
     ALLOW_LOCATION: "AllowLocationScreen",
     RATING: "RatingScreen",
     RIDE_IN_PROGRESS: "RideInProgressScreen",
+    CHAT: "ChatScreen",
 };
 
 // Datos mock para el desarrollo

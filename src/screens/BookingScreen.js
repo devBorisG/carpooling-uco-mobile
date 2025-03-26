@@ -7,7 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { FlatList, ScrollView } from "react-native"
 import Toast from 'react-native-toast-message';
 import { toastConfig } from '../../toastConfig';
-
+import { SCREENS} from '../utils/constants';
 // Componentes
 import Footer from "../components/layout/Footer";
 import Sidebar from "../components/layout/SideBar";
@@ -143,29 +143,29 @@ const BookingScreen = () => {
       icon: "time",
     },
     {
-          id: 4,
-          title: "Aeropuerto José María Cordova - Llanogrande",
-          date: "Dec 27 - 4:44 AM",
-          price: "COP 0",
-          status: "Unfulfilled",
-          icon: "leaf",
-        },
-        {
-          id: 5,
-          title: "Aeropuerto José María Cordova - Llanogrande",
-          date: "Dec 27 - 4:24 AM",
-          price: "COP 0",
-          status: "Unfulfilled",
-          icon: "leaf",
-        },
-        {
-          id: 6,
-          title: "Cra. 80 #40-73",
-          date: "Mar 20 - 1:45 AM",
-          price: "COP 8,900",
-          status: "2 drivers",
-          icon: "time",
-        },
+      id: 4,
+      title: "Aeropuerto José María Cordova - Llanogrande",
+      date: "Dec 27 - 4:44 AM",
+      price: "COP 0",
+      status: "Unfulfilled",
+      icon: "leaf",
+    },
+    {
+      id: 5,
+      title: "Aeropuerto José María Cordova - Llanogrande",
+      date: "Dec 27 - 4:24 AM",
+      price: "COP 0",
+      status: "Unfulfilled",
+      icon: "leaf",
+    },
+    {
+      id: 6,
+      title: "Cra. 80 #40-73",
+      date: "Mar 20 - 1:45 AM",
+      price: "COP 8,900",
+      status: "2 drivers",
+      icon: "time",
+    },
   ]);
 
   return (
@@ -285,7 +285,7 @@ const BookingScreen = () => {
       });
       return;
     }
-    navigation.navigate("SimilarRoutesScreen", {
+    navigation.navigate(SCREENS.SIMILAR_ROUTES, {
       origin,
       destination,
       seats,
@@ -386,6 +386,8 @@ const BookingScreen = () => {
       <Footer
         onMenuPress={() => console.log("Menú presionado")}
         onHomePress={() => navigation.navigate("Home")}
+        onChatPress={() => navigation.navigate(SCREENS.CHAT)}
+        hasActiveTrip={true}
       />
 
       <Toast 
@@ -709,7 +711,6 @@ toastContainer: {
   alignItems: 'flex-end',
   marginRight: 15
 },
-
 });
 
 export default BookingScreen;
