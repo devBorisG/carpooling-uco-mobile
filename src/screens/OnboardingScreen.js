@@ -48,7 +48,7 @@ const OnboardingScreen = () => {
 
     // Navegar a la screen de permiso de ubicación
     const handleSkip = () => {
-        navigation.navigate("AllowLocationScreen");
+        navigation.navigate("BookingScreen");
     };
 
     return (

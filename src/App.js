@@ -28,6 +28,7 @@ import SelectRoleScreen from "./screens/SelectRoleScreen";
 import CreateCarScreen from "./screens/CreateCarScreen";
 import CreateRouteScreen from "./screens/CreateRouteScreen";
 import BookingScreen from "./screens/BookingScreen";
+import DriverHistoryScreen from "./screens/DriverHistoryScreen";
 
 const Stack = createStackNavigator();
 
@@ -140,6 +141,11 @@ export default function App() {
         <Stack.Screen
           name={SCREENS.PRIVACY}
           component={PrivacyScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={SCREENS.DRIVER_HISTORY}
+          component={DriverHistoryScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
