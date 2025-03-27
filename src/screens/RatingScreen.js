@@ -44,7 +44,7 @@ const RatingScreen = () => {
                 <View style={styles.starsContainer}>
                     {SCORE.map((index) => (
                         <TouchableOpacity key={index} onPress={() => setRating(index)}>
-                            <FontAwesome name={index <= rating ? "star" : "star-o"} size={32} color="#FFD700" />
+                            <FontAwesome name={index <= rating ? "star" : "star-o"} size={32} color={COLORS.STAR} />
                         </TouchableOpacity>
                     ))}
                 </View>

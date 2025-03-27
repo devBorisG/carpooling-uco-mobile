@@ -7,7 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { FlatList, ScrollView } from "react-native"
 import Toast from 'react-native-toast-message';
 import { toastConfig } from '../../toastConfig';
-import { SCREENS} from '../utils/constants';
+import { COLORS, SCREENS} from '../utils/constants';
 // Componentes
 import Footer from "../components/layout/Footer";
 import Sidebar from "../components/layout/SideBar";
@@ -496,7 +496,7 @@ mainContainer: {
   seatSelector: { flexDirection: "row", alignItems: "center", justifyContent: "center", paddingVertical: 12 },
   seatCount: { fontSize: 16, color: "#00473B", marginHorizontal: 8 },
 searchRouteButton: {
-  backgroundColor: "#00473B",
+  backgroundColor: COLORS.PRIMARY,
   paddingVertical: 15,
   borderBottomLeftRadius: 15,
   borderBottomRightRadius: 15,

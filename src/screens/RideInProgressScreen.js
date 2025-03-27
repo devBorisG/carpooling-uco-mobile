@@ -5,13 +5,10 @@ import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from "react-native-maps";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import Toast from 'react-native-toast-message';
-
 // Componentes
 import Footer from "../components/layout/Footer";
-
 // Hooks y servicios
 import { useUserLocation, useMapControls, createAnimatedCoordinate } from "../utils/mapHooks";
-
 // Constantes
 import { COLORS, SCREENS, SIZES, TIMES } from "../utils/constants";
 
@@ -51,7 +48,6 @@ const RideInProgressScreen = () => {
     // Hooks personalizados
     const { region } = useUserLocation();
     const { centerOnUser, zoomIn, zoomOut } = useMapControls(mapRef, region);
-
     // Sincronizar la posición animada con los valores de animación
     useEffect(() => {
         const updateCoordinate = carPositionAnimation.addListener(({ x, y }) => {
@@ -183,7 +179,7 @@ const RideInProgressScreen = () => {
             });
             return;
         }
-        navigation.navigate(SCREENS.HOME);
+        navigation.navigate(SCREENS.BOOKING);
     };
 
     // Manejar calificación del conductor
@@ -202,7 +198,7 @@ const RideInProgressScreen = () => {
             visibilityTime: TIMES.TOAST_DURATION,
         });
         setShowRatingModal(false);
-        navigation.navigate(SCREENS.HOME);
+        navigation.navigate(SCREENS.BOOKING);
     };
 
     if (!region) {
@@ -600,10 +596,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     inProgressButton: {
-        backgroundColor: COLORS.LIGHT_GRAY,
+        backgroundColor: COLORS.PRIMARY_DISABLE,
     },
     inProgressButtonText: {
-        color: COLORS.GRAY,
+        color: COLORS.LIGHT_BLACK,
         fontSize: 16,
         fontWeight: 'bold',
     },

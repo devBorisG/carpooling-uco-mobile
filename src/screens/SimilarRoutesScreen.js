@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { COLORS, SCREENS } from '../utils/constants';
 
 const SimilarRoutesScreen = () => {
   const navigation = useNavigation();
@@ -12,47 +13,131 @@ const SimilarRoutesScreen = () => {
   const similarRoutes = [
     {
       id: '1',
-      driver: 'Carlos Pérez',
+      driver: 'Jarod',
       origin: origin,
       destination: destination,
       time: '7:30 AM',
       seats: 3,
-      price: 'COP 5,000',
+      price: 5000,
       rating: 4.8,
+      tripInfo: {
+        estimatedTime: 15,
+        distance: 5.2,
+        price: 5000,
+        availableSeats: 3
+      }
     },
     {
       id: '2',
-      driver: 'Ana María López',
+      driver: 'Rafa',
       origin: origin,
       destination: destination,
-      time: '8:00 AM',
+      time: '12:00 PM',
       seats: 2,
-      price: 'COP 4,500',
+      price: 4500,
       rating: 4.5,
+      tripInfo: {
+        estimatedTime: 18,
+        distance: 6.3,
+        price: 4500,
+        availableSeats: 2
+      }
     },
     {
       id: '3',
-      driver: 'Juan Rodríguez',
+      driver: 'Luchito',
       origin: origin,
       destination: destination,
-      time: '8:30 AM',
+      time: '10:30 PM',
       seats: 4,
-      price: 'COP 5,500',
+      price: 5500,
       rating: 4.7,
+      tripInfo: {
+        estimatedTime: 12,
+        distance: 4.8,
+        price: 5500,
+        availableSeats: 4
+      }
     },
   ];
+
+  // Función para generar coordenadas de ruta (similar a la de HomeScreen)
+  const generateRoute = (start, end) => {
+    // Crear puntos de inicio y fin usando valores ficticios pero coherentes
+    const startPoint = {
+      latitude: 6.150700772035866,
+      longitude:  -75.36645236474047
+    };
+    
+    const endPoint = {
+      latitude: 6.114438575418338,
+      longitude: -75.41831161328865
+    };
+    
+    // Generar puntos intermedios para simular una ruta
+    const numPoints = 8;
+    const points = [];
+
+    // Añadir punto de inicio
+    points.push(startPoint);
+
+    // Generar puntos intermedios con cierta variación para simular calles
+    for (let i = 1; i < numPoints; i++) {
+      const fraction = i / numPoints;
+
+      // Interpolación lineal con algo de variación aleatoria
+      const latitude = startPoint.latitude + (endPoint.latitude - startPoint.latitude) * fraction + (Math.random() * 0.005 - 0.0025);
+      const longitude = startPoint.longitude + (endPoint.longitude - startPoint.longitude) * fraction + (Math.random() * 0.005 - 0.0025);
+
+      points.push({ latitude, longitude });
+    }
+
+    // Añadir punto final
+    points.push(endPoint);
+
+    return points;
+  };
+
+  // Manejar selección de una ruta
+  const handleRouteSelection = (item) => {
+    // Generar coordenadas de ruta simuladas
+    const routeCoordinates = generateRoute();
+    
+    // Crear objeto de carro seleccionado en formato compatible con RideInProgressScreen
+    const selectedCar = {
+      id: item.id,
+      name: item.driver,
+      destination: {
+        latitude: routeCoordinates[routeCoordinates.length - 1].latitude,
+        longitude: routeCoordinates[routeCoordinates.length - 1].longitude,
+        name: item.destination
+      },
+      tripInfo: {
+        estimatedTime: item.tripInfo.estimatedTime,
+        distance: item.tripInfo.distance,
+        price: item.tripInfo.price,
+        availableSeats: item.tripInfo.availableSeats
+      }
+    };
+    
+    // Navegar a la pantalla de viaje en progreso con los datos necesarios
+    navigation.navigate(SCREENS.RIDE_IN_PROGRESS, {
+      selectedCar,
+      routeCoordinates
+    });
+  };
 
   const renderRouteItem = ({ item }) => (
     <TouchableOpacity 
       style={styles.routeCard}
-      onPress={() => navigation.navigate('RouteDetail', { route: item })}
+      onPress={() => handleRouteSelection(item)}
     >
       <View style={styles.driverInfo}>
-        <Ionicons name="person-circle-outline" size={40} color="#00473B" />
+        <Ionicons name="person-circle-outline" size={40} color={COLORS.PRIMARY} />
         <View style={styles.driverDetails}>
           <Text style={styles.driverName}>{item.driver}</Text>
           <View style={styles.ratingContainer}>
-            <Ionicons name="star" size={16} color="#FFD700" />
+            <Ionicons name="star" size={16} color={COLORS.STAR} />
             <Text style={styles.ratingText}>{item.rating}</Text>
           </View>
         </View>
@@ -60,14 +145,14 @@ const SimilarRoutesScreen = () => {
 
       <View style={styles.routeInfo}>
         <View style={styles.routeDetail}>
-          <Ionicons name="time-outline" size={20} color="#00473B" />
+          <Ionicons name="time-outline" size={20} color={COLORS.PRIMARY} />
           <Text style={styles.routeText}>{item.time}</Text>
         </View>
         <View style={styles.routeDetail}>
-          <Ionicons name="people-outline" size={20} color="#00473B" />
+          <Ionicons name="people-outline" size={20} color={COLORS.PRIMARY} />
           <Text style={styles.routeText}>{item.seats} cupos</Text>
         </View>
-        <Text style={styles.priceText}>{item.price}</Text>
+        <Text style={styles.priceText}>${item.price}</Text>
       </View>
     </TouchableOpacity>
   );

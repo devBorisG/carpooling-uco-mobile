@@ -12,7 +12,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import Button from "../components/common/Button";
 import { Feather } from "@expo/vector-icons";
-import { COLORS, SIZES } from "../utils/constants";
+import { COLORS, FONTS, SIZES } from "../utils/constants";
 
 const { width } = Dimensions.get("window");
 
@@ -128,9 +128,9 @@ const styles = StyleSheet.create({
     },
     pageTitle: {
         fontSize: SIZES.FONT_XXLARGE,
-        fontFamily: "montserrat-bold",
-        color: COLORS.BLACK,
-        marginBottom: 10,
+        fontFamily: FONTS.BOLD,
+        color: COLORS.PRIMARY,
+        marginBottom: SIZES.MARGIN_MEDIUM,
         textAlign: "center",
     },
     pageDescription: {
