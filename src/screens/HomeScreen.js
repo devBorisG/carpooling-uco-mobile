@@ -571,8 +571,8 @@ const styles = StyleSheet.create({
     },
     mapControlsContainer: {
         position: "absolute",
-        right: 20,
-        top: Platform.OS === 'ios' ? 150 : 120,
+        right: 25,
+        top: Platform.OS === 'ios' ? 150 : 160,
         zIndex: 1,
     },
     mapControls: {

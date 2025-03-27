@@ -11,7 +11,7 @@ export const COLORS = {
     LIGHT_BLACK: "#333333",
     GRAY: "#777777",
     LIGHT_GRAY: "#CCCCCC",
-    SOFT_GRAY:"#DADADA",
+    SOFT_GRAY:"#EAEAEA",
     ERROR: "#FF3B30",
     SUCCESS: "#4CD964",
     LINK: "#4A73DA",
