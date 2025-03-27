@@ -200,4 +200,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SimilarRoutesScreen; 
+export default SimilarRoutesScreen;

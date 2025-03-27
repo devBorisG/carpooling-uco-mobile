@@ -7,6 +7,7 @@ import ValidatedInput from "../components/common/ValidatedInput";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { isValidEmail, isValidPhone, isValidPassword } from "../utils/validation";
+import { COLORS, FONTS, SCREENS, SIZES } from "../utils/constants";
 import Button from "../components/common/Button";
 
 const signUpIcon = require("../../assets/img/SingUp.jpg");
@@ -174,14 +175,14 @@ const SignUpScreen = () => {
           Al registrarte, estas aceptando nuestros{" "}
           <Text
             style={styles.link}
-            onPress={() => navigation.navigate("TermsScreen")}
+            onPress={() => navigation.navigate(SCREENS.TERMS)}
           >
             Términos y Condiciones
           </Text>{" "}
           y{" "}
           <Text
             style={styles.link}
-            onPress={() => navigation.navigate("PrivacyScreen")}
+            onPress={() => navigation.navigate(SCREENS.PRIVACY)}
           >
             Política de Privacidad
           </Text>
@@ -191,7 +192,7 @@ const SignUpScreen = () => {
           title="Continuar"
           onPress={() => {
             if (validateForm()) {
-              navigation.navigate("VerificationScreen");
+              navigation.navigate(SCREENS.VERIFICATION);
             }
           }}
           buttonStyle={{ width: "100%" }}
@@ -203,7 +204,7 @@ const SignUpScreen = () => {
           ¿Ya estas registrado?{" "}
           <Text
             style={styles.link}
-            onPress={() => navigation.navigate("LoginScreen")}
+            onPress={() => navigation.navigate(SCREENS.LOGIN)}
           >
             Ingresar
           </Text>
@@ -226,7 +227,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    paddingHorizontal: 20,
+    paddingHorizontal: SIZES.PADDING_LARGE,
     paddingTop: 50,
     width: "100%",
   },
@@ -264,8 +265,8 @@ const styles = StyleSheet.create({
   },
   link: {
     textDecorationLine: "underline",
-    color: "#4A73DA",
-    fontFamily: "montserrat-bold"
+    color: COLORS.LINK,
+    fontFamily: FONTS.SEMIBOLD,
   },
   svgContainer: {
     marginBottom: 20,

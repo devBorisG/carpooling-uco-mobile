@@ -3,7 +3,6 @@
 // Colores de la aplicación
 export const COLORS = {
     PRIMARY: "#1A3813",
-    TEXT: "#1A3813",
     SECONDARY: "#103B34",
     SECONDARY_LIGHT: "#136B56",
     CANCEL_BUTTON: "#FCE6E6",

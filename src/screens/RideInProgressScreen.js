@@ -13,7 +13,7 @@ import Footer from "../components/layout/Footer";
 import { useUserLocation, useMapControls, createAnimatedCoordinate } from "../utils/mapHooks";
 
 // Constantes
-import { COLORS, SCREENS, TIMES } from "../utils/constants";
+import { COLORS, SCREENS, SIZES, TIMES } from "../utils/constants";
 
 /**
  * Pantalla que muestra el viaje en progreso
@@ -196,7 +196,7 @@ const RideInProgressScreen = () => {
         // Aquí se podría implementar la lógica para guardar la calificación
         Toast.show({
             type: 'success',
-            text1: '¡Gracias por tu calificación!',
+            text1: '¡Gracias por tu calificación! \u2B50',
             text2: `Has calificado a ${selectedCar.name} con ${rating} estrellas`,
             position: 'top',
             visibilityTime: TIMES.TOAST_DURATION,
@@ -580,15 +580,15 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     cancelButton: {
-        backgroundColor: COLORS.BACKGROUND,
+        backgroundColor: COLORS.CANCEL_BUTTON,
         marginRight: 10,
     },
     disabledButton: {
         opacity: 0.5,
     },
     cancelButtonText: {
-        color: COLORS.ERROR,
-        fontSize: 16,
+        color: COLORS.CANCEL_BUTTON_TEXT,
+        fontSize: SIZES.FONT_MEDIUM,
         fontWeight: 'bold',
     },
     finishButton: {

@@ -12,6 +12,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import Button from "../components/common/Button";
 import { Feather } from "@expo/vector-icons";
+import { COLORS, SIZES } from "../utils/constants";
 
 const { width } = Dimensions.get("window");
 
@@ -99,7 +100,7 @@ const OnboardingScreen = () => {
                             />
                         ) : (
                             <TouchableOpacity onPress={handleSkip}>
-                                <Text style={styles.skipText}>Saltar</Text>
+                                <Text style={styles.skipText}>Saltar por ahora</Text>
                             </TouchableOpacity>
                         )}
                     </View>
@@ -112,7 +113,7 @@ const OnboardingScreen = () => {
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: COLORS.WHITE,
     },
     page: {
         flex: 1,
@@ -126,9 +127,9 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     pageTitle: {
-        fontSize: 40,
+        fontSize: SIZES.FONT_XXLARGE,
         fontFamily: "montserrat-bold",
-        color: "#005C53",
+        color: COLORS.BLACK,
         marginBottom: 10,
         textAlign: "center",
     },
@@ -173,9 +174,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     skipText: {
-        fontSize: 22,
+        fontSize: SIZES.FONT_XLARGE,
         fontFamily: "montserrat-bold",
-        color: "#76af68",
+        color: COLORS.SECONDARY_LIGHT,
         textDecorationLine: "underline",
     },
     skipButton: {

@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
         fontSize: SIZES.FONT_SMALL,
         color: COLORS.LINK,
         textDecorationLine: "underline",
-        fontFamily: FONTS.BOLD,
+        fontFamily: FONTS.SEMIBOLD,
         alignSelf: "flex-end",
         marginTop: SIZES.PADDING_SMALL,
         marginRight: SIZES.PADDING_MEDIUM,
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     link: {
         textDecorationLine: "underline",
         color: COLORS.LINK,
-        fontFamily: FONTS.BOLD,
+        fontFamily: FONTS.SEMIBOLD,
     },
     dividerContainer: {
         flexDirection: "row",

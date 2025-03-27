@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     container: {
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#F5F5F5",
+        backgroundColor: COLORS.WHITE_SMOKE,
     },
     title: {
         fontSize: SIZES.FONT_XXLARGE,
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     option: {
         width: width * 0.8,
         height: 200,
-        borderRadius: 20,
+        borderRadius: SIZES.BORDER_RADIUS_LARGE,
         overflow: "hidden",
         marginBottom: 15,
         shadowColor: "#000",
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     imageContainer: {
         width: "100%",
         height: "70%",
-        backgroundColor: "#FFFFFF", // Fondo blanco para separar de la parte inferior
+        backgroundColor: COLORS.WHITE, // Fondo blanco para separar de la parte inferior
         justifyContent: "center",
         alignItems: "center",
     },
@@ -116,13 +116,13 @@ const styles = StyleSheet.create({
     optionText: {
         fontSize: SIZES.FONT_XLARGE, // 22
         fontFamily: FONTS.SEMIBOLD,
-        color: "#00473B",
+        color: COLORS.BLACK,
     },
     orText: {
         fontSize: SIZES.FONT_LARGE,
         fontFamily: FONTS.SEMIBOLD,
-        marginVertical: 20,
-        color: "#7D7D7D",
+        marginVertical: SIZES.MARGIN_XLARGE,
+        color: COLORS.BLACK,
     },
 });
 

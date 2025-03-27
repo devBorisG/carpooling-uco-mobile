@@ -481,7 +481,7 @@ const RouteInfoCard = ({ car, onClose, onRequestRide }) => (
                 </View>
             </View>
             <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-                <Ionicons name="close" size={24} color={COLORS.GRAY} />
+                <Ionicons name="close" size={24} color={COLORS.BLACK} />
             </TouchableOpacity>
         </View>
 
@@ -825,7 +825,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     contactButton: {
-        backgroundColor: COLORS.BACKGROUND,
+        backgroundColor: COLORS.WHITE,
         borderRadius: 15,
         paddingVertical: 15,
         paddingHorizontal: 20,
