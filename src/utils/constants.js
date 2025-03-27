@@ -2,8 +2,12 @@
 
 // Colores de la aplicación
 export const COLORS = {
-    PRIMARY: "#00473B",
-    SECONDARY: "#308A5A",
+    PRIMARY: "#1A3813",
+    TEXT: "#1A3813",
+    SECONDARY: "#103B34",
+    SECONDARY_LIGHT: "#136B56",
+    CANCEL_BUTTON: "#FCE6E6",
+    CANCEL_BUTTON_TEXT: "#820A04",
     BACKGROUND: "#E2FEEF",
     WHITE: "#FFFFFF",
     WHITE_SMOKE: "#F5F5F5",
@@ -14,7 +18,7 @@ export const COLORS = {
     SOFT_GRAY:"#EAEAEA",
     ERROR: "#FF3B30",
     SUCCESS: "#4CD964",
-    LINK: "#4A73DA",
+    LINK: "#1F315D",
 };
 
 // Tiempos
