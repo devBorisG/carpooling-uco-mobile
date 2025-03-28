@@ -23,7 +23,7 @@ export const login = async (email, password) => {
                     color: "Negro"
                 }
             },
-            "pasajero@test.com": {
+            "pasajero@gmail.com": {
                 password: "123456",
                 role: "passenger",
                 name: "María Beserra",

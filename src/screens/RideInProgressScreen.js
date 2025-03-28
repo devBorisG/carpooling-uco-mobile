@@ -154,7 +154,7 @@ const RideInProgressScreen = () => {
             carPositionAnimation.stopAnimation();
         };
     }, []);
-
+    const RATING_DEFAULT = 4.8;
     // Calcular ángulo de dirección entre dos puntos
     const calculateHeading = (point1, point2) => {
         const dx = point2.longitude - point1.longitude;
@@ -164,7 +164,20 @@ const RideInProgressScreen = () => {
 
     // Manejar finalización del viaje
     const handleFinishRide = () => {
-        setShowRatingModal(true);
+        navigation.navigate(SCREENS.RATING, {
+            driver: selectedCar.fullName || selectedCar.name,
+            driverLicense: selectedCar.license || 'DL 5C AB 1234',  
+            driverImage: selectedCar.driverImage,
+            driverRating: selectedCar.rating || RATING_DEFAULT,
+            tripInfo: {
+                origin: selectedCar.origin?.name || 'Origen',
+                destination: selectedCar.destination?.name || 'Destino',
+                distance: distanceCovered.toFixed(1),
+                totalDistance: selectedCar.tripInfo.distance,
+                duration: selectedCar.tripInfo.estimatedTime - estimatedTimeLeft,
+                price: selectedCar.tripInfo.price
+            }
+        });
     };
 
     // Manejar cancelación del viaje
@@ -286,8 +299,8 @@ const RideInProgressScreen = () => {
                         <View style={styles.driverDetails}>
                             <Text style={styles.driverName}>{selectedCar.name}</Text>
                             <View style={styles.ratingContainer}>
-                                <Ionicons name="star" size={16} color="#FFD700" />
-                                <Text style={styles.ratingText}>4.8</Text>
+                                <Ionicons name="star" size={16} color={COLORS.STAR} />
+                                <Text style={styles.ratingText}>{selectedCar.rating || RATING_DEFAULT}</Text>
                             </View>
                         </View>
                     </View>
@@ -413,7 +426,7 @@ const RideInProgressScreen = () => {
 
             {/* Footer */}
             <Footer
-                onHomePress={() => navigation.navigate(SCREENS.HOME)}
+                onHomePress={() => navigation.navigate(SCREENS.BOOKING)}
             />
         </View>
     );

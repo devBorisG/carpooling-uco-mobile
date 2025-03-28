@@ -1,29 +1,70 @@
-import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, {useState } from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from "react-native";
 import BackButton from "../components/common/BackButton";
 import Button from "../components/common/Button";
 import { Feather, FontAwesome } from "@expo/vector-icons";
-import { COLORS, FONTS, SCREENS, SIZES } from "../utils/constants";
-import Toast from "react-native-toast-message";
+import { COLORS, FONTS, SCREENS, SIZES, TIMES} from "../utils/constants";
+import Toast from 'react-native-toast-message';
+import { toastConfig } from '../../toastConfig';
 
 const RatingScreen = () => {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
     const navigation = useNavigation();
+    const route = useRoute();
+    // Recibir los parámetros de la navegación
+    const { 
+        driver, 
+        driverLicense,
+        driverImage,
+        tripInfo = {} 
+    } = route.params || {
+        driver: "Jarod Herrera", 
+        driverLicense: "DL 5C AB 1234",
+        driverImage: null,
+        driverRating: 4.8
+    };
     const SCORE = [1, 2, 3, 4, 5];
-    const IMAGE_CARD = require("../../assets/img/jarodsito.png");
+    const DEFAULT_IMAGE = require("../../assets/img/jarodsito.png");
+    // Determinar qué imagen mostrar
+    let imageSource = DEFAULT_IMAGE;
+    if (driverImage) {
+        // Si driverImage es una ruta de recurso local (require)
+        if (typeof driverImage === 'number') {
+            imageSource = driverImage;
+        } 
+        // Si driverImage es una URL
+        else if (typeof driverImage === 'string' && driverImage.startsWith('http')) {
+            imageSource = { uri: driverImage };
+        }
+    }
+    
     const handleSubmit = () => {
+        console.log("handleSubmit ejecutado");
         if (rating === 0) {
             Toast.show({
                 type: "error",
                 text1: "La calificación es requerida",
-                text2: "Porfavor, califica tu experiencia",
+                text2: "Por favor, califica tu experiencia",
                 position: "top",
+                visibilityTime: TIMES.TOAST_DURATION, // Tiempo extendido para que sea más visible
+                autoHide: true,
             });
-            return;
+            return; // Detener la ejecución si no hay calificación
         }
-        navigation.navigate(SCREENS.HOME);
+        // Mostrar mensaje de éxito
+        Toast.show({
+            type: "success",
+            text1: "¡Gracias por tu calificación! \u2B50",
+            text2: `Has calificado a ${driver} con ${rating} \nestrellas`,
+            position: "top",
+            visibilityTime: TIMES.TOAST_DURATION, // Tiempo suficiente para leer el mensaje
+            autoHide: true,
+        });
+        setTimeout(() => {
+            navigation.navigate(SCREENS.BOOKING);
+        }, 700); // 2.5 segundos para coincidir con el visibilityTime del Toast
     };
 
     return (
@@ -34,10 +75,28 @@ const RatingScreen = () => {
             <Text style={styles.title}>Rating</Text>
 
             <View style={styles.card}>
-                <Image source={IMAGE_CARD} style={styles.profileImage} />
-                <Text style={styles.name}>Jarod Herrera</Text>
-                <Text style={styles.license}>DL 5C AB 1234</Text>
-
+                <Image source={imageSource} style={styles.profileImage} />
+                <Text style={styles.name}>{driver}</Text>
+                <Text style={styles.license}>{driverLicense}</Text>
+                
+                {/* Mostrar información del viaje si está disponible */}
+                {tripInfo && (tripInfo.origin || tripInfo.destination) && (
+                    <View style={styles.tripSummary}>
+                        {tripInfo.origin && (
+                            <Text style={styles.tripDetail}>
+                                <Text style={styles.detailLabel}>Desde: </Text>
+                                {tripInfo.origin}
+                            </Text>
+                        )}
+                        {tripInfo.destination && (
+                            <Text style={styles.tripDetail}>
+                                <Text style={styles.detailLabel}>Hasta: </Text>
+                                {tripInfo.destination}
+                            </Text>
+                        )}
+                    </View>
+                )}
+                
                 <Text style={styles.question}>¿Qué tal el viaje?</Text>
                 <Text style={styles.subText}>Sus comentarios ayudarán a mejorar la experiencia de conducción</Text>
 
@@ -63,15 +122,31 @@ const RatingScreen = () => {
                     buttonStyle={{ width: "100%" }}
                     icon={<Feather name="send" size={20} color={COLORS.WHITE} />}
                 />
-                <TouchableOpacity onPress={() => navigation.navigate(SCREENS.HOME)} style={styles.skipButton}>
+                <TouchableOpacity onPress={() => navigation.navigate(SCREENS.BOOKING)} style={styles.skipButton}>
                     <Text style={styles.skipText}>Saltar por ahora</Text>
                 </TouchableOpacity>
+                <Toast config={toastConfig}/>
             </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    tripSummary: {
+        padding: 10,
+        borderRadius: 10,
+        marginVertical: 10,
+        width: '100%',
+    },
+    tripDetail: {
+        fontSize: SIZES.FONT_SMALL,
+        color: COLORS.BLACK,
+        marginBottom: 5,
+    },
+    detailLabel: {
+        fontWeight: 'bold',
+        color: COLORS.PRIMARY,
+    },
     container: {
         flex: 1,
         backgroundColor: COLORS.BACKGROUND,
@@ -149,7 +224,7 @@ const styles = StyleSheet.create({
     skipText: {
         fontSize: SIZES.FONT_LARGE,
         fontFamily: FONTS.BOLD,
-        color: COLORS.SECONDARY,
+        color: COLORS.SECONDARY_LIGHT,
         textDecorationLine: "underline",
     },
 });

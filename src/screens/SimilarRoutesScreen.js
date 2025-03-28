@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { COLORS, SCREENS } from '../utils/constants';
+import { COLORS, SCREENS, SIZES } from '../utils/constants';
 
 const SimilarRoutesScreen = () => {
   const navigation = useNavigation();
@@ -13,7 +13,9 @@ const SimilarRoutesScreen = () => {
   const similarRoutes = [
     {
       id: '1',
-      driver: 'Jarod',
+      driver: 'Jarod Herrera',
+      driverLicense: 'DL 5C AB 1234',
+      driverImage: require('../../assets/img/jarodsito.png'),
       origin: origin,
       destination: destination,
       time: '7:30 AM',
@@ -30,6 +32,8 @@ const SimilarRoutesScreen = () => {
     {
       id: '2',
       driver: 'Rafa',
+      driverLicense: 'DL 7F CD 5678',
+      driverImage: require('../../assets/img/rafa.jpg'),
       origin: origin,
       destination: destination,
       time: '12:00 PM',
@@ -45,7 +49,9 @@ const SimilarRoutesScreen = () => {
     },
     {
       id: '3',
-      driver: 'Luchito',
+      driver: 'James',
+      driverLicense: 'DL 3B EF 9012',
+      driverImage: require('../../assets/img/james.jpg'),
       origin: origin,
       destination: destination,
       time: '10:30 PM',
@@ -64,37 +70,84 @@ const SimilarRoutesScreen = () => {
   // Función para generar coordenadas de ruta (similar a la de HomeScreen)
   const generateRoute = (start, end) => {
     // Crear puntos de inicio y fin usando valores ficticios pero coherentes
-    const startPoint = {
+    const UCO_COORDINATES = {
       latitude: 6.150700772035866,
-      longitude:  -75.36645236474047
+      longitude: -75.36645236474047,
+      name: "Universidad Católica de Oriente"
     };
     
-    const endPoint = {
-      latitude: 6.114438575418338,
-      longitude: -75.41831161328865
-    };
+    // Destinos relevantes en Rionegro
+    const RIONEGRO_DESTINATIONS = [
+      { name: "Parque Principal", latitude: 6.15349, longitude: -75.37445 },
+      { name: "Centro Comercial San Nicolás", latitude: 6.14852, longitude: -75.37666 },
+      { name: "Hospital San Juan de Dios", latitude: 6.15607, longitude: -75.37255 },
+      { name: "Terminal de Transportes", latitude: 6.15782, longitude: -75.37583 },
+      { name: "Zona E", latitude: 6.16778, longitude: -75.36896 },
+      { name: "Mall Complex Llanogrande", latitude: 6.16778, longitude: -75.39896 },
+      { name: "Jardines de La Catedral", latitude: 6.15501, longitude: -75.37501 },
+      { name: "Comfama Rionegro", latitude: 6.16459, longitude: -75.37376 }
+    ];
+  
+    let startPoint, endPoint;
+    
+    // Determinar si el origen es la UCO o cerca de ella
+    const isOriginUCO = origin === "Universidad Católica de Oriente" || 
+                       (origin && origin.includes("UCO")) ||
+                       Math.random() < 0.5; // 50% probabilidad para simulación
+  
+    if (isOriginUCO) {
+      // Si el origen es la UCO, generar un destino aleatorio en Rionegro
+      startPoint = {
+        latitude: UCO_COORDINATES.latitude,
+        longitude: UCO_COORDINATES.longitude
+      };
+      
+      // Seleccionar un destino aleatorio
+      const randomDestination = RIONEGRO_DESTINATIONS[Math.floor(Math.random() * RIONEGRO_DESTINATIONS.length)];
+      endPoint = {
+        latitude: randomDestination.latitude,
+        longitude: randomDestination.longitude
+      };
+    } else {
+      // Si el origen no es la UCO, la ruta será desde algún lugar hacia la UCO
+      // Seleccionar un origen aleatorio
+      const randomOrigin = RIONEGRO_DESTINATIONS[Math.floor(Math.random() * RIONEGRO_DESTINATIONS.length)];
+      startPoint = {
+        latitude: randomOrigin.latitude,
+        longitude: randomOrigin.longitude
+      };
+      
+      // El destino será la UCO
+      endPoint = {
+        latitude: UCO_COORDINATES.latitude,
+        longitude: UCO_COORDINATES.longitude
+      };
+    }
     
     // Generar puntos intermedios para simular una ruta
-    const numPoints = 8;
+    const numPoints = 8; // Número adecuado de puntos para rutas cortas
     const points = [];
-
+  
     // Añadir punto de inicio
-    points.push(startPoint);
-
-    // Generar puntos intermedios con cierta variación para simular calles
+    points.push({...startPoint});
+    // Generar puntos intermedios con variación para simular calles de Rionegro
     for (let i = 1; i < numPoints; i++) {
       const fraction = i / numPoints;
-
-      // Interpolación lineal con algo de variación aleatoria
-      const latitude = startPoint.latitude + (endPoint.latitude - startPoint.latitude) * fraction + (Math.random() * 0.005 - 0.0025);
-      const longitude = startPoint.longitude + (endPoint.longitude - startPoint.longitude) * fraction + (Math.random() * 0.005 - 0.0025);
-
+      // Factor de variación reducido para rutas más realistas
+      const variationFactor = 0.0015; // Variación menor para calles urbanas
+      
+      const latitude = startPoint.latitude + 
+                     (endPoint.latitude - startPoint.latitude) * fraction + 
+                     (Math.random() * variationFactor - variationFactor/2);
+      
+      const longitude = startPoint.longitude + 
+                       (endPoint.longitude - startPoint.longitude) * fraction + 
+                       (Math.random() * variationFactor - variationFactor/2);
+  
       points.push({ latitude, longitude });
     }
-
     // Añadir punto final
-    points.push(endPoint);
-
+    points.push({...endPoint});
     return points;
   };
 
@@ -102,16 +155,22 @@ const SimilarRoutesScreen = () => {
   const handleRouteSelection = (item) => {
     // Generar coordenadas de ruta simuladas
     const routeCoordinates = generateRoute();
-    
     // Crear objeto de carro seleccionado en formato compatible con RideInProgressScreen
     const selectedCar = {
       id: item.id,
       name: item.driver,
+      fullName: item.driverFullName,
+      license: item.driverLicense,
+      driverImage: item.driverImage,
+      origin: {
+        name: item.origin
+      },
       destination: {
         latitude: routeCoordinates[routeCoordinates.length - 1].latitude,
         longitude: routeCoordinates[routeCoordinates.length - 1].longitude,
-        name: item.destination
+        name: item.destination || "Universidad Católica de Oriente"
       },
+      rating: item.rating,
       tripInfo: {
         estimatedTime: item.tripInfo.estimatedTime,
         distance: item.tripInfo.distance,
@@ -119,7 +178,6 @@ const SimilarRoutesScreen = () => {
         availableSeats: item.tripInfo.availableSeats
       }
     };
-    
     // Navegar a la pantalla de viaje en progreso con los datos necesarios
     navigation.navigate(SCREENS.RIDE_IN_PROGRESS, {
       selectedCar,
@@ -163,7 +221,7 @@ const SimilarRoutesScreen = () => {
         style={styles.backButton} 
         onPress={() => navigation.goBack()}
       >
-        <Ionicons name="arrow-back" size={28} color="#000" />
+        <Ionicons name="arrow-back" size={28} color={COLORS.BLACK} />
       </TouchableOpacity>
 
       <Text style={styles.title}>Rutas Disponibles</Text>
@@ -204,8 +262,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
-    color: '#000',
-    marginTop: 10,
+    color: COLORS.PRIMARY,
+    marginTop: SIZES.MARGIN_MEDIUM,
   },
   routeHeader: {
     backgroundColor: '#EDEDED',
