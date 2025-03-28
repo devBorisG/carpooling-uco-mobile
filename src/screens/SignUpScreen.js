@@ -92,7 +92,7 @@ const SignUpScreen = () => {
               y1="0"
               x2="80"
               y2="0"
-              stroke="#00473B"
+              stroke={COLORS.PRIMARY}
               strokeWidth="9"
               strokeOpacity={0.7}
               strokeLinecap="round"
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontFamily: "montserrat-bold",
     alignSelf: "flex-start",
-    color: "#005C53",
+    color: COLORS.PRIMARY,
   },
   content: {
     fontSize: 16,

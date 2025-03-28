@@ -11,8 +11,24 @@ import { toastConfig } from '../../toastConfig';
 const RatingScreen = () => {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
+    const [selectedAspects, setSelectedAspects] = useState([]);
     const navigation = useNavigation();
     const route = useRoute();
+    const positiveAspects = ["Conducción segura", "Carro limpio", "Agradable", "Buen servicio"];
+    const negativeAspects = ["Manejo brusco", "Auto sucio", "Retraso en la llegada", "Mal trato"];
+
+    const getAspects = () => {
+        if (rating >= 4) return positiveAspects;
+        if (rating <= 3 && rating > 0) return negativeAspects;
+        return [];
+    };
+
+    const handleAspectSelection = (aspect) => {
+        setSelectedAspects((prev) =>
+            prev.includes(aspect) ? prev.filter((item) => item !== aspect) : [...prev, aspect]
+        );
+    };
+      
     // Recibir los parámetros de la navegación
     const { 
         driver, 
@@ -78,7 +94,6 @@ const RatingScreen = () => {
                 <Image source={imageSource} style={styles.profileImage} />
                 <Text style={styles.name}>{driver}</Text>
                 <Text style={styles.license}>{driverLicense}</Text>
-                
                 {/* Mostrar información del viaje si está disponible */}
                 {tripInfo && (tripInfo.origin || tripInfo.destination) && (
                     <View style={styles.tripSummary}>
@@ -102,12 +117,30 @@ const RatingScreen = () => {
 
                 <View style={styles.starsContainer}>
                     {SCORE.map((index) => (
-                        <TouchableOpacity key={index} onPress={() => setRating(index)}>
+                        <TouchableOpacity key={index} onPress={() => {
+                            setRating(index);
+                            setSelectedAspects([]);
+                        }}>
                             <FontAwesome name={index <= rating ? "star" : "star-o"} size={32} color={COLORS.STAR} />
                         </TouchableOpacity>
                     ))}
                 </View>
-
+                {rating > 0 && (
+                    <>
+                        <Text style={styles.aspectTitle}>{rating >= 4 ? "¿Qué aspectos destacas?" : "¿Qué aspectos crees que deben mejorar?"}</Text>
+                        <View style={styles.aspectsContainer}>
+                            {getAspects().map((aspect) => (
+                                <TouchableOpacity
+                                    key={aspect}
+                                    style={[styles.aspectButton, selectedAspects.includes(aspect) && styles.aspectButtonSelected]}
+                                    onPress={() => handleAspectSelection(aspect)}
+                                >
+                                    <Text style={styles.aspectText}>{aspect}</Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                    </>
+                )}
                 <TextInput
                     style={styles.commentBox}
                     placeholder="¿Algún comentario adicional?"
@@ -115,7 +148,6 @@ const RatingScreen = () => {
                     onChangeText={setComment}
                     multiline
                 />
-
                 <Button
                     title="Enviar"
                     onPress={handleSubmit}
@@ -132,6 +164,31 @@ const RatingScreen = () => {
 };
 
 const styles = StyleSheet.create({
+    aspectsContainer: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        marginBottom: 15,
+    },
+    aspectButton: {
+        padding: 10,
+        margin: 5,
+        borderWidth: 1,
+        borderColor: COLORS.GRAY,
+        borderRadius: 20,
+    },
+    aspectButtonSelected: {
+        backgroundColor: COLORS.BACKGROUND,
+    },
+    aspectText: {
+        color: COLORS.BLACK,
+    },
+    aspectTitle: {
+        fontSize: SIZES.FONT_MEDIUM,
+        fontFamily: FONTS.BOLD,
+        textAlign: "center",
+        marginVertical: 10,
+    },
     tripSummary: {
         padding: 10,
         borderRadius: 10,

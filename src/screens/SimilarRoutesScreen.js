@@ -7,7 +7,7 @@ import { COLORS, SCREENS, SIZES } from '../utils/constants';
 const SimilarRoutesScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const { origin, destination, seats, pickupTime } = route.params;
+  const { origin, destination, pickupTime } = route.params;
 
   // Datos de ejemplo - En una implementación real, estos datos vendrían de una API
   const similarRoutes = [
