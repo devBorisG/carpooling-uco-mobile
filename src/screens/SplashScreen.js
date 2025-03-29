@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React from "react";
 import { View, Text, StyleSheet, ActivityIndicator, Image } from "react-native";
+import { COLORS, FONTS} from "../utils/constants";
 
 const carIcon = require("../../assets/img/Logo.jpg");
 
@@ -29,8 +30,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 58,
-    color: "#00473B",
-    fontFamily: "montserrat-bold",
+    color: COLORS.PRIMARY,
+    fontFamily: FONTS.BOLD,
     textAlign: "center",
     flexWrap: "nowrap",
     maxWidth: "90%",

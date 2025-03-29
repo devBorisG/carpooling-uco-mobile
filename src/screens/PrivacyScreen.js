@@ -2,6 +2,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import BackButton from "../components/common/BackButton";
+import { COLORS, FONTS, SIZES } from '../utils/constants';
 
 const PrivacyScreen = () => {
 
@@ -20,20 +21,20 @@ const PrivacyScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
-        padding: 20,
+        backgroundColor: COLORS.WHITE,
+        padding: SIZES.PADDING_LARGE,
         paddingTop: 90,
     },
     title: {
-        fontSize: 24,
-        fontFamily: "montserrat-bold",
-        color: "#00473B",
-        marginBottom: 20,
+        fontSize: SIZES.FONT_XLARGE,
+        fontFamily: FONTS.BOLD,
+        color: COLORS.PRIMARY,
+        marginBottom: SIZES.MARGIN_XLARGE,
     },
     content: {
-        fontSize: 16,
-        fontFamily: "montserrat-regular",
-        color: "#000",
+        fontSize: SIZES.FONT_MEDIUM,
+        fontFamily: FONTS.REGULAR,
+        color: COLORS.BLACK,
     },
 });
 

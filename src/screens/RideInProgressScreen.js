@@ -5,15 +5,12 @@ import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from "react-native-maps";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import Toast from 'react-native-toast-message';
-
 // Componentes
 import Footer from "../components/layout/Footer";
-
 // Hooks y servicios
 import { useUserLocation, useMapControls, createAnimatedCoordinate } from "../utils/mapHooks";
-
 // Constantes
-import { COLORS, SCREENS, TIMES } from "../utils/constants";
+import { COLORS, SCREENS, SIZES, TIMES } from "../utils/constants";
 
 /**
  * Pantalla que muestra el viaje en progreso
@@ -51,7 +48,6 @@ const RideInProgressScreen = () => {
     // Hooks personalizados
     const { region } = useUserLocation();
     const { centerOnUser, zoomIn, zoomOut } = useMapControls(mapRef, region);
-
     // Sincronizar la posición animada con los valores de animación
     useEffect(() => {
         const updateCoordinate = carPositionAnimation.addListener(({ x, y }) => {
@@ -158,7 +154,7 @@ const RideInProgressScreen = () => {
             carPositionAnimation.stopAnimation();
         };
     }, []);
-
+    const RATING_DEFAULT = 4.8;
     // Calcular ángulo de dirección entre dos puntos
     const calculateHeading = (point1, point2) => {
         const dx = point2.longitude - point1.longitude;
@@ -168,7 +164,20 @@ const RideInProgressScreen = () => {
 
     // Manejar finalización del viaje
     const handleFinishRide = () => {
-        setShowRatingModal(true);
+        navigation.navigate(SCREENS.RATING, {
+            driver: selectedCar.fullName || selectedCar.name,
+            driverLicense: selectedCar.license || 'DL 5C AB 1234',  
+            driverImage: selectedCar.driverImage,
+            driverRating: selectedCar.rating || RATING_DEFAULT,
+            tripInfo: {
+                origin: selectedCar.origin?.name || 'Origen',
+                destination: selectedCar.destination?.name || 'Destino',
+                distance: distanceCovered.toFixed(1),
+                totalDistance: selectedCar.tripInfo.distance,
+                duration: selectedCar.tripInfo.estimatedTime - estimatedTimeLeft,
+                price: selectedCar.tripInfo.price
+            }
+        });
     };
 
     // Manejar cancelación del viaje
@@ -183,7 +192,7 @@ const RideInProgressScreen = () => {
             });
             return;
         }
-        navigation.navigate(SCREENS.HOME);
+        navigation.navigate(SCREENS.BOOKING);
     };
 
     // Manejar calificación del conductor
@@ -196,13 +205,13 @@ const RideInProgressScreen = () => {
         // Aquí se podría implementar la lógica para guardar la calificación
         Toast.show({
             type: 'success',
-            text1: '¡Gracias por tu calificación!',
+            text1: '¡Gracias por tu calificación! \u2B50',
             text2: `Has calificado a ${selectedCar.name} con ${rating} estrellas`,
             position: 'top',
             visibilityTime: TIMES.TOAST_DURATION,
         });
         setShowRatingModal(false);
-        navigation.navigate(SCREENS.HOME);
+        navigation.navigate(SCREENS.BOOKING);
     };
 
     if (!region) {
@@ -290,8 +299,8 @@ const RideInProgressScreen = () => {
                         <View style={styles.driverDetails}>
                             <Text style={styles.driverName}>{selectedCar.name}</Text>
                             <View style={styles.ratingContainer}>
-                                <Ionicons name="star" size={16} color="#FFD700" />
-                                <Text style={styles.ratingText}>4.8</Text>
+                                <Ionicons name="star" size={16} color={COLORS.STAR} />
+                                <Text style={styles.ratingText}>{selectedCar.rating || RATING_DEFAULT}</Text>
                             </View>
                         </View>
                     </View>
@@ -414,11 +423,6 @@ const RideInProgressScreen = () => {
                     </View>
                 </View>
             </Modal>
-
-            {/* Footer */}
-            <Footer
-                onHomePress={() => navigation.navigate(SCREENS.HOME)}
-            />
         </View>
     );
 };
@@ -580,15 +584,15 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     cancelButton: {
-        backgroundColor: COLORS.BACKGROUND,
+        backgroundColor: COLORS.CANCEL_BUTTON,
         marginRight: 10,
     },
     disabledButton: {
         opacity: 0.5,
     },
     cancelButtonText: {
-        color: COLORS.ERROR,
-        fontSize: 16,
+        color: COLORS.CANCEL_BUTTON_TEXT,
+        fontSize: SIZES.FONT_MEDIUM,
         fontWeight: 'bold',
     },
     finishButton: {
@@ -600,10 +604,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     inProgressButton: {
-        backgroundColor: COLORS.LIGHT_GRAY,
+        backgroundColor: COLORS.PRIMARY_DISABLE,
     },
     inProgressButtonText: {
-        color: COLORS.GRAY,
+        color: COLORS.LIGHT_BLACK,
         fontSize: 16,
         fontWeight: 'bold',
     },

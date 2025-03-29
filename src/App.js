@@ -28,8 +28,10 @@ import SelectRoleScreen from "./screens/SelectRoleScreen";
 import CreateCarScreen from "./screens/CreateCarScreen";
 import CreateRouteScreen from "./screens/CreateRouteScreen";
 import BookingScreen from "./screens/BookingScreen";
+import SimilarRoutesScreen from "./screens/SimilarRoutesScreen";
 import RatingScreen from "./screens/RatingScreen";
 import RideInProgressScreen from "./screens/RideInProgressScreen";
+import ChatScreen from "./screens/ChatScreen";
 
 const Stack = createStackNavigator();
 
@@ -123,6 +125,11 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
+          name={SCREENS.SIMILAR_ROUTES}
+          component={SimilarRoutesScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name={SCREENS.CREATE_CAR}
           component={CreateCarScreen}
           options={{ headerShown: false }}
@@ -140,6 +147,11 @@ export default function App() {
         <Stack.Screen
           name={SCREENS.RIDE_IN_PROGRESS}
           component={RideInProgressScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={SCREENS.CHAT}
+          component={ChatScreen}
           options={{ headerShown: false }}
         />
         {/* Pantallas legales */}

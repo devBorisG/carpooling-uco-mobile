@@ -2,6 +2,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import BackButton from "../components/common/BackButton";
+import { COLORS, FONTS, SIZES } from '../utils/constants';
 
 const TermsScreen = () => {
 
@@ -20,20 +21,20 @@ const TermsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.WHITE,
     padding: 20,
     paddingTop: 90,
   },
   title: {
-    fontSize: 24,
-    fontFamily: "montserrat-bold",
-    color: "#00473B",
-    marginBottom: 20,
+    fontSize: SIZES.FONT_XLARGE,
+    fontFamily: FONTS.BOLD,
+    color: COLORS.PRIMARY,
+    marginBottom: SIZES.MARGIN_XLARGE,
   },
   content: {
-    fontSize: 16,
-    fontFamily: "montserrat-regular",
-    color: "#000",
+    fontSize: SIZES.FONT_MEDIUM,
+    fontFamily: FONTS.REGULAR,
+    color: COLORS.BLACK,
   },
 });
 

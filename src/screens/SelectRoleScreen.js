@@ -45,7 +45,7 @@ const SelectRoleScreen = () => {
             {/* Opción: Pasajero */}
             <TouchableOpacity 
                 style={styles.option} 
-                onPress={() => navigation.navigate(SCREENS.HOME)}
+                onPress={() => navigation.navigate(SCREENS.BOOKING)}
             >
                 <View style={styles.imageContainer}>
                     <Image source={passengerImage} style={styles.image} />
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     container: {
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#F5F5F5",
+        backgroundColor: COLORS.WHITE_SMOKE,
     },
     title: {
         fontSize: SIZES.FONT_XXLARGE,
@@ -81,19 +81,19 @@ const styles = StyleSheet.create({
     option: {
         width: width * 0.8,
         height: 200,
-        borderRadius: 20,
+        borderRadius: SIZES.BORDER_RADIUS_LARGE,
         overflow: "hidden",
-        marginBottom: 15,
-        shadowColor: "#000",
+        marginBottom: SIZES.MARGIN_LARGE,
+        shadowColor: COLORS.BLACK,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.1,
-        shadowRadius: 5,
+        shadowRadius: SIZES.BORDER_RADIUS,
         elevation: 4,
     },
     imageContainer: {
         width: "100%",
         height: "70%",
-        backgroundColor: "#FFFFFF", // Fondo blanco para separar de la parte inferior
+        backgroundColor: COLORS.WHITE, // Fondo blanco para separar de la parte inferior
         justifyContent: "center",
         alignItems: "center",
     },
@@ -108,21 +108,21 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     driverBackground: {
-        backgroundColor: "#D1F5D3",
+        backgroundColor: COLORS.DRIVER_BG,
     },
     passengerBackground: {
-        backgroundColor: "#E5D3FF",
+        backgroundColor: COLORS.PASSENGER_BG,
     },
     optionText: {
-        fontSize: SIZES.FONT_XLARGE, // 22
+        fontSize: SIZES.FONT_XLARGE,
         fontFamily: FONTS.SEMIBOLD,
-        color: "#00473B",
+        color: COLORS.BLACK,
     },
     orText: {
         fontSize: SIZES.FONT_LARGE,
         fontFamily: FONTS.SEMIBOLD,
-        marginVertical: 20,
-        color: "#7D7D7D",
+        marginVertical: SIZES.MARGIN_XLARGE,
+        color: COLORS.BLACK,
     },
 });
 

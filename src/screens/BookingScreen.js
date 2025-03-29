@@ -7,7 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { FlatList, ScrollView } from "react-native"
 import Toast from 'react-native-toast-message';
 import { toastConfig } from '../../toastConfig';
-
+import { COLORS, SCREENS, SIZES} from '../utils/constants';
 // Componentes
 import Footer from "../components/layout/Footer";
 import Sidebar from "../components/layout/SideBar";
@@ -24,6 +24,7 @@ const BookingScreen = () => {
   const [selectedDays, setSelectedDays] = useState([]);
   const [showDaySelector, setShowDaySelector] = useState(false);
   const [selectedTime, setSelectedTime] = useState(null);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
 
   const weekDays = [
     { id: 1, name: 'Lunes' },
@@ -143,30 +144,58 @@ const BookingScreen = () => {
       icon: "time",
     },
     {
-          id: 4,
-          title: "Aeropuerto José María Cordova - Llanogrande",
-          date: "Dec 27 - 4:44 AM",
-          price: "COP 0",
-          status: "Unfulfilled",
-          icon: "leaf",
-        },
-        {
-          id: 5,
-          title: "Aeropuerto José María Cordova - Llanogrande",
-          date: "Dec 27 - 4:24 AM",
-          price: "COP 0",
-          status: "Unfulfilled",
-          icon: "leaf",
-        },
-        {
-          id: 6,
-          title: "Cra. 80 #40-73",
-          date: "Mar 20 - 1:45 AM",
-          price: "COP 8,900",
-          status: "2 drivers",
-          icon: "time",
-        },
+      id: 4,
+      title: "Aeropuerto José María Cordova - Llanogrande",
+      date: "Dec 27 - 4:44 AM",
+      price: "COP 0",
+      status: "Unfulfilled",
+      icon: "leaf",
+    },
+    {
+      id: 5,
+      title: "Aeropuerto José María Cordova - Llanogrande",
+      date: "Dec 27 - 4:24 AM",
+      price: "COP 0",
+      status: "Unfulfilled",
+      icon: "leaf",
+    },
+    {
+      id: 6,
+      title: "Cra. 80 #40-73",
+      date: "Mar 20 - 1:45 AM",
+      price: "COP 8,900",
+      status: "2 drivers",
+      icon: "time",
+    },
   ]);
+
+  // Manejo del Footer
+  const handleMenuPress = () => {
+    setSidebarVisible((prev) => !prev);
+  };
+  const handleHomePress = () => {
+    setSidebarVisible(false);
+    navigation.navigate(SCREENS.BOOKING);
+  };
+  const handleTripPress = () => {
+    console.log("Trip pressed");
+  };
+  const handleChatPress = () => {
+    setSidebarVisible(false);
+    navigation.navigate(SCREENS.CHAT);
+  };
+  const handleOptionPress = (option) => {
+    console.log("Opción seleccionada:", option);
+    setSidebarVisible(false);
+    // Manejo de opciones del menú
+    switch (option) {
+      case "Cerrar sesión":
+        navigation.navigate(SCREENS.LOGIN);
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -285,7 +314,7 @@ const BookingScreen = () => {
       });
       return;
     }
-    navigation.navigate("SimilarRoutes", {
+    navigation.navigate(SCREENS.SIMILAR_ROUTES, {
       origin,
       destination,
       seats,
@@ -383,9 +412,21 @@ const BookingScreen = () => {
         <DateTimePicker value={time} mode="time" is24Hour={false} display={Platform.OS === "ios" ? "spinner" : "default"} onChange={handleTimeChange} />
       )}
 
+      {/* Menú lateral */}
+      <Sidebar
+        visible={sidebarVisible}
+        onClose={() => setSidebarVisible(false)}
+        onOptionPress={handleOptionPress}
+      />
+
+      {/* Footer */}
       <Footer
-        onMenuPress={() => console.log("Menú presionado")}
-        onHomePress={() => navigation.navigate("Home")}
+        onMenuPress={handleMenuPress}
+        onHomePress={handleHomePress}
+        onTripPress={handleTripPress}
+        onChatPress={handleChatPress}
+        initialActiveIndex={true}
+        hasActiveTrip={true}
       />
 
       <Toast 
@@ -438,14 +479,14 @@ const BookingScreen = () => {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#F9F9F9", paddingHorizontal: 20, paddingTop: 50 },
   backButton: { position: "absolute", top: 50, left: 20, zIndex: 1 },
-  title: { fontSize: 22, fontWeight: "bold", marginBottom: 20, textAlign: "center", color: "#000" },
+  title: { fontSize: 22, fontWeight: "bold", marginBottom: 20, textAlign: "center", color: COLORS.PRIMARY},
 
-mainContainer: {
-  backgroundColor: "#EDEDED",
-  borderRadius: 15,
-  padding: 15,
-  marginBottom: 0, // ajusta para unir visualmente
-},
+  mainContainer: {
+    backgroundColor: "#EDEDED",
+    borderRadius: 15,
+    padding: 15,
+    marginBottom: 0, // ajusta para unir visualmente
+  },
   locationContainer: { flexDirection: "row", alignItems: "center", paddingVertical: 8 },
   iconColumn: { alignItems: "center", justifyContent: "center", marginLeft: 10 },
   dottedLineContainer: { height: 25, justifyContent: "space-between", alignItems: "center" },
@@ -464,7 +505,7 @@ mainContainer: {
   modalOverlay: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(0, 0, 0, 0.5)" },
 
   modalContainer: { 
-    backgroundColor: "white", 
+    backgroundColor: COLORS.WHITE, 
     borderRadius: 10, 
     padding: 20, 
     width: "80%", 
@@ -493,30 +534,31 @@ mainContainer: {
   timeText: { fontSize: 16, color: "#00473B", marginLeft: 8 },
   seatSelector: { flexDirection: "row", alignItems: "center", justifyContent: "center", paddingVertical: 12 },
   seatCount: { fontSize: 16, color: "#00473B", marginHorizontal: 8 },
-searchRouteButton: {
-  backgroundColor: "#00473B",
-  paddingVertical: 15,
-  borderBottomLeftRadius: 15,
-  borderBottomRightRadius: 15,
-  width: "100%", // mismo ancho del contenedor
-  alignSelf: "center",
-  alignItems: 'center',
-  marginTop: -10, // clave para superponer ligeramente
-  elevation: 5,   // para efecto elevado (Android)
-  shadowColor: "#000", // sombra iOS
-  shadowOffset: { width: 0, height: 4 },
-  shadowOpacity: 0.3,
-  shadowRadius: 5,
+
+  searchRouteButton: {
+    backgroundColor: COLORS.PRIMARY,
+    paddingVertical: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+    width: "100%", // mismo ancho del contenedor
+    alignSelf: "center",
+    alignItems: 'center',
+    marginTop: -10, // clave para superponer ligeramente
+    elevation: 5,   // para efecto elevado (Android)
+    shadowColor: "#000", // sombra iOS
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
 },
 
-  searchRouteText: {
-    color: "#FFF",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
+searchRouteText: {
+  color: "#FFF",
+  fontSize: 16,
+  fontWeight: "bold",
+},
 
 activityOuterContainer: {
-  backgroundColor: "#F9F9F9", // Antes era #FFF, ahora igual al fondo de la app
+  backgroundColor: "#F9F9F9",
   borderRadius: 25,
   padding: 5,
   marginVertical: 20,
@@ -524,14 +566,14 @@ activityOuterContainer: {
   shadowOffset: { width: 0, height: 3 },
   shadowOpacity: 0.05,
   shadowRadius: 5,
-  elevation: 0,
+  zIndex: 1,
+  position: "relative",
 },
-
 
 activityTitle: {
   fontSize: 18,
   fontWeight: "bold",
-  color: "#000",
+  color: COLORS.BLACK,
   marginBottom: 10,
 },
 
@@ -547,11 +589,11 @@ tripCard: {
   padding: 15,
   borderRadius: 10,
   marginBottom: 10,
-  shadowColor: "#000",
+  shadowColor: COLORS.BLACK,
   shadowOffset: { width: 0, height: 1 },
   shadowOpacity: 0.05,
   shadowRadius: 3,
-  elevation: 2,
+  elevation: 1,
 },
 
 tripIcon: {
@@ -628,7 +670,7 @@ dayButtonText: {
 },
 
 dayButtonTextSelected: {
-  color: '#FFFFFF',
+  color: COLORS.WHITE,
 },
 
 selectedTimeContainer: {
@@ -662,8 +704,8 @@ saveButtonDisabled: {
 },
 
 saveButtonText: {
-  color: '#FFF',
-  fontSize: 16,
+  color: COLORS.WHITE,
+  fontSize: SIZES.FONT_MEDIUM,
   fontWeight: 'bold',
 },
 
@@ -681,7 +723,7 @@ modalTitle: {
 },
 
 sectionTitle: {
-  fontSize: 16,
+  fontSize: SIZES.FONT_MEDIUM,
   color: "#333",
   fontWeight: '500',
   alignSelf: 'flex-start',
@@ -700,16 +742,15 @@ timePickerButton: {
 },
 
 timePickerButtonText: {
-  fontSize: 16,
+  fontSize: SIZES.FONT_MEDIUM,
   color: '#00473B',
-  marginLeft: 8,
+  marginLeft: SIZES.MARGIN_SMALL,
 },
 
 toastContainer: {
   alignItems: 'flex-end',
-  marginRight: 15
+  marginRight: SIZES.MARGIN_LARGE
 },
-
 });
 
 export default BookingScreen;
