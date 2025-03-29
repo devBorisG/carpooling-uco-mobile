@@ -1,7 +1,6 @@
 import React, {useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from "react-native";
-import BackButton from "../components/common/BackButton";
 import Button from "../components/common/Button";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import { COLORS, FONTS, SCREENS, SIZES, TIMES} from "../utils/constants";
@@ -64,7 +63,7 @@ const RatingScreen = () => {
                 text1: "La calificación es requerida",
                 text2: "Por favor, califica tu experiencia",
                 position: "top",
-                visibilityTime: TIMES.TOAST_DURATION, // Tiempo extendido para que sea más visible
+                visibilityTime: TIMES.TOAST_DURATION,
                 autoHide: true,
             });
             return; // Detener la ejecución si no hay calificación
@@ -75,21 +74,17 @@ const RatingScreen = () => {
             text1: "¡Gracias por tu calificación! \u2B50",
             text2: `Has calificado a ${driver} con ${rating} \nestrellas`,
             position: "top",
-            visibilityTime: TIMES.TOAST_DURATION, // Tiempo suficiente para leer el mensaje
+            visibilityTime: TIMES.TOAST_DURATION,
             autoHide: true,
         });
         setTimeout(() => {
             navigation.navigate(SCREENS.BOOKING);
-        }, 700); // 2.5 segundos para coincidir con el visibilityTime del Toast
+        }, 700);
     };
 
     return (
         <View style={styles.container}>
-            <View style={styles.backButtonContainer}>
-                <BackButton />
-            </View>
             <Text style={styles.title}>Rating</Text>
-
             <View style={styles.card}>
                 <Image source={imageSource} style={styles.profileImage} />
                 <Text style={styles.name}>{driver}</Text>
@@ -211,13 +206,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         paddingHorizontal: SIZES.PADDING_LARGE,
     },
-    backButtonContainer: {
-        position: "absolute",
-        top: 40,
-        left: 0,
-        width: "100%",
-        zIndex: 10,
-    },
     title: {
         position: "absolute",
         top: 60,
@@ -229,7 +217,7 @@ const styles = StyleSheet.create({
     },
     card: {
         backgroundColor: "#FFF",
-        padding: 20,
+        padding: SIZES.PADDING_LARGE,
         borderRadius: 15,
         alignItems: "center",
         width: "90%",
