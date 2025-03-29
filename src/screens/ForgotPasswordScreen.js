@@ -9,7 +9,7 @@ import Button from "../components/common/Button";
 import ValidatedInput from "../components/common/ValidatedInput";
 import { isValidEmail } from "../utils/validation";
 import Toast from "react-native-toast-message";
-import { COLORS, SCREENS, SIZES} from '../utils/constants';
+import { COLORS, FONTS, SCREENS, SIZES} from '../utils/constants';
 
 const ForgotPasswordScreen = () => {
     const navigation = useNavigation();
@@ -65,7 +65,7 @@ const ForgotPasswordScreen = () => {
             <Button title="Enviar correo"
                 onPress={handleSendEmail}
                 buttonStyle={styles.button}
-                icon={<Feather name="send" size={20} color="#fff" />}
+                icon={<Feather name="send" size={20} color={COLORS.WHITE} />}
             />
             <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Text style={styles.backToLogin}>Volver al inicio de sesión</Text>
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 40,
-        fontFamily: "montserrat-bold",
+        fontFamily: FONTS.BOLD,
         color: COLORS.PRIMARY,
         marginBottom: 8, // Espacio antes de la línea
         lineHeight: 44, // Evita que el texto se vea demasiado separado
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     },
     subtitle: {
         fontSize: 18,
-        fontFamily: "montserrat-medium",
+        fontFamily: FONTS.REGULAR,
         color: "#666",
         textAlign: "center",
         marginBottom: 20,
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
         color: COLORS.SUCCESS,
         fontSize: 14,
         marginTop: 5,
-        fontFamily: "montserrat-medium",
+        fontFamily: FONTS.REGULAR,
     },
     button: {
         width: "100%",
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: COLORS.LINK,
         textDecorationLine: "underline",
-        fontFamily: "montserrat-semibold",
+        fontFamily: FONTS.BOLD,
         marginTop: 15,
     },
 });
