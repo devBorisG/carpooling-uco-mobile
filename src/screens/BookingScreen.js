@@ -479,7 +479,7 @@ const BookingScreen = () => {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#F9F9F9", paddingHorizontal: 20, paddingTop: 50 },
   backButton: { position: "absolute", top: 50, left: 20, zIndex: 1 },
-  title: { fontSize: 22, fontWeight: "bold", marginBottom: 20, textAlign: "center", color: COLORS.PR },
+  title: { fontSize: 22, fontWeight: "bold", marginBottom: 20, textAlign: "center", color: COLORS.PRIMARY},
 
   mainContainer: {
     backgroundColor: "#EDEDED",

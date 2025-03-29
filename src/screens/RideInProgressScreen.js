@@ -423,11 +423,6 @@ const RideInProgressScreen = () => {
                     </View>
                 </View>
             </Modal>
-
-            {/* Footer */}
-            <Footer
-                onHomePress={() => navigation.navigate(SCREENS.BOOKING)}
-            />
         </View>
     );
 };
