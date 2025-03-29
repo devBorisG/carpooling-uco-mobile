@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   routeCard: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: COLORS.WHITE,
     borderRadius: 15,
     padding: 15,
     marginBottom: 15,
@@ -311,13 +311,13 @@ const styles = StyleSheet.create({
   driverName: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#000',
+    color: COLORS.BLACK,
   },
   ratingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 5,
-  },
+  },  
   ratingText: {
     marginLeft: 5,
     color: '#666',

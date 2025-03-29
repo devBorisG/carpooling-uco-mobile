@@ -9,6 +9,7 @@ import Button from "../components/common/Button";
 import ValidatedInput from "../components/common/ValidatedInput";
 import { isValidEmail } from "../utils/validation";
 import Toast from "react-native-toast-message";
+import { COLORS, SCREENS, SIZES} from '../utils/constants';
 
 const ForgotPasswordScreen = () => {
     const navigation = useNavigation();
@@ -79,12 +80,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         padding: 20,
-        backgroundColor: "#fff",
+        backgroundColor: COLORS.WHITE,
     },
     title: {
         fontSize: 40,
         fontFamily: "montserrat-bold",
-        color: "#005C53",
+        color: COLORS.PRIMARY,
         marginBottom: 8, // Espacio antes de la línea
         lineHeight: 44, // Evita que el texto se vea demasiado separado
         textAlign: "center",
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     successMsg: {
-        color: "green",
+        color: COLORS.SUCCESS,
         fontSize: 14,
         marginTop: 5,
         fontFamily: "montserrat-medium",

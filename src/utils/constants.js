@@ -20,6 +20,8 @@ export const COLORS = {
     SUCCESS: "#4CD964",
     STAR: "#FFD700",
     LINK: "#1F315D",
+    DRIVER_BG: "#D1F5D3",   
+    PASSENGER_BG: "#E5D3FF",
 };
 
 // Tiempos
@@ -41,12 +43,19 @@ export const SIZES = {
     PADDING_SMALL: 5,
     PADDING_MEDIUM: 10,
     PADDING_LARGE: 20,
-    MARGIN_SMALL: 5,
+    MARGIN_XSMALL: 5,
+    MARGIN_SMALL: 8,
     MARGIN_MEDIUM: 10,
     MARGIN_LARGE: 15,
     MARGIN_XLARGE: 20,
+    MARGIN_XXLARGE: 40,      
+    MARGIN_HUGE: 60,         
+    MARGIN_EXTREME: 120,
+    BORDER_RADIUS_SMALL: 5,     
     BORDER_RADIUS: 10,
     BORDER_RADIUS_LARGE: 20,
+    CIRCLE_AVATAR_SMALL: 40, 
+    CIRCLE_AVATAR_MEDIUM: 80,
 };
 
 // Nombres de fuentes

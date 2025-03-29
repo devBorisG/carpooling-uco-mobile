@@ -83,11 +83,11 @@ const styles = StyleSheet.create({
         height: 200,
         borderRadius: SIZES.BORDER_RADIUS_LARGE,
         overflow: "hidden",
-        marginBottom: 15,
-        shadowColor: "#000",
+        marginBottom: SIZES.MARGIN_LARGE,
+        shadowColor: COLORS.BLACK,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.1,
-        shadowRadius: 5,
+        shadowRadius: SIZES.BORDER_RADIUS,
         elevation: 4,
     },
     imageContainer: {
@@ -108,13 +108,13 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     driverBackground: {
-        backgroundColor: "#D1F5D3",
+        backgroundColor: COLORS.DRIVER_BG,
     },
     passengerBackground: {
-        backgroundColor: "#E5D3FF",
+        backgroundColor: COLORS.PASSENGER_BG,
     },
     optionText: {
-        fontSize: SIZES.FONT_XLARGE, // 22
+        fontSize: SIZES.FONT_XLARGE,
         fontFamily: FONTS.SEMIBOLD,
         color: COLORS.BLACK,
     },
