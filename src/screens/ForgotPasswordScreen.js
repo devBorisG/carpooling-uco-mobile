@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     },
     backToLogin: {
         fontSize: 14,
-        color: "#4A73DA",
+        color: COLORS.LINK,
         textDecorationLine: "underline",
         fontFamily: "montserrat-semibold",
         marginTop: 15,
