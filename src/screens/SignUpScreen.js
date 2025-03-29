@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   errorText: {
-    color: "red",
+    color: COLORS.ERROR,
     fontSize: 12,
     marginLeft: 45,
   },
@@ -295,7 +295,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 45,
     fontFamily: "montserrat-regular",
-    color: "#000",
+    color: COLORS.BLACK,
     fontSize: 16,
   },
   inputContainerFather: {

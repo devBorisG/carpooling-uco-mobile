@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import BackButton from "../components/common/BackButton";
 import Button from "../components/common/Button";
 import { isValidPlaca } from "../utils/validation";
-import { SIZES, FONTS, SCREENS} from '../utils/constants';
+import { SIZES, FONTS, SCREENS, COLORS} from '../utils/constants';
 import ValidatedInput from "../components/common/ValidatedInput";
 
 const optIcon = require("../../assets/img/carImage.jpg");
@@ -60,7 +60,7 @@ const FormularioVehiculo = () => {
 
   return (
     <View style={styles.container}>
-      <BackButton icon={<AntDesign name="arrowleft" size={24} color="#005C53" />} />
+      <BackButton icon={<AntDesign name="arrowleft" size={24} color={COLORS.PRIMARY} />} />
       <View style={styles.imageContainer}>
         <Image source={optIcon} style={styles.image} />
       </View>
@@ -122,7 +122,7 @@ const FormularioVehiculo = () => {
       <Button
         title="Agregar"
         buttonStyle={{ width: "100%" }}
-        icon={<Feather name="send" size={20} color="#fff" />}
+        icon={<Feather name="send" size={20} color={COLORS.WHITE} />}
         onPress={handleSubmit}
       />
     </View>
@@ -148,13 +148,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 38,
     fontFamily: FONTS.BOLD,
-    color: "#005C53",
+    color: COLORS.PRIMARY,
     alignSelf: "flex-start",
     marginBottom: SIZES.MARGIN_XLARGE,
   },
   label: {
     fontSize: 16,
-    color: "#005C53",
+    color: COLORS.PRIMARY,
     fontWeight: "bold",
     marginBottom: 5,
   },

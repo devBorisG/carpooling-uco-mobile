@@ -8,6 +8,7 @@ import { Feather, Ionicons } from '@expo/vector-icons';
 import ValidatedInput from "../components/common/ValidatedInput";
 import Footer from "../components/layout/Footer";
 import Toast from 'react-native-toast-message';
+import { COLORS } from '../utils/constants';
 
 const CreateTripScreen = () => {
   const navigation = useNavigation();
@@ -103,14 +104,14 @@ const styles = StyleSheet.create({
   skipText: {
     fontSize: 22,
     fontFamily: "montserrat-bold",
-    color: "#76af68",
+    color: COLORS.SECONDARY,
     textDecorationLine: "underline",
     textAlign: "center",
   },
   title: {
     fontSize: 38,
     fontWeight: 'bold',
-    color: '#043927',
+    color: COLORS.PRIMARY,
     alignSelf: 'center',
     marginTop: 30,
     marginBottom: 10,

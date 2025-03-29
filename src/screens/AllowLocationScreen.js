@@ -7,7 +7,7 @@ import BackButton from "../components/common/BackButton";
 import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import { COLORS, MOCK_DATA, SCREENS, SIZES } from "../utils/constants";
+import { COLORS, FONTS, MOCK_DATA, SCREENS, SIZES } from "../utils/constants";
 
 const AllowLocationScreen = () => {
     const navigation = useNavigation();
@@ -93,14 +93,14 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: SIZES.FONT_XXLARGE,
-        fontFamily: "montserrat-bold",
+        fontFamily: FONTS.BOLD,
         color: COLORS.PRIMARY,
         marginBottom: 10,
         textAlign: "center",
     },
     description: {
         fontSize: 22,
-        fontFamily: "montserrat-semibold",
+        fontFamily: FONTS.SEMIBOLD,
         color: "#7D7474",
         textAlign: "center",
         paddingHorizontal: 20,

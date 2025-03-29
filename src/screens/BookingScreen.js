@@ -479,14 +479,14 @@ const BookingScreen = () => {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#F9F9F9", paddingHorizontal: 20, paddingTop: 50 },
   backButton: { position: "absolute", top: 50, left: 20, zIndex: 1 },
-  title: { fontSize: 22, fontWeight: "bold", marginBottom: 20, textAlign: "center", color: "#000" },
+  title: { fontSize: 22, fontWeight: "bold", marginBottom: 20, textAlign: "center", color: COLORS.PR },
 
-mainContainer: {
-  backgroundColor: "#EDEDED",
-  borderRadius: 15,
-  padding: 15,
-  marginBottom: 0, // ajusta para unir visualmente
-},
+  mainContainer: {
+    backgroundColor: "#EDEDED",
+    borderRadius: 15,
+    padding: 15,
+    marginBottom: 0, // ajusta para unir visualmente
+  },
   locationContainer: { flexDirection: "row", alignItems: "center", paddingVertical: 8 },
   iconColumn: { alignItems: "center", justifyContent: "center", marginLeft: 10 },
   dottedLineContainer: { height: 25, justifyContent: "space-between", alignItems: "center" },
@@ -558,7 +558,7 @@ searchRouteText: {
 },
 
 activityOuterContainer: {
-  backgroundColor: "#F9F9F9", // Antes era #FFF, ahora igual al fondo de la app
+  backgroundColor: "#F9F9F9",
   borderRadius: 25,
   padding: 5,
   marginVertical: 20,
