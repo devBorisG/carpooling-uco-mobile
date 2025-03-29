@@ -2,16 +2,26 @@
 
 // Colores de la aplicación
 export const COLORS = {
-    PRIMARY: "#00473B",
-    SECONDARY: "#308A5A",
+    PRIMARY: "#1A3813",
+    PRIMARY_DISABLE: "#1A38134D",
+    SECONDARY: "#103B34",
+    SECONDARY_LIGHT: "#136B56",
+    CANCEL_BUTTON: "#FCE6E6",
+    CANCEL_BUTTON_TEXT: "#820A04",
     BACKGROUND: "#E2FEEF",
     WHITE: "#FFFFFF",
+    WHITE_SMOKE: "#F5F5F5",
     BLACK: "#000000",
+    LIGHT_BLACK: "#333333",
     GRAY: "#777777",
     LIGHT_GRAY: "#CCCCCC",
+    SOFT_GRAY:"#EAEAEA",
     ERROR: "#FF3B30",
     SUCCESS: "#4CD964",
-    LINK: "#4A73DA",
+    STAR: "#FFD700",
+    LINK: "#1F315D",
+    DRIVER_BG: "#D1F5D3",   
+    PASSENGER_BG: "#E5D3FF",
 };
 
 // Tiempos
@@ -23,6 +33,7 @@ export const TIMES = {
 
 // Tamaños
 export const SIZES = {
+    FONT_XSMALL: 12,
     FONT_SMALL: 14,
     FONT_MEDIUM: 16,
     FONT_LARGE: 18,
@@ -32,7 +43,19 @@ export const SIZES = {
     PADDING_SMALL: 5,
     PADDING_MEDIUM: 10,
     PADDING_LARGE: 20,
+    MARGIN_XSMALL: 5,
+    MARGIN_SMALL: 8,
+    MARGIN_MEDIUM: 10,
+    MARGIN_LARGE: 15,
+    MARGIN_XLARGE: 20,
+    MARGIN_XXLARGE: 40,      
+    MARGIN_HUGE: 60,         
+    MARGIN_EXTREME: 120,
+    BORDER_RADIUS_SMALL: 5,     
     BORDER_RADIUS: 10,
+    BORDER_RADIUS_LARGE: 20,
+    CIRCLE_AVATAR_SMALL: 40, 
+    CIRCLE_AVATAR_MEDIUM: 80,
 };
 
 // Nombres de fuentes
@@ -57,9 +80,11 @@ export const SCREENS = {
     CREATE_CAR: "CreateCarScreen",
     CREATE_ROUTE: "CreateRouteScreen",
     BOOKING: "BookingScreen",
+    SIMILAR_ROUTES: "SimilarRoutesScreen",
     ALLOW_LOCATION: "AllowLocationScreen",
     RATING: "RatingScreen",
     RIDE_IN_PROGRESS: "RideInProgressScreen",
+    CHAT: "ChatScreen",
 };
 
 // Datos mock para el desarrollo

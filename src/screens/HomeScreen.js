@@ -27,6 +27,7 @@ const HomeScreen = () => {
     const [routeCoordinates, setRouteCoordinates] = useState([]);
     const [showRouteInfo, setShowRouteInfo] = useState(false);
     const mapRef = useRef(null);
+    const [hasActiveTrip, setHasActiveTrip] = useState(true);
 
     // Hooks personalizados
     const { region } = useUserLocation();
@@ -206,6 +207,10 @@ const HomeScreen = () => {
         setRouteCoordinates([]);
     };
 
+    const handleChatPress = () => {
+        navigation.navigate(SCREENS.CHAT);
+    };
+
     if (!region) {
         return <LoadingView />;
     }
@@ -303,10 +308,13 @@ const HomeScreen = () => {
                 <TouchableOpacity
                     style={styles.requestRideFloatingButton}
                     activeOpacity={0.8}
-                    onPress={() => alert("Selecciona un vehículo para solicitar un viaje")}
+                    onPress={() => 
+                        // alert("Selecciona un vehículo para solicitar un viaje")
+                        navigation.navigate(SCREENS.CREATE_ROUTE)
+                    }
                 >
                     <Ionicons name="car" size={24} color={COLORS.WHITE} style={styles.requestRideIcon} />
-                    <Text style={styles.requestRideFloatingText}>Solicitar Viaje</Text>
+                    <Text style={styles.requestRideFloatingText}>Crear viaje</Text>
                 </TouchableOpacity>
             )}
 
@@ -336,6 +344,9 @@ const HomeScreen = () => {
             <Footer
                 onMenuPress={handleMenuPress}
                 onHomePress={handleHomePress}
+                onTripPress={() => {}}
+                onChatPress={handleChatPress}
+                hasActiveTrip={hasActiveTrip}
             />
         </View>
     );
@@ -470,7 +481,7 @@ const RouteInfoCard = ({ car, onClose, onRequestRide }) => (
                 </View>
             </View>
             <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-                <Ionicons name="close" size={24} color={COLORS.GRAY} />
+                <Ionicons name="close" size={24} color={COLORS.BLACK} />
             </TouchableOpacity>
         </View>
 
@@ -560,8 +571,8 @@ const styles = StyleSheet.create({
     },
     mapControlsContainer: {
         position: "absolute",
-        right: 20,
-        top: Platform.OS === 'ios' ? 150 : 120,
+        right: 25,
+        top: Platform.OS === 'ios' ? 150 : 160,
         zIndex: 1,
     },
     mapControls: {
@@ -814,7 +825,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     contactButton: {
-        backgroundColor: COLORS.BACKGROUND,
+        backgroundColor: COLORS.WHITE,
         borderRadius: 15,
         paddingVertical: 15,
         paddingHorizontal: 20,

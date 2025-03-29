@@ -19,6 +19,7 @@ const FOOTER_ITEMS = {
  * @param {Function} props.onHomePress - Función para manejar el clic en home
  * @param {Function} props.onTripPress - Función para manejar el clic en viaje
  * @param {Function} props.onChatPress - Función para manejar el clic en chat
+ * @param {boolean} props.hasActiveTrip - Nueva prop para controlar la visibilidad del chat
  * @returns {JSX.Element} Componente Footer
  */
 const Footer = ({
@@ -26,7 +27,8 @@ const Footer = ({
     onHomePress,
     onTripPress,
     onChatPress,
-    initialActiveIndex = FOOTER_ITEMS.HOME
+    initialActiveIndex = FOOTER_ITEMS.HOME,
+    hasActiveTrip = false
 }) => {
     const [activeIndex, setActiveIndex] = useState(initialActiveIndex);
 
@@ -74,12 +76,14 @@ const Footer = ({
                 onPress={() => handlePress(FOOTER_ITEMS.TRIP)}
             />
 
-            <FooterItem
-                icon={<Feather name="message-circle" size={30} color={getColor(FOOTER_ITEMS.CHAT)} />}
-                label="Chat"
-                color={getColor(FOOTER_ITEMS.CHAT)}
-                onPress={() => handlePress(FOOTER_ITEMS.CHAT)}
-            />
+            {hasActiveTrip && (
+                <FooterItem
+                    icon={<Feather name="message-circle" size={30} color={getColor(FOOTER_ITEMS.CHAT)} />}
+                    label="Chat"
+                    color={getColor(FOOTER_ITEMS.CHAT)}
+                    onPress={() => handlePress(FOOTER_ITEMS.CHAT)}
+                />
+            )}
 
             <FooterItem
                 icon={<MaterialCommunityIcons name="account" size={30} color={getColor(FOOTER_ITEMS.ACCOUNT)} />}
